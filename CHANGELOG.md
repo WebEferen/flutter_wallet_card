@@ -1,3 +1,9 @@
+## 1.0.2
+- Package publish onto flutter.dev
+
+## 1.0.1
+- Small improvements and cleanup
+
 ## 1.0.0
 - First stable release
 
