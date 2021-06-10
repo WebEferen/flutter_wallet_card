@@ -1,4 +1,4 @@
-![Flutter GitHub Actions](https://github.com/webeferen/flutter_wallet_card/workflows/Flutter%20GitHub%20Actions/badge.svg)
+[![Flutter Build Actions](https://github.com/WebEferen/flutter_wallet_card/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/WebEferen/flutter_wallet_card/actions/workflows/main.yml)
 [![Pub Package](https://img.shields.io/pub/v/flutter_wallet_card.svg)](https://pub.dartlang.org/packages/flutter_wallet_card)
 
 # flutter_wallet_card
