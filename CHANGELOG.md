@@ -1,3 +1,6 @@
+## 1.0.3
+- Added license agreement and changed strategy onto MIT
+
 ## 1.0.2
 - Package publish onto flutter.dev
 
