@@ -3,15 +3,21 @@ import PassKit
 import UIKit
 
 public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
+  let viewController: UIViewController
+    
+  init(controller: UIViewController) {
+    self.viewController = controller
+  }
+    
   public static func register(with registrar: FlutterPluginRegistrar) {
+    let controller : UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
     let channel = FlutterMethodChannel(name: "flutter_wallet_card", binaryMessenger: registrar.messenger())
-    let instance = SwiftFlutterWalletCardPlugin()
+    let instance = SwiftFlutterWalletCardPlugin(controller: controller)
 
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
 
     switch(call.method) {
         case "getPlatformVersion":
@@ -25,7 +31,7 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                 do {
                     let pass = try PKPass.init(data: pkFile as Data)
                     let vc = PKAddPassesViewController(pass: pass)
-                    controller.show(vc.unsafelyUnwrapped, sender: self)
+                    self.viewController.show(vc.unsafelyUnwrapped, sender: self)
                     
                     result(true)
                 }

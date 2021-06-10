@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -15,6 +16,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  final TextEditingController _schemeController = new TextEditingController(text: 'https');
+  final TextEditingController _hostController = new TextEditingController(text: 'example.com');
+  final TextEditingController _pathController = new TextEditingController(text: '/wallet');
 
   @override
   void initState() {
@@ -44,15 +48,57 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  _handlePress() async {
+    if (_schemeController.value.text.isNotEmpty &&
+        _hostController.value.text.isNotEmpty &&
+        _pathController.value.text.isNotEmpty) {
+      final Uri requestUri = Uri(
+        scheme: _schemeController.value.text,
+        host: _hostController.value.text,
+        path: _pathController.value.text,
+        queryParameters: { 'code': 'someCode', 'holder': 'John Doe' }
+      );
+
+      await FlutterWalletCard.createPassFromUri(
+          scheme: requestUri.scheme,
+          host: requestUri.host,
+          path: requestUri.path,
+          parameters: requestUri.queryParameters
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
+
+    TextStyle style = TextStyle(
+        color: CupertinoTheme.of(context).barBackgroundColor,
+        fontSize: 12
+    );
+
+    return CupertinoApp(
+      home: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        child: SafeArea(child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+          SizedBox(height: 20),
+          Text('Provide url scheme (http/https):', style: style),
+          SizedBox(height: 5),
+          CupertinoTextField(controller: _schemeController, padding: EdgeInsets.all(10)),
+            SizedBox(height: 10),
+            Text('Provide url host (example.com):', style: style),
+          SizedBox(height: 5),
+            CupertinoTextField(controller: _hostController, padding: EdgeInsets.all(10)),
+            SizedBox(height: 10),
+            Text('Provide url path (/wallet):', style: style),
+          SizedBox(height: 5),
+            CupertinoTextField(controller: _pathController, padding: EdgeInsets.all(10)),
+            SizedBox(height: 20),
+            CupertinoButton(child: Text('Check generated pass'), onPressed: () => _handlePress()),
+            SizedBox(height: 20),
+            Text('Running on: $_platformVersion\n', style: style),
+          ])
         ),
       ),
     );

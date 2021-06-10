@@ -4,14 +4,13 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_wallet_card'
-  s.version          = '0.0.1'
-  s.summary          = 'A new flutter plugin project.'
-  s.description      = <<-DESC
-A new flutter plugin project.
-                       DESC
-  s.homepage         = 'http://suncern.tech'
+  s.version          = '1.0.0'
+  s.summary          = 'Flutter wallet card for iOS & android devices.'
+  s.license          = 'MIT'
+  s.description      = 'Flutter wallet card for iOS & android devices.'
+  s.homepage         = 'https://github.com/WebEferen/flutter_wallet_card'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Suncern Technology' => 'michal.makowski97@gmail.com' }
+  s.author           = { 'Mike Makowski' => 'michal.makowski97@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
