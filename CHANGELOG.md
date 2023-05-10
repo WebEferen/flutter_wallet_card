@@ -1,3 +1,7 @@
+## 2.0.0
+- Commented out code and fixed build
+- Preparation for new application build
+
 ## 1.0.3
 - Added license agreement and changed strategy onto MIT
 
