@@ -109,6 +109,8 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter_wallet_card/flutter_wallet_card.dart';
+import 'package:flutter_wallet_card_example/data.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -128,7 +130,18 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on:'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Running on:'),
+              ElevatedButton(
+                  onPressed: () {
+                    FlutterWalletCard.addMultipleWalletCards(
+                        data.map((e) => Uri.parse(e)).toList());
+                  },
+                  child: Text('add more than one pass'))
+            ],
+          ),
         ),
       ),
     );
