@@ -12,10 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  pass_flutter:
-    ^2.0.1
-    # pass_flutter:
-    # path: /Users/nimrsawafta/MyProjects/pass-flutter
+  pass_flutter: ^2.0.1
 
 dev_dependencies:
   flutter_test:
