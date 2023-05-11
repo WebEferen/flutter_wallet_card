@@ -39,6 +39,26 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                     result(false)
                 }
         break;
+        
+        case "addMultipleWalletCards":
+            guard let arguments = call.arguments as? [String : Any] else {return}
+                let filePaths = arguments["paths"] as! [String];
+                var passes = [PKPass]();
+                for filePath in filePaths {
+                    let pkFile : NSData = NSData(contentsOfFile: filePath)!
+                    do {
+                        let pass = try PKPass.init(data: pkFile as Data)
+                        passes.append(pass)
+                    }
+                    catch {
+                        result(false)
+                    }
+                }
+                let vc = PKAddPassesViewController(passes: passes)
+                self.viewController.show(vc.unsafelyUnwrapped, sender: self)
+                
+                result(true)
+        break;
         default:
             result(FlutterMethodNotImplemented);
         break;
