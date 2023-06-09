@@ -63,8 +63,8 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
             result(PKAddPassesViewController.canAddPasses())
         break;
 
-        case "didAddedToTheWallet":
-            /// get the serial number of the pass from the arguments 
+        case "isWalletCardAdded":
+            /// get the serial number of the pass from the arguments and the 
             guard let arguments = call.arguments as? [String : Any] else {return}
             let serialNumber = arguments["serialNumber"] as! String;
             /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
