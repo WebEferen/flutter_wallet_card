@@ -59,6 +59,22 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                 
                 result(true)
         break;
+        case "isWalletAvailable":
+            result(PKAddPassesViewController.canAddPasses())
+        break;
+
+        case "isWalletCardAdded":
+            /// get the serial number of the pass from the arguments and the 
+            guard let arguments = call.arguments as? [String : Any] else {return}
+            let serialNumber = arguments["serialNumber"] as! String;
+            /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
+            let passSerialNumber = PKPassLibrary().passes().first(where: { $0.serialNumber == serialNumber })?.serialNumber
+            /// check if the pass is added to the wallet
+            if passSerialNumber == serialNumber {
+                result(true)
+            } else {
+                result(false)
+            }
         default:
             result(FlutterMethodNotImplemented);
         break;

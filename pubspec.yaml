@@ -1,6 +1,6 @@
 name: flutter_wallet_card
 description: Flutter wallet card for iOS & android devices.
-version: 2.1.0
+version: 2.2.0
 homepage: https://github.com/WebEferen/flutter_wallet_card
 repository: https://github.com/WebEferen/flutter_wallet_card.git
 issue_tracker: https://github.com/WebEferen/flutter_wallet_card/issues
@@ -13,6 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   pass_flutter: ^2.0.1
+
+dependency_overrides:
+  dio: ^5.2.1+1
 
 dev_dependencies:
   flutter_test:
