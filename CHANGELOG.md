@@ -1,3 +1,6 @@
+
+## 2.1.0
+- Added support for multiple pkpasses (author: [nimr77](https://github.com/WebEferen/flutter_wallet_card/issues?q=is%3Apr+author%3Animr77))
 ## 2.0.0
 - Commented out code and fixed build
 - Preparation for new application build
