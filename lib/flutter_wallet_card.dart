@@ -54,6 +54,29 @@ class FlutterWalletCard {
     }
   }
 
+  // can add
+  static Future<bool> canAddToWallet() async {
+    try {
+      dynamic result = await _channel.invokeMethod('isWalletAvailable');
+      return (result != null && result) ? true : false;
+    } catch (e) {
+      throw new Exception(e);
+    }
+  }
+
+  static Future<bool> didThisWalletAdded(
+      String passTypeIdentifier, String serialNumber) async {
+    try {
+      dynamic result = await _channel.invokeMethod('isWalletCardAdded', {
+        'passTypeIdentifier': passTypeIdentifier,
+        'serialNumber': serialNumber
+      });
+      return (result != null && result) ? true : false;
+    } catch (e) {
+      throw new Exception(e);
+    }
+  }
+
   static Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
