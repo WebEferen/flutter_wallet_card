@@ -1,3 +1,8 @@
+## 3.0.0
+- Global refactoring
+- Added unit tests covering new features
+- Added possibility for pass generation
+
 ## 2.2.0
 - Added support for isCardAdded method (author: [nimr77](https://github.com/WebEferen/flutter_wallet_card/issues?q=is%3Apr+author%3Animr77))
 - Dependency override (dio) (author: [nimr77](https://github.com/WebEferen/flutter_wallet_card/issues?q=is%3Apr+author%3Animr77))
