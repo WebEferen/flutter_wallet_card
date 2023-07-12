@@ -15,7 +15,4 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
-      # Analyze our Dart code
-      # - run: flutter analyze
-      # Run our tests
-      # - run: flutter test
+      - run: flutter test

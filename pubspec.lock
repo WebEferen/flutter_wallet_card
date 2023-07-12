@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   archive:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: archive
       sha256: "0c8368c9b3f0abbc193b9d6133649a614204b528982bebc7026372d61677ce3a"
@@ -66,7 +66,7 @@ packages:
     source: hosted
     version: "3.0.3"
   dio:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: dio
       sha256: a9d76e72985d7087eb7c5e7903224ae52b337131518d127c554b9405936752b8
@@ -74,7 +74,7 @@ packages:
     source: hosted
     version: "5.2.1+1"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
@@ -131,14 +131,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.8.1"
   matcher:
     dependency: transitive
     description:
@@ -163,16 +155,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  pass_flutter:
-    dependency: "direct main"
-    description:
-      name: pass_flutter
-      sha256: "28c3eb0504d1563564fe85f0ef080eee7f3c48434c3ac983574a23925b7f7144"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "8829d8a55c13fc0e37127c29fedf290c102f4e40ae94ada574091fe0ff96c917"
@@ -180,7 +164,7 @@ packages:
     source: hosted
     version: "1.8.3"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: "3087813781ab814e4157b172f1a11c46be20179fcc9bea043e0fba36bc0acaa2"
@@ -321,7 +305,7 @@ packages:
     source: hosted
     version: "1.3.2"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
       sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
