@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_wallet_card/helpers/color.dart';
 import 'package:flutter_wallet_card/models/PasskitBarcode.dart';
 import 'package:flutter_wallet_card/models/PasskitLocation.dart';
+import 'package:flutter_wallet_card/models/PasskitNfc.dart';
 import 'package:flutter_wallet_card/models/PasskitStructure.dart';
 
 class PasskitPass extends Equatable {
@@ -39,6 +40,9 @@ class PasskitPass extends Equatable {
   /// Additional dictionaries can be added as fallbacks. For this dictionary’s keys,
   /// see Barcode Dictionary Keys.
   final List<PasskitBarcode>? barcodes;
+
+  /// Optional. An object that represents the near-field communication (NFC) payload the device passes to an Apple Pay terminal.
+  final PasskitNfc? nfc;
 
   /// Optional. Background [Color] of the pass.
   final Color? backgroundColor;
@@ -107,6 +111,9 @@ class PasskitPass extends Equatable {
   /// Optional. Indicates that the pass is void—for example, a one time use coupon that has been redeemed. The default value is false.
   final bool? voided;
 
+  /// Optional. Indicates that the pass is shareable. The default value is false.
+  final bool? sharingProhibited;
+
   const PasskitPass({
     required this.formatVersion,
     required this.passTypeIdentifier,
@@ -128,9 +135,11 @@ class PasskitPass extends Equatable {
     this.appLaunchURL,
     this.expirationDate,
     this.voided,
+    this.sharingProhibited,
     this.groupingIdentifier,
     this.logoText,
     this.barcodes,
+    this.nfc,
     this.locations,
     this.maxDistance,
     this.relevantDate,
@@ -163,6 +172,7 @@ class PasskitPass extends Equatable {
               .toList(),
       expirationDate: json['expirationDate'],
       voided: json['voided'] as bool?,
+      sharingProhibited: json['sharingProhibited'] as bool?,
       relevantDate: json['relevantDate'],
       maxDistance: json['maxDistance'] as int?,
       locations: (json['locations'] as List<dynamic>?)
@@ -171,6 +181,7 @@ class PasskitPass extends Equatable {
       barcodes: (json['barcodes'] as List<dynamic>?)
           ?.map((e) => PasskitBarcode.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nfc: json['nfc'] != null ? PasskitNfc.fromJson(json['nfc']) : null,
     );
   }
 
@@ -187,6 +198,7 @@ class PasskitPass extends Equatable {
       'barcodes': barcodes
           ?.map((e) => e.toJson()..removeWhere((_, value) => value == null))
           .toList(),
+      'nfc': nfc?.toJson(),
       'backgroundColor': fromColor(backgroundColor),
       'foregroundColor': fromColor(foregroundColor),
       'labelColor': fromColor(labelColor),
@@ -209,6 +221,7 @@ class PasskitPass extends Equatable {
       'appLaunchURL': appLaunchURL,
       'expirationDate': expirationDate,
       'voided': voided,
+      'sharingProhibited': sharingProhibited,
     };
   }
 
@@ -241,6 +254,8 @@ class PasskitPass extends Equatable {
         groupingIdentifier,
         logoText,
         barcodes,
+        nfc,
         locations,
+        sharingProhibited,
       ];
 }

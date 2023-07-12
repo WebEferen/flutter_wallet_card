@@ -2,6 +2,8 @@
 - Global refactoring
 - Added unit tests covering new features
 - Added possibility for pass generation
+- Added `NFC` entry type for `PasskitPass`
+- Added `sharingProhibited` option to `PasskitPass`
 
 ## 2.2.0
 - Added support for isCardAdded method (author: [nimr77](https://github.com/WebEferen/flutter_wallet_card/issues?q=is%3Apr+author%3Animr77))
