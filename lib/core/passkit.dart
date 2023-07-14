@@ -1,8 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:crypto/crypto.dart';
-
 import 'package:dio/dio.dart';
 import 'package:path/path.dart' as Path;
 
@@ -24,9 +20,9 @@ class Passkit {
   }
 
   Future<PasskitFile> generate({
-    required String id,
-    required Uint8List signature,
-    required PasskitPass pass,
+    required final String id,
+    required final Directory directory,
+    required final PasskitPass passkitPass,
     PasskitImage? backgroundImage,
     PasskitImage? footerImage,
     PasskitImage? iconImage,
@@ -35,43 +31,15 @@ class Passkit {
     PasskitImage? thumbnailImage,
     bool override = false,
   }) async {
-    final root = await fs.createDirectory(name: directoryName);
-
-    // Create child directory and pass.json file
-    final directory = Directory('${root.path}/$id');
-    if (directory.existsSync()) {
+    // Create child directory
+    final childDirectory = Directory('${directory.path}/$id');
+    if (childDirectory.existsSync()) {
       if (!override) throw Exception('Passkit exists!');
-      directory.deleteSync(recursive: true);
+      childDirectory.deleteSync(recursive: true);
     }
 
-    // Create pass.json file
-    final escapedPass = pass.toJson()..removeWhere((_, value) => value == null);
-    final passFile = File('${directory.path}/pass.json')
-      ..createSync(recursive: true)
-      ..writeAsStringSync(jsonEncode(escapedPass));
-
-    // Logo & icon files - TODO: Remove because we have logo and icon already
-    final examplesDirectory = Directory('test/fixtures/example_passkit');
-    final logoFile = File(Path.absolute('${examplesDirectory.path}/logo.png'));
-    final iconFile = File(Path.absolute('${examplesDirectory.path}/icon.png'));
-    logoFile.copySync('${directory.path}/logo.png');
-    iconFile.copySync('${directory.path}/icon.png');
-
-    // Create manifest.json file with checksums - TODO: Use existing *Image
-    File('${directory.path}/manifest.json')
-      ..createSync(recursive: true)
-      ..writeAsStringSync(jsonEncode({
-        "pass.json": sha1.convert(passFile.readAsBytesSync()).toString(),
-        "logo.png": sha1.convert(logoFile.readAsBytesSync()).toString(),
-        "icon.png": sha1.convert(iconFile.readAsBytesSync()).toString(),
-      }));
-
-    File('${directory.path}/signature')
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(signature);
-
     // Pack directory into zip (.pkpass)
-    final pkpass = File('${root.path}/$id.pkpass');
+    final pkpass = File('${directory.path}/$id.pkpass');
     if (pkpass.existsSync()) {
       if (!override) throw Exception('Pkpass exists!');
       pkpass.deleteSync(recursive: true);
@@ -79,13 +47,12 @@ class Passkit {
 
     // Pack & remove old files
     fs.pack(directory: directory, filename: pkpass.path);
-    directory.deleteSync(recursive: true);
 
     return PasskitFile(
       id: id,
       file: pkpass,
-      directory: directory,
-      json: pass,
+      directory: childDirectory,
+      json: passkitPass,
       background: backgroundImage,
       footer: footerImage,
       icon: iconImage,
@@ -100,7 +67,7 @@ class Passkit {
     required File file,
   }) async {
     final directory = await fs.createDirectory(name: directoryName);
-    final passkitDirectory = Directory(Path.withoutExtension(file.path));
+    final childDirectory = Directory(Path.withoutExtension(file.path));
 
     if (directory.path == Path.dirname(file.path)) {
       throw Exception('This file has already been saved.');
@@ -118,13 +85,15 @@ class Passkit {
 
     return Parser(
       id: id,
-      directory: passkitDirectory,
+      directory: childDirectory,
       file: passkitFile,
     ).parse();
   }
 
-  Future<PasskitFile> saveFromUri(
-      {required String id, required String url}) async {
+  Future<PasskitFile> saveFromUri({
+    required String id,
+    required String url,
+  }) async {
     Directory directory = await fs.createDirectory(name: directoryName);
     final file = File('${directory.path}/$id.pkpass')..createSync();
 

@@ -69,13 +69,14 @@ void main() {
         });
 
         final passkit = Passkit(directoryName: outputDirectory.path);
-        final signature = File('${exampleDirectory.path}/signature');
         final pass = File('${exampleDirectory.path}/pass.json');
 
         final generated = await passkit.generate(
-          pass: PasskitPass.fromJson(jsonDecode(pass.readAsStringSync())),
-          signature: signature.readAsBytesSync(),
           id: 'testowo',
+          directory: outputDirectory,
+          passkitPass: PasskitPass.fromJson(
+            jsonDecode(pass.readAsStringSync()),
+          ),
         );
 
         expect(generated.file.existsSync(), true);

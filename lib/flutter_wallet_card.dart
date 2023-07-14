@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:flutter_wallet_card/core/creators.dart';
+import 'package:flutter_wallet_card/core/fs.dart';
 import 'package:flutter_wallet_card/core/passkit.dart';
+import 'package:flutter_wallet_card/models/PasskitGenerated.dart';
 import 'package:flutter_wallet_card/models/PasskitImage.dart';
 import 'package:flutter_wallet_card/models/PasskitPass.dart';
 import 'package:flutter_wallet_card/models/PasskitFile.dart';
@@ -11,10 +14,10 @@ class FlutterWalletCard {
   static const MethodChannel _channel =
       const MethodChannel('flutter_wallet_card');
 
-  static Future<PasskitFile> generatePass({
+  static Future<PasskitGenerated> generatePass({
     required String id,
     required PasskitPass pass,
-    required Uint8List signature,
+    String passesDirectory = 'passes',
     PasskitImage? backgroundImage,
     PasskitImage? footerImage,
     PasskitImage? iconImage,
@@ -24,20 +27,33 @@ class FlutterWalletCard {
     bool deleteAfterwards = false,
     bool override = false,
   }) async {
-    final passkit = await Passkit().generate(
+    final fs = Fs();
+    final directory = await fs.createDirectory(name: passesDirectory);
+    final creators = Creators(directory: directory);
+
+    final passFile = await creators.createPass(pass);
+    final manifestFile = await creators.createManifest({
+      'pass.json': passFile.readAsBytesSync(),
+    });
+
+    final passkitFile = await Passkit().generate(
       id: id,
-      pass: pass,
-      signature: signature,
+      passkitPass: pass,
+      directory: directory,
       backgroundImage: backgroundImage,
       footerImage: footerImage,
       iconImage: iconImage,
       logoImage: logoImage,
       stripImage: stripImage,
       thumbnailImage: thumbnailImage,
-      override: override,
     );
 
-    return passkit;
+    return PasskitGenerated(
+      directory: directory,
+      passkitFile: passkitFile,
+      manifestFile: manifestFile,
+      passFile: passFile,
+    );
   }
 
   static Future<PasskitFile> generateFromUri({
