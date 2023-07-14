@@ -1,17 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_wallet_card/core/signer.dart';
 import 'package:flutter_wallet_card/models/PasskitField.dart';
 import 'package:flutter_wallet_card/models/PasskitPass.dart';
 import 'package:flutter_wallet_card/models/PasskitStructure.dart';
 
-// This is fixed signature, to work with passes, visit this link (and generate following signature):
-// https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/YourFirst.html#//apple_ref/doc/uid/TP40012195-CH2-SW1
-// https://www.kodeco.com/2855-beginning-passbook-in-ios-6-part-1-2
-// Every change in the code below (inside generateWalletPass) will cause pass not rendering.
-final SIGNATURE = File('signature.example').readAsBytesSync();
+Signer get ExampleSigner {
+  Signer.directory = Directory('certificates');
 
-final EXAMPLE_PASS = PasskitPass(
+  final wwdrPem = File('${Signer.directory.path}/wwdr.pem');
+  final certificateP12 = File('${Signer.directory.path}/cert.p12');
+
+  return Signer(wwdrPem: wwdrPem, certificateP12: certificateP12);
+}
+
+final ExamplePass = PasskitPass(
   description: 'Some description',
   formatVersion: 1,
   organizationName: 'Michal Makowski',

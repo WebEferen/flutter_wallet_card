@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_wallet_card/core/signer.dart';
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 import 'package:flutter_wallet_card_example/pass.dart';
 
@@ -37,14 +40,23 @@ class _MyAppState extends State<MyApp> {
   }
 
   _generateWalletPass() async {
+    final futures = await Future.wait([
+      ExampleSigner.generateCertificate(),
+      ExampleSigner.generateKey(),
+      ExampleSigner.generateSignature(manifest: File(''))
+    ]);
+
+    final signature = await futures.last.readAsBytes();
     final pkpass = await FlutterWalletCard.generatePass(
         id: 'example-pass',
-        signature: SIGNATURE,
-        pass: EXAMPLE_PASS,
+        signature: signature,
+        pass: ExamplePass,
         override: true,
         deleteAfterwards: false);
 
     print(pkpass.file.path);
     print(await FlutterWalletCard.addPasskit(pkpass));
+
+    await Future.wait(futures.map((future) => future.delete()));
   }
 }

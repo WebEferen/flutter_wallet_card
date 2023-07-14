@@ -28,7 +28,7 @@ class Signer {
     return (response.isNotEmpty) ? true : false;
   }
 
-  Future<void> generateCertificate() async {
+  Future<File> generateCertificate() async {
     final arguments = [
       '-in "${certificateP12.path}"',
       '-clcerts',
@@ -38,9 +38,10 @@ class Signer {
     ];
 
     await run('openssl pkcs12 ${arguments.join(' ')}');
+    return certPem;
   }
 
-  Future<void> generateKey({String password = '12345'}) async {
+  Future<File> generateKey({String password = '12345'}) async {
     final arguments = [
       '-in "${certificateP12.path}"',
       '-nocerts',
@@ -50,9 +51,10 @@ class Signer {
     ];
 
     await run('openssl pkcs12 ${arguments.join(' ')}');
+    return keyPem;
   }
 
-  Future<void> generateSignature({
+  Future<File> generateSignature({
     required File manifest,
     String password = '12345',
   }) async {
@@ -72,6 +74,7 @@ class Signer {
     ];
 
     await run('openssl smime ${arguments.join(' ')}');
+    return signature;
   }
 
   Uint8List getSignature() {
