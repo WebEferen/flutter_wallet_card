@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_wallet_card/core/signer.dart';
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 import 'package:flutter_wallet_card_example/pass.dart';
 
