@@ -109,8 +109,11 @@ void main() {
           ..createSync(recursive: true)
           ..writeAsStringSync('{}');
 
-        await signer.generateKey();
-        await signer.generateCertificate();
+        await Future.wait([
+          signer.generateKey(),
+          signer.generateCertificate(),
+        ]);
+
         await signer.generateSignature(manifest: manifest);
 
         expect(signer.signature.existsSync(), true);

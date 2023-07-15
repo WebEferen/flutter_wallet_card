@@ -34,7 +34,7 @@ class Signer {
       '-clcerts',
       '-nokeys',
       '-out "${certPem.path}"',
-      '-passin pass:'
+      '-passin pass:',
     ];
 
     await run('openssl pkcs12 ${arguments.join(' ')}');
@@ -47,7 +47,7 @@ class Signer {
       '-nocerts',
       '-out "${keyPem.path}"',
       '-passin pass:',
-      '-passout pass:$password'
+      '-passout pass:$password',
     ];
 
     await run('openssl pkcs12 ${arguments.join(' ')}');
