@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 class Signer {
   static Directory directory = Directory('certificates');
+  final bool isCi = bool.hasEnvironment('IS_CI');
 
   final File wwdrPem;
   final File certificateP12;
@@ -37,7 +38,9 @@ class Signer {
       '-passin pass:',
     ];
 
-    print(await output('openssl pkcs12 ${arguments.join(' ')}'));
+    final result = await output('openssl pkcs12 ${arguments.join(' ')}');
+    if (isCi) print(result);
+
     return certPem;
   }
 
@@ -50,7 +53,9 @@ class Signer {
       '-passout pass:$password',
     ];
 
-    print(await output('openssl pkcs12 ${arguments.join(' ')}'));
+    final result = await output('openssl pkcs12 ${arguments.join(' ')}');
+    if (isCi) print(result);
+
     return keyPem;
   }
 
@@ -73,7 +78,9 @@ class Signer {
       '-sign',
     ];
 
-    print(await output('openssl smime ${arguments.join(' ')}'));
+    final result = await output('openssl smime ${arguments.join(' ')}');
+    if (isCi) print(result);
+
     return signature;
   }
 
