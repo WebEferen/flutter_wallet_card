@@ -35,7 +35,6 @@ class Signer {
       '-nokeys',
       '-out "${certPem.path}"',
       '-passin pass:',
-      '-info',
     ];
 
     print(await output('openssl pkcs12 ${arguments.join(' ')}'));
@@ -49,7 +48,6 @@ class Signer {
       '-out "${keyPem.path}"',
       '-passin pass:',
       '-passout pass:$password',
-      '-info',
     ];
 
     print(await output('openssl pkcs12 ${arguments.join(' ')}'));
@@ -73,7 +71,6 @@ class Signer {
       '-outform DER',
       '-binary',
       '-sign',
-      '-info',
     ];
 
     print(await output('openssl smime ${arguments.join(' ')}'));
