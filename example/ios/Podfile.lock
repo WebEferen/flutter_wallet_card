@@ -1,29 +1,42 @@
 PODS:
+  - fast_rsa (0.6.0):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_wallet_card (1.0.0):
     - Flutter
+    - OpenSSL-Universal
+  - OpenSSL-Universal (1.1.2100)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
 
 DEPENDENCIES:
+  - fast_rsa (from `.symlinks/plugins/fast_rsa/ios`)
   - Flutter (from `Flutter`)
   - flutter_wallet_card (from `.symlinks/plugins/flutter_wallet_card/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - OpenSSL-Universal
 
 EXTERNAL SOURCES:
+  fast_rsa:
+    :path: ".symlinks/plugins/fast_rsa/ios"
   Flutter:
     :path: Flutter
   flutter_wallet_card:
     :path: ".symlinks/plugins/flutter_wallet_card/ios"
   path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/ios"
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
+  fast_rsa: 17bf8226725f7020997544e44149d2f27f374d71
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_wallet_card: 4147e913b7dfa1fd49abc2c69a62a9f38cb95ff2
+  flutter_wallet_card: a90c0ceec680b87c0c6bb04a1f6d429e171929e7
+  OpenSSL-Universal: 96db2ea04174c0e3d50d93b74f0e198f980e2aa9
   path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

@@ -1,0 +1,24 @@
+{
+    "passTypeIdentifier": "pass.com.suncern.wallet-example",
+    "formatVersion": 1,
+    "teamIdentifier": "6X23T5KB6N",
+    "organizationName": "Michal Makowski",
+    "serialNumber": "0000001",
+    "description": "Some description",
+    "foregroundColor" : "rgb(255, 255, 255)",
+    "backgroundColor" : "rgb(90, 90, 90)",
+    "labelColor" : "rgb(255, 255, 255)",
+    "logoText": "Some logo text",
+    "generic": {
+        "headerFields": [{
+            "key" : "staffNumber",
+            "label" : "Staff Number",
+            "value" : "001"
+        }],
+        "primaryFields":[{
+            "key": "holder",
+            "value": "Michal Makowski",
+            "label": "Zaszczepiony"
+        }]
+    }
+}

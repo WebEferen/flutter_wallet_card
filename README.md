@@ -30,10 +30,9 @@ I'll be glad to fix bugs you encountered or improve the extension.
 ## Roadmap
 
 At this moment some of key features are not working as intended to:
-- [ ] MercuryWork on Android Devices
-- [ ] Listen to onCardAdd iOS handler in order to check if card was added or not   
+
+- [ ] Android Devices integration
 
 ## Changelog
 
 Refer to the [Changelog](https://github.com/webeferen/flutter_wallet_card/blob/master/CHANGELOG.md) to get all release notes.
-

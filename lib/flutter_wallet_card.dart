@@ -1,84 +1,91 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
-import 'package:pass_flutter/pass_flutter.dart';
+import 'package:uuid/uuid.dart';
+
+import 'package:flutter_wallet_card/core/creators.dart';
+import 'package:flutter_wallet_card/core/fs.dart';
+import 'package:flutter_wallet_card/core/passkit.dart';
+import 'package:flutter_wallet_card/models/PasskitGenerated.dart';
+import 'package:flutter_wallet_card/models/PasskitImage.dart';
+import 'package:flutter_wallet_card/models/PasskitPass.dart';
+import 'package:flutter_wallet_card/models/PasskitFile.dart';
 
 class FlutterWalletCard {
   static const MethodChannel _channel =
       const MethodChannel('flutter_wallet_card');
 
-  static Future<bool> createPassFromUri(
-      {required String scheme,
-      required String host,
-      required String path,
-      Map<String, dynamic>? parameters}) async {
-    if (parameters == null) parameters = new Map();
+  static Future<PasskitGenerated> generatePass({
+    required String id,
+    required PasskitPass pass,
+    required PasskitImage iconImage,
+    PasskitImage? backgroundImage,
+    PasskitImage? footerImage,
+    PasskitImage? logoImage,
+    PasskitImage? stripImage,
+    PasskitImage? thumbnailImage,
+    bool deleteAfterwards = false,
+    bool override = false,
+  }) async {
+    final fs = Fs();
+    final directory = await fs.createDirectory(name: 'passes');
+    final pkpass = File('${directory.path}/$id.pkpass');
 
-    final Uri requestUri = Uri(
-        scheme: scheme, host: host, path: path, queryParameters: parameters);
-
-    try {
-      PassFile passFile = await Pass().saveFromUrl(url: requestUri.toString());
-      dynamic result = await _channel
-          .invokeMethod('addWalletCard', {'path': passFile.file.path});
-
-      passFile.delete();
-
-      return (result != null && result) ? true : false;
-    } catch (e) {
-      throw new Exception(e);
-    }
+    return Passkit().generate(
+      id: id,
+      directory: directory,
+      passkitPass: pass,
+      pkpass: pkpass,
+    );
   }
 
-  static Future<bool> addMultipleWalletCards(List<Uri> urls) async {
-    try {
-      List<String> paths = [];
-      List<PassFile> passFiles = [];
+  static Future<PasskitFile> generateFromUri({
+    required String host,
+    required String path,
+    String scheme = 'https',
+    bool deleteAfterwards = true,
+    Map<String, dynamic>? parameters,
+  }) async {
+    final String id = Uuid().v4();
+    final Uri uri = Uri(
+      queryParameters: (parameters != null) ? parameters : new Map(),
+      scheme: scheme,
+      host: host,
+      path: path,
+    );
 
-      for (Uri url in urls) {
-        PassFile passFile = await Pass().saveFromUrl(url: url.toString());
-        passFiles.add(passFile);
-        paths.add(passFile.file.path);
-      }
-
-      dynamic result = await _channel
-          .invokeMethod('addMultipleWalletCards', {'paths': paths});
-
-      // delete them
-      for (PassFile passFile in passFiles) {
-        passFile.delete();
-      }
-
-      return (result != null && result) ? true : false;
-    } catch (e) {
-      throw new Exception(e);
-    }
+    return Passkit().saveFromUri(id: id, url: uri.toString());
   }
 
-  // can add
   static Future<bool> canAddToWallet() async {
-    try {
-      dynamic result = await _channel.invokeMethod('isWalletAvailable');
-      return (result != null && result) ? true : false;
-    } catch (e) {
-      throw new Exception(e);
-    }
+    dynamic result = await _channel.invokeMethod('isWalletAvailable');
+    return (result != null && result) ? true : false;
   }
 
-  static Future<bool> didThisWalletAdded(
-      String passTypeIdentifier, String serialNumber) async {
-    try {
-      dynamic result = await _channel.invokeMethod('isWalletCardAdded', {
-        'passTypeIdentifier': passTypeIdentifier,
-        'serialNumber': serialNumber
-      });
-      return (result != null && result) ? true : false;
-    } catch (e) {
-      throw new Exception(e);
-    }
+  static Future<bool> isExisting(
+    String passTypeIdentifier,
+    String serialNumber,
+  ) async {
+    dynamic result = await _channel.invokeMethod('isWalletCardAdded', {
+      'passTypeIdentifier': passTypeIdentifier,
+      'serialNumber': serialNumber
+    });
+
+    return (result != null && result) ? true : false;
   }
 
-  static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+  static Future<bool> addPasskit(PasskitFile passkit) async {
+    final result = await _channel.invokeMethod('addWalletCard', {
+      'path': passkit.file.path,
+    });
+
+    print(result);
+
+    return (result != null && result);
+  }
+
+  static Future<void> purgePasses() async {
+    await Passkit().purgePasses();
   }
 }
