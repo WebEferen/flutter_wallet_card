@@ -12,7 +12,7 @@ Flutter plugin which allows users to create their own Apple Wallet Passes (as we
 ```dart
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 
-bool isCardShown = await FlutterWalletCard.createPassFromUri(
+bool isCardShown = await FlutterWalletCard.generateFromUri(
   scheme: 'https',
   host: 'example.com',
   path: '/wallet.pkpass',
