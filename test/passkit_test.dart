@@ -68,6 +68,7 @@ void main() {
           return null;
         });
 
+        final passesDirectory = Directory('passes');
         final passkit = Passkit(directoryName: outputDirectory.path);
         final pass = File('${exampleDirectory.path}/pass.json');
         final pkpass = File('${outputDirectory.path}/testowo.pkpass');
@@ -83,6 +84,9 @@ void main() {
 
         expect(generated.passFile.existsSync(), true);
         expect(generated.passkitFile.file.existsSync(), true);
+        expect(passesDirectory.existsSync(), true);
+
+        // await passesDirectory.delete(recursive: true);
       });
     });
   });

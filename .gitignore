@@ -8,3 +8,4 @@ build/
 
 certificates/*.p12
 certificates/*.pem
+passes/
