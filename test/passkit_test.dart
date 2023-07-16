@@ -85,8 +85,6 @@ void main() {
         expect(generated.passFile.existsSync(), true);
         expect(generated.passkitFile.file.existsSync(), true);
         expect(passesDirectory.existsSync(), true);
-
-        // await passesDirectory.delete(recursive: true);
       });
     });
   });
