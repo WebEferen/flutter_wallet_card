@@ -7,13 +7,15 @@ void main() {
   final fixtures = Directory('test/fixtures');
   final passkitFixtures = Directory('${fixtures.path}/example_passkit');
   final passJson = File('${passkitFixtures.path}/pass.json');
+  final pkpass = File('${fixtures.path}/example.pkpass');
 
   group('Parser', () {
     test('should initialize with valid data', () async {
       final parser = Parser(
         id: 'example_passkit',
         directory: passkitFixtures,
-        file: passJson,
+        passFile: passJson,
+        file: pkpass,
       );
 
       final passkit = await parser.parse();
@@ -28,7 +30,8 @@ void main() {
       final parser = Parser(
         id: 'example_passkit',
         directory: passkitFixtures,
-        file: File('not-existing-pass.json'),
+        passFile: File('not-existing-pass.json'),
+        file: File('not-existing-pass-file.pkpass'),
       );
 
       expect(parser.parse(), throwsException);

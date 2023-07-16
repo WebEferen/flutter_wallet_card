@@ -3,30 +3,32 @@ import 'package:cli_script/cli_script.dart';
 import 'package:flutter/services.dart';
 
 class Signer {
-  static Directory directory = Directory('certificates');
-  final bool isCi = bool.hasEnvironment('IS_CI');
+  final Directory directory;
 
   final File wwdrPem;
   final File certificateP12;
 
-  final File certPem = File('${directory.path}/cert.pem');
-  final File keyPem = File('${directory.path}/key.pem');
-  final File signature = File('${directory.path}/signature');
+  late File certPem = File('${directory.path}/cert.pem');
+  late File keyPem = File('${directory.path}/key.pem');
+  late File signature = File('${directory.path}/signature');
 
   Signer({
     required this.wwdrPem,
     required this.certificateP12,
+    required this.directory,
   }) {
+    if (!directory.existsSync()) directory.createSync();
     if (!wwdrPem.existsSync()) throw Exception('Missing wwdr.pem');
     if (!certificateP12.existsSync()) throw Exception('Missing cert.p12');
 
-    isOpenSSLSupported().then((isSupported) =>
-        {if (!isSupported) throw Exception('OpenSSL is not supported!')});
+    checkIsOpenSSLSupported().catchError(
+      (onError) => throw Exception('OpenSSL is not supported!'),
+    );
   }
 
-  static Future<bool> isOpenSSLSupported() async {
-    final response = await output('which openssl');
-    return (response.isNotEmpty) ? true : false;
+  Future<bool> checkIsOpenSSLSupported() async {
+    final response = await output('openssl version', runInShell: true);
+    return response.isNotEmpty;
   }
 
   Future<File> generateCertificate() async {
@@ -38,9 +40,7 @@ class Signer {
       '-passin pass:',
     ];
 
-    final result = await output('openssl pkcs12 ${arguments.join(' ')}');
-    if (isCi) print(result);
-
+    await run('openssl pkcs12 ${arguments.join(' ')}');
     return certPem;
   }
 
@@ -53,9 +53,7 @@ class Signer {
       '-passout pass:$password',
     ];
 
-    final result = await output('openssl pkcs12 ${arguments.join(' ')}');
-    if (isCi) print(result);
-
+    await run('openssl pkcs12 ${arguments.join(' ')}');
     return keyPem;
   }
 
@@ -78,9 +76,7 @@ class Signer {
       '-sign',
     ];
 
-    final result = await output('openssl smime ${arguments.join(' ')}');
-    if (isCi) print(result);
-
+    await run('openssl smime ${arguments.join(' ')}');
     return signature;
   }
 

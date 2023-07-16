@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_wallet_card/models/PasskitImage.dart';
 
 import 'package:flutter_wallet_card/models/PasskitPass.dart';
 
@@ -23,6 +24,26 @@ class Creators {
     ));
 
     return _saveFile('manifest.json', encodedString);
+  }
+
+  Future<File> preparePkpass(String id) async {
+    final file = File('${directory!.parent.path}/$id.pkpass');
+    return file;
+  }
+
+  Future<List<File>> copyImage(
+    PasskitImage image, {
+    required String name,
+    String extension = 'png',
+  }) async {
+    return Future.wait([
+      if (image.image != null)
+        image.image!.copy('${directory!.path}/$name.$extension'),
+      if (image.image2x != null)
+        image.image2x!.copy('${directory!.path}/$name@2x.$extension'),
+      if (image.image3x != null)
+        image.image3x!.copy('${directory!.path}/$name@3x.$extension'),
+    ]);
   }
 
   File _saveFile(String filename, String content) {

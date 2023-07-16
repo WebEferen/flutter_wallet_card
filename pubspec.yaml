@@ -19,6 +19,8 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.0.15
   uuid: ^3.0.7
+  fast_rsa: ^3.5.7
+  encrypt: ^5.0.1
 
 dev_dependencies:
   flutter_test:

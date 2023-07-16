@@ -70,17 +70,19 @@ void main() {
 
         final passkit = Passkit(directoryName: outputDirectory.path);
         final pass = File('${exampleDirectory.path}/pass.json');
+        final pkpass = File('${outputDirectory.path}/testowo.pkpass');
 
         final generated = await passkit.generate(
           id: 'testowo',
+          pkpass: pkpass,
           directory: outputDirectory,
           passkitPass: PasskitPass.fromJson(
             jsonDecode(pass.readAsStringSync()),
           ),
         );
 
-        expect(generated.file.existsSync(), true);
-        outputDirectory.deleteSync(recursive: true);
+        expect(generated.passFile.existsSync(), true);
+        expect(generated.passkitFile.file.existsSync(), true);
       });
     });
   });

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_wallet_card/core/creators.dart';
+import 'package:flutter_wallet_card/models/PasskitGenerated.dart';
 import 'package:path/path.dart' as Path;
 
 import 'package:flutter_wallet_card/core/fs.dart';
@@ -19,10 +21,11 @@ class Passkit {
     root.deleteSync(recursive: true);
   }
 
-  Future<PasskitFile> generate({
+  Future<PasskitGenerated> generate({
     required final String id,
     required final Directory directory,
     required final PasskitPass passkitPass,
+    required final File pkpass,
     PasskitImage? backgroundImage,
     PasskitImage? footerImage,
     PasskitImage? iconImage,
@@ -31,27 +34,33 @@ class Passkit {
     PasskitImage? thumbnailImage,
     bool override = false,
   }) async {
-    // Create child directory
+    final fs = Fs();
+    final directory = await fs.createDirectory(name: 'passes');
     final childDirectory = Directory('${directory.path}/$id');
-    if (childDirectory.existsSync()) {
-      if (!override) throw Exception('Passkit exists!');
-      childDirectory.deleteSync(recursive: true);
-    }
-
-    // Pack directory into zip (.pkpass)
+    final creators = Creators(directory: childDirectory);
     final pkpass = File('${directory.path}/$id.pkpass');
-    if (pkpass.existsSync()) {
-      if (!override) throw Exception('Pkpass exists!');
-      pkpass.deleteSync(recursive: true);
-    }
 
-    // Pack & remove old files
-    fs.pack(directory: directory, filename: pkpass.path);
+    await Future.wait([
+      if (iconImage != null) creators.copyImage(iconImage, name: 'icon'),
+      if (logoImage != null) creators.copyImage(logoImage, name: 'logo'),
+      if (footerImage != null) creators.copyImage(footerImage, name: 'footer'),
+      if (stripImage != null) creators.copyImage(stripImage, name: 'stripe'),
+      if (thumbnailImage != null)
+        creators.copyImage(thumbnailImage, name: 'thumbnail'),
+      if (backgroundImage != null)
+        creators.copyImage(backgroundImage, name: 'background'),
+    ]);
 
-    return PasskitFile(
+    final pkpassFile = await creators.preparePkpass(id);
+    final passFile = await creators.createPass(passkitPass);
+    final manifestFile = await creators.createManifest({
+      'pass.json': passFile.readAsBytesSync(),
+    });
+
+    final passkitFile = PasskitFile(
       id: id,
       file: pkpass,
-      directory: childDirectory,
+      directory: directory,
       json: passkitPass,
       background: backgroundImage,
       footer: footerImage,
@@ -59,6 +68,15 @@ class Passkit {
       logo: logoImage,
       strip: stripImage,
       thumbnail: thumbnailImage,
+    );
+
+    fs.pack(directory: childDirectory, filename: pkpassFile.path);
+
+    return PasskitGenerated(
+      directory: childDirectory,
+      passkitFile: passkitFile,
+      manifestFile: manifestFile,
+      passFile: passFile,
     );
   }
 
@@ -80,13 +98,14 @@ class Passkit {
     file.copySync('${directory.path}/$id.passkit');
     await fs.unpack(path: '${directory.path}/$id.passkit');
 
-    final passkitFile = File('${directory.path}/$id/pass.json');
-    if (!passkitFile.existsSync()) throw Exception('Missing pass.json');
+    final passFile = File('${directory.path}/$id/pass.json');
+    if (!passFile.existsSync()) throw Exception('Missing pass.json');
 
     return Parser(
       id: id,
       directory: childDirectory,
-      file: passkitFile,
+      passFile: passFile,
+      file: file,
     ).parse();
   }
 
@@ -109,6 +128,11 @@ class Passkit {
     final passkitFile = File('${directory.path}/pass.json');
     if (!passkitFile.existsSync()) throw Exception('Missing pass.json');
 
-    return Parser(id: id, directory: directory, file: passkitFile).parse();
+    return Parser(
+      id: id,
+      directory: directory,
+      file: file,
+      passFile: passkitFile,
+    ).parse();
   }
 }

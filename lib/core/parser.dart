@@ -9,11 +9,13 @@ class Parser {
   final String id;
   final Directory directory;
   final File file;
+  final File passFile;
 
   const Parser({
     required this.id,
     required this.directory,
     required this.file,
+    required this.passFile,
   });
 
   Future<PasskitFile> parse() async {
@@ -41,9 +43,10 @@ class Parser {
   }
 
   Future<PasskitPass> _parseJson() async {
-    if (!file.existsSync()) throw Exception('Parser: pass.json not found');
+    if (!passFile.existsSync()) throw Exception('Parser: pass.json not found');
 
-    final json = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+    final json =
+        jsonDecode(passFile.readAsStringSync()) as Map<String, dynamic>;
     return PasskitPass.fromJson(json);
   }
 

@@ -11,10 +11,16 @@ void main() {
   final wwdrPem = File('${certificates.path}/wwdr.pem');
   final signature = File('${certificates.path}/signature');
 
+  final signer = Signer(
+    wwdrPem: wwdrPem,
+    certificateP12: certP12,
+    directory: certificates,
+  );
+
   group('Signer', () {
     group('isOpenSSLSupported', () {
       test('should return true when supported', () async {
-        final isSupported = await Signer.isOpenSSLSupported();
+        final isSupported = await signer.checkIsOpenSSLSupported();
         expect(isSupported, true);
       });
     });
@@ -25,7 +31,11 @@ void main() {
         final File wwdrPem = File('${certificates.path}/wwdr.pem');
 
         expect(
-          () => Signer(wwdrPem: wwdrPem, certificateP12: certP12),
+          () => Signer(
+            wwdrPem: wwdrPem,
+            certificateP12: certP12,
+            directory: certificates,
+          ),
           throwsException,
         );
       });
@@ -35,14 +45,16 @@ void main() {
         final File wwdrPem = File('${certificates.path}/missing.pem');
 
         expect(
-          () => Signer(wwdrPem: wwdrPem, certificateP12: certP12),
+          () => Signer(
+            wwdrPem: wwdrPem,
+            certificateP12: certP12,
+            directory: certificates,
+          ),
           throwsException,
         );
       });
 
       test('should create class', () {
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
-
         expect(signer.certificateP12.path, certP12.path);
         expect(signer.wwdrPem.path, wwdrPem.path);
       });
@@ -50,14 +62,10 @@ void main() {
 
     group('getSignature', () {
       test('should throw when no signature generated', () {
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
         expect(() => signer.getSignature(), throwsException);
       });
 
       test('should return generated signature', () {
-        Signer.directory = certificates;
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
-
         signature..createSync(recursive: true);
         expect(signer.getSignature(), []);
 
@@ -67,9 +75,6 @@ void main() {
 
     group('generators', () {
       test('should generate certificate', () async {
-        Signer.directory = certificates;
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
-
         await signer.generateCertificate();
         expect(signer.certPem.existsSync(), true);
 
@@ -77,9 +82,6 @@ void main() {
       });
 
       test('should generate key', () async {
-        Signer.directory = certificates;
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
-
         await signer.generateKey();
         expect(signer.keyPem.existsSync(), true);
 
@@ -89,9 +91,6 @@ void main() {
 
     group('generateSignature', () {
       test('should throw when cert.pem is missing', () async {
-        Signer.directory = certificates;
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
-
         final manifest = File('${certificates.path}/manifest')
           ..createSync(recursive: true)
           ..writeAsStringSync('{}');
@@ -102,9 +101,6 @@ void main() {
       });
 
       test('should generate signature', () async {
-        Signer.directory = certificates;
-        final signer = Signer(wwdrPem: wwdrPem, certificateP12: certP12);
-
         final manifest = File('${certificates.path}/manifest')
           ..createSync(recursive: true)
           ..writeAsStringSync('{}');

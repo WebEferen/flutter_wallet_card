@@ -1,20 +1,7 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_wallet_card/core/signer.dart';
 import 'package:flutter_wallet_card/models/PasskitField.dart';
 import 'package:flutter_wallet_card/models/PasskitPass.dart';
 import 'package:flutter_wallet_card/models/PasskitStructure.dart';
-
-Signer get ExampleSigner {
-  Signer.directory = Directory('certificates');
-
-  final wwdrPem = File('${Signer.directory.path}/wwdr.pem');
-  final certificateP12 = File('${Signer.directory.path}/cert.p12');
-
-  return Signer(wwdrPem: wwdrPem, certificateP12: certificateP12);
-}
 
 final ExamplePass = PasskitPass(
   description: 'Some description',

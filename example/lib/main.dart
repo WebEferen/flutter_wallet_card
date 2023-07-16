@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_wallet_card/core/passkit.dart';
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
-import 'package:flutter_wallet_card_example/pass.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -26,7 +30,7 @@ class _MyAppState extends State<MyApp> {
               Text('Apple wallet cards example (using links)'),
               CupertinoButton.filled(
                   onPressed: () {
-                    _generateWalletPass();
+                    _generateWalletPassFromPath();
                   },
                   child: Text('Add apple pass'))
             ],
@@ -36,21 +40,16 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  _generateWalletPass() async {
-    final generated = await FlutterWalletCard.generatePass(
-      id: 'example-pass',
-      pass: ExamplePass,
-      override: true,
-      deleteAfterwards: false,
-    );
+  _generateWalletPassFromPath() async {
+    final directory = await getTemporaryDirectory();
+    final file = File('${directory.path}/example.pkpass');
 
-    final certificates = await Future.wait([
-      ExampleSigner.generateKey(),
-      ExampleSigner.generateCertificate(),
-      ExampleSigner.generateSignature(manifest: generated.manifestFile),
-    ]);
+    final examplePass = await rootBundle.load('passes/example.pkpass');
+    final written = await file.writeAsBytes(examplePass.buffer.asUint8List());
 
-    await FlutterWalletCard.addPasskit(generated.passkitFile);
-    await Future.wait(certificates.map((future) => future.delete()));
+    final passkit = await Passkit().saveFromPath(id: 'example', file: written);
+    await FlutterWalletCard.addPasskit(passkit);
+
+    await file.delete();
   }
 }

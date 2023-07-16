@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
@@ -17,10 +19,9 @@ class FlutterWalletCard {
   static Future<PasskitGenerated> generatePass({
     required String id,
     required PasskitPass pass,
-    String passesDirectory = 'passes',
+    required PasskitImage iconImage,
     PasskitImage? backgroundImage,
     PasskitImage? footerImage,
-    PasskitImage? iconImage,
     PasskitImage? logoImage,
     PasskitImage? stripImage,
     PasskitImage? thumbnailImage,
@@ -28,31 +29,14 @@ class FlutterWalletCard {
     bool override = false,
   }) async {
     final fs = Fs();
-    final directory = await fs.createDirectory(name: passesDirectory);
-    final creators = Creators(directory: directory);
+    final directory = await fs.createDirectory(name: 'passes');
+    final pkpass = File('${directory.path}/$id.pkpass');
 
-    final passFile = await creators.createPass(pass);
-    final manifestFile = await creators.createManifest({
-      'pass.json': passFile.readAsBytesSync(),
-    });
-
-    final passkitFile = await Passkit().generate(
+    return Passkit().generate(
       id: id,
+      directory: directory,
       passkitPass: pass,
-      directory: directory,
-      backgroundImage: backgroundImage,
-      footerImage: footerImage,
-      iconImage: iconImage,
-      logoImage: logoImage,
-      stripImage: stripImage,
-      thumbnailImage: thumbnailImage,
-    );
-
-    return PasskitGenerated(
-      directory: directory,
-      passkitFile: passkitFile,
-      manifestFile: manifestFile,
-      passFile: passFile,
+      pkpass: pkpass,
     );
   }
 
