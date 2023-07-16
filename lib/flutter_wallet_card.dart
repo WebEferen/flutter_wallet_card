@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:flutter_wallet_card/core/creators.dart';
 import 'package:flutter_wallet_card/core/fs.dart';
 import 'package:flutter_wallet_card/core/passkit.dart';
 import 'package:flutter_wallet_card/models/PasskitGenerated.dart';
