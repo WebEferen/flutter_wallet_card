@@ -27,7 +27,7 @@ void generateWalletPassFromPath() async {
 }
 
 final exampleUrl =
-    'https://github.com/WebEferen/flutter_wallet_card/raw/v3/example/passes/example.pkpass';
+    'https://github.com/WebEferen/flutter_wallet_card/raw/master/example/passes/example.pkpass';
 
 final examplePass = PasskitPass(
   description: 'Some description',
