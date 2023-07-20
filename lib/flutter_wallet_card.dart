@@ -17,6 +17,8 @@ class FlutterWalletCard {
   static Future<PasskitGenerated> generatePass({
     required String id,
     required PasskitPass pass,
+    required File signature,
+    required File manifest,
     required PasskitImage iconImage,
     PasskitImage? backgroundImage,
     PasskitImage? footerImage,
@@ -34,8 +36,17 @@ class FlutterWalletCard {
       id: id,
       directory: directory,
       passkitPass: pass,
+      manifest: manifest,
+      signature: signature,
       pkpass: pkpass,
     );
+  }
+
+  static Future<PasskitFile> generateFromFile({
+    required String id,
+    required File file,
+  }) async {
+    return Passkit().saveFromPath(id: id, file: file);
   }
 
   static Future<PasskitFile> generateFromUri({

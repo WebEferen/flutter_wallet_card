@@ -26,6 +26,8 @@ class Passkit {
     required final Directory directory,
     required final PasskitPass passkitPass,
     required final File pkpass,
+    required final File signature,
+    required final File manifest,
     PasskitImage? backgroundImage,
     PasskitImage? footerImage,
     PasskitImage? iconImage,
@@ -38,7 +40,6 @@ class Passkit {
     final directory = await fs.createDirectory(name: 'passes');
     final childDirectory = Directory('${directory.path}/$id');
     final creators = Creators(directory: childDirectory);
-    final pkpass = File('${directory.path}/$id.pkpass');
 
     await Future.wait([
       if (iconImage != null) creators.copyImage(iconImage, name: 'icon'),
@@ -51,11 +52,22 @@ class Passkit {
         creators.copyImage(backgroundImage, name: 'background'),
     ]);
 
-    final pkpassFile = await creators.preparePkpass(id);
-    final passFile = await creators.createPass(passkitPass);
-    final manifestFile = await creators.createManifest({
-      'pass.json': passFile.readAsBytesSync(),
-    });
+    final creatorFutures = await Future.wait([
+      creators.preparePkpass(id),
+      creators.createPass(passkitPass),
+    ]);
+
+    final manifestPath = '${childDirectory.path}/manifest.json';
+    final manifestBytes = manifest.readAsBytesSync();
+    final manifestFile = File(manifestPath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(manifestBytes);
+
+    final signaturePath = '${childDirectory.path}/signature';
+    final signatureBytes = signature.readAsBytesSync();
+    final signatureFile = File(signaturePath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(signatureBytes);
 
     final passkitFile = PasskitFile(
       id: id,
@@ -70,13 +82,14 @@ class Passkit {
       thumbnail: thumbnailImage,
     );
 
-    fs.pack(directory: childDirectory, filename: pkpassFile.path);
+    fs.pack(directory: childDirectory, filename: creatorFutures[0].path);
 
     return PasskitGenerated(
       directory: childDirectory,
       passkitFile: passkitFile,
       manifestFile: manifestFile,
-      passFile: passFile,
+      signatureFile: signatureFile,
+      passFile: creatorFutures[1],
     );
   }
 

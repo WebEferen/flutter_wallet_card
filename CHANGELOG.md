@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.2
+
+- Small tweaks to the passkit file (enabled custom signature/manifest file as an input to the custom generator)
+- README adjustments
+
 ## 3.0.1
 
 - Small patch fixes (package for pub.dev)
