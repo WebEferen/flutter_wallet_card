@@ -77,17 +77,19 @@ void main() {
         final creatorsPath = Directory('${passesDirectory.path}');
         final creators = Creators(directory: creatorsPath);
 
-        final signatureFile = await creators.createEmptySignature();
-        final manifestFile = await creators.createManifest({
-          'pass.json': pass.readAsBytesSync(),
-        });
+        final creatorFutures = await Future.wait([
+          creators.createEmptySignature(),
+          creators.createManifest({
+            'pass.json': pass.readAsBytesSync(),
+          })
+        ]);
 
         final generated = await passkit.generate(
           id: 'testowo',
           pkpass: pkpass,
           directory: outputDirectory,
-          signature: signatureFile,
-          manifest: manifestFile,
+          signature: creatorFutures[0],
+          manifest: creatorFutures[1],
           passkitPass: PasskitPass.fromJson(
             jsonDecode(pass.readAsStringSync()),
           ),
