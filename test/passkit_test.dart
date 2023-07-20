@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_wallet_card/core/creators.dart';
 import 'package:flutter_wallet_card/core/passkit.dart';
 import 'package:flutter_wallet_card/models/PasskitPass.dart';
 
@@ -71,12 +72,22 @@ void main() {
         final passesDirectory = Directory('passes');
         final passkit = Passkit(directoryName: outputDirectory.path);
         final pass = File('${exampleDirectory.path}/pass.json');
-        final pkpass = File('${outputDirectory.path}/testowo.pkpass');
+        final pkpass = File('${passesDirectory.path}/testowo.pkpass');
+
+        final creatorsPath = Directory('${passesDirectory.path}');
+        final creators = Creators(directory: creatorsPath);
+
+        final signatureFile = await creators.createEmptySignature();
+        final manifestFile = await creators.createManifest({
+          'pass.json': pass.readAsBytesSync(),
+        });
 
         final generated = await passkit.generate(
           id: 'testowo',
           pkpass: pkpass,
           directory: outputDirectory,
+          signature: signatureFile,
+          manifest: manifestFile,
           passkitPass: PasskitPass.fromJson(
             jsonDecode(pass.readAsStringSync()),
           ),
@@ -85,6 +96,8 @@ void main() {
         expect(generated.passFile.existsSync(), true);
         expect(generated.passkitFile.file.existsSync(), true);
         expect(passesDirectory.existsSync(), true);
+
+        passesDirectory.deleteSync(recursive: true);
       });
     });
   });

@@ -26,6 +26,10 @@ class Creators {
     return _saveFile('manifest.json', encodedString);
   }
 
+  Future<File> createEmptySignature() async {
+    return _saveFile('signature', '');
+  }
+
   Future<File> preparePkpass(String id) async {
     final file = File('${directory!.parent.path}/$id.pkpass');
     return file;
