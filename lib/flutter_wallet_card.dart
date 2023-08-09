@@ -89,8 +89,6 @@ class FlutterWalletCard {
       'path': passkit.file.path,
     });
 
-    print(result);
-
     return (result != null && result);
   }
 
