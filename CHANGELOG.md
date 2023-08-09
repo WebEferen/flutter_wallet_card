@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.3
+
+- Small fixes
+- Removed .idea directory
+
 ## 3.0.2
 
 - Small tweaks to the passkit file (enabled custom signature/manifest file as an input to the custom generator)
