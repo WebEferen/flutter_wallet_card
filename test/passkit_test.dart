@@ -70,7 +70,7 @@ void main() {
         });
 
         final passesDirectory = Directory('passes');
-        final passkit = Passkit(directoryName: outputDirectory.path);
+        final passkit = Passkit(directoryName: passesDirectory.path);
         final pass = File('${exampleDirectory.path}/pass.json');
         final pkpass = File('${passesDirectory.path}/testowo.pkpass');
 

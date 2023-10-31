@@ -91,8 +91,4 @@ class FlutterWalletCard {
 
     return (result != null && result);
   }
-
-  static Future<void> purgePasses() async {
-    await Passkit().purgePasses();
-  }
 }

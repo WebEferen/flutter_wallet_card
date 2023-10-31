@@ -16,11 +16,6 @@ class Passkit {
 
   Passkit({this.directoryName = 'passes'});
 
-  Future<void> purgePasses() async {
-    final root = await fs.createDirectory(name: directoryName);
-    root.deleteSync(recursive: true);
-  }
-
   Future<PasskitGenerated> generate({
     required final String id,
     required final Directory directory,
@@ -37,7 +32,7 @@ class Passkit {
     bool override = false,
   }) async {
     final fs = Fs();
-    final directory = await fs.createDirectory(name: 'passes');
+    final directory = await fs.createDirectory(name: directoryName);
     final childDirectory = Directory('${directory.path}/$id');
     final creators = Creators(directory: childDirectory);
 
