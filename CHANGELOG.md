@@ -3,6 +3,7 @@
 ## 3.0.4
 
 - Fixed bug with Parser directoryName property not being respected
+- Removed unused purgePasses method
 
 ## 3.0.3
 
