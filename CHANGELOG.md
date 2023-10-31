@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.4
+
+- Fixed bug with Parser directoryName property not being respected
+
 ## 3.0.3
 
 - Small fixes
