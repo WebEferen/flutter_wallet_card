@@ -79,6 +79,21 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
             } else {
                 result(false)
             }
+        case "viewWalletCardInWallet":
+            /// get the serial number of the pass from the arguments and the
+            guard let arguments = call.arguments as? [String : Any] else {return}
+            let serialNumber = arguments["serialNumber"] as! String;
+            /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
+            let pass = PKPassLibrary().passes().first(where: { $0.serialNumber == serialNumber })
+        
+            /// check if the pass exists
+            if let passURL = pass?.passURL {
+                UIApplication.shared.open(passURL) { success in
+                    result(success)
+                }
+            } else {
+                result(false)
+            }
         default:
             result(FlutterMethodNotImplemented);
         break;

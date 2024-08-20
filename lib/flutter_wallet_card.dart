@@ -91,4 +91,12 @@ class FlutterWalletCard {
 
     return (result != null && result);
   }
+
+  static Future<bool> viewPassInWallet(String serialNumber) async {
+    final result = await _channel.invokeMethod('viewWalletCardInWallet', {
+      'serialNumber': serialNumber,
+    });
+
+    return (result);
+  }
 }
