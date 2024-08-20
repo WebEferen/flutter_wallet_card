@@ -73,13 +73,10 @@ class FlutterWalletCard {
   }
 
   static Future<bool> isExisting(
-    String passTypeIdentifier,
     String serialNumber,
   ) async {
-    dynamic result = await _channel.invokeMethod('isWalletCardAdded', {
-      'passTypeIdentifier': passTypeIdentifier,
-      'serialNumber': serialNumber
-    });
+    dynamic result = await _channel
+        .invokeMethod('isWalletCardAdded', {'serialNumber': serialNumber});
 
     return (result != null && result) ? true : false;
   }
