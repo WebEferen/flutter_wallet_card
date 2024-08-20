@@ -4,6 +4,8 @@ import UIKit
 
 public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
   let viewController: UIViewController
+  var addPassesFlutterResult: FlutterResult?
+  var initialPassCount: Int?
     
   init(controller: UIViewController) {
     self.viewController = controller
@@ -31,9 +33,11 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                 do {
                     let pass = try PKPass.init(data: pkFile as Data)
                     let vc = PKAddPassesViewController(pass: pass)
+                    vc?.delegate = self
+                    addPassesFlutterResult = result
+                    initialPassCount = PKPassLibrary().passes().count
                     self.viewController.show(vc.unsafelyUnwrapped, sender: self)
                     
-                    result(true)
                 }
                 catch {
                     result(false)
@@ -80,4 +84,14 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
         break;
     }
   }
+}
+
+extension SwiftFlutterWalletCardPlugin: PKAddPassesViewControllerDelegate {
+    public func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
+        if  let initialPassCount = initialPassCount, let addPassesFlutterResult = addPassesFlutterResult {
+            let newPassCount = PKPassLibrary().passes().count
+            controller.dismiss(animated: true, completion: nil)
+            addPassesFlutterResult(newPassCount > initialPassCount)
+        }
+    }
 }
