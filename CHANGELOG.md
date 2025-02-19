@@ -1,11 +1,14 @@
 # Changelog
 
-## 3.1.0
+## 3.2.0
 
-- Updated dependencies
 - Added support for pass generation
 - Added `NFC` entry type for `PasskitPass`
 - Added `sharingProhibited` option to `PasskitPass`
+
+## 3.1.0
+
+- Updated dependencies
 
 ## 3.0.4
 
