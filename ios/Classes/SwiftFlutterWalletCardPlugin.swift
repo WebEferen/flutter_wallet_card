@@ -4,6 +4,8 @@ import UIKit
 
 public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
   let viewController: UIViewController
+  var addPassesFlutterResult: FlutterResult?
+  var initialPassCount: Int?
     
   init(controller: UIViewController) {
     self.viewController = controller
@@ -31,9 +33,11 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                 do {
                     let pass = try PKPass.init(data: pkFile as Data)
                     let vc = PKAddPassesViewController(pass: pass)
+                    vc?.delegate = self
+                    addPassesFlutterResult = result
+                    initialPassCount = PKPassLibrary().passes().count
                     self.viewController.show(vc.unsafelyUnwrapped, sender: self)
                     
-                    result(true)
                 }
                 catch {
                     result(false)
@@ -75,9 +79,34 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
             } else {
                 result(false)
             }
+        case "viewWalletCardInWallet":
+            /// get the serial number of the pass from the arguments and the
+            guard let arguments = call.arguments as? [String : Any] else {return}
+            let serialNumber = arguments["serialNumber"] as! String;
+            /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
+            let pass = PKPassLibrary().passes().first(where: { $0.serialNumber == serialNumber })
+        
+            /// check if the pass exists
+            if let passURL = pass?.passURL {
+                UIApplication.shared.open(passURL) { success in
+                    result(success)
+                }
+            } else {
+                result(false)
+            }
         default:
             result(FlutterMethodNotImplemented);
         break;
     }
   }
+}
+
+extension SwiftFlutterWalletCardPlugin: PKAddPassesViewControllerDelegate {
+    public func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
+        if  let initialPassCount = initialPassCount, let addPassesFlutterResult = addPassesFlutterResult {
+            let newPassCount = PKPassLibrary().passes().count
+            controller.dismiss(animated: true, completion: nil)
+            addPassesFlutterResult(newPassCount > initialPassCount)
+        }
+    }
 }

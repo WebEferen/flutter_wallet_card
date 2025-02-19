@@ -59,11 +59,22 @@ final passkitFile = passkitGenerated.passkitFile;
 
 ### Save it into wallet
 
-Once the `passkitFile` will be generated, use this command to add it into Apple Wallet. This command will return status whether operation succeeded or not.
+Once the `passkitFile` will be generated, use this command to add it into Apple Wallet. This command will return if the pass was added or not.
 
 ```dart
-/// It accepts [PasskitFile] class instance and returns [bool] 
+/// It accepts [PasskitFile] class instance and returns [bool]
 final completed = await FlutterWalletCard.addPasskit(passkitFile);
+```
+
+### View in wallet
+
+Once the `passkitFile` will be generated, use this command to view it in the Apple Wallet. This command will return status whether operation succeeded or not.
+
+```dart
+/// It accepts [String] class instance and returns [bool]
+final completed = await FlutterWalletCard.viewPassInWalletv('<serial-number>');
+
+
 ```
 
 ## Contribute
