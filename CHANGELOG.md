@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.1.0
+
+- Updated dependencies
+- Added support for pass generation
+- Added `NFC` entry type for `PasskitPass`
+- Added `sharingProhibited` option to `PasskitPass`
+
 ## 3.0.4
 
 - Fixed bug with Parser directoryName property not being respected
