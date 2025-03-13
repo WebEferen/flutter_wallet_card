@@ -25,10 +25,10 @@ class PasskitField extends Equatable {
 
   factory PasskitField.fromJson(Map<String, dynamic> json) {
     return PasskitField(
-      key: json['key'],
-      value: json['value'],
-      label: json['label'],
-      changeMessage: json['changeMessage'],
+      key: json['key']?.toString() ?? '',
+      value: json['value']?.toString() ?? '',
+      label: json['label']?.toString(),
+      changeMessage: json['changeMessage']?.toString(),
     );
   }
 
