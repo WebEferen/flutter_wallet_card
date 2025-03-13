@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.0
+
+- Fixed bug with `PasskitField` model (thanks to [@timmaffett](https://github.com/WebEferen/flutter_wallet_card/issues/15))
+
 ## 3.2.0
 
 - Added support for pass generation
