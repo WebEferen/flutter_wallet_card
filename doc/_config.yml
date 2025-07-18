@@ -22,7 +22,7 @@ header_pages:
   - migration.md
 
 # Social links
-github_username: WebEferen
+github_username: webeferen
 
 # Build settings
 markdown: kramdown

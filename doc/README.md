@@ -145,8 +145,8 @@ When updating documentation:
 - [PassKit Documentation](https://developer.apple.com/documentation/passkit)
 
 ### Development Tools
-- [GitHub Repository](https://github.com/WebEferen/flutter_wallet_card)
-- [Issue Tracker](https://github.com/WebEferen/flutter_wallet_card/issues)
+- [GitHub Repository](https://github.com/webeferen/flutter_wallet_card)
+- [Issue Tracker](https://github.com/webeferen/flutter_wallet_card/issues)
 - [Pub.dev Package](https://pub.dev/packages/flutter_wallet_card)
 
 ## 🆘 Getting Help
@@ -154,7 +154,7 @@ When updating documentation:
 ### Documentation Issues
 If you find errors or have suggestions for improving the documentation:
 
-1. Check existing [GitHub Issues](https://github.com/WebEferen/flutter_wallet_card/issues)
+1. Check existing [GitHub Issues](https://github.com/webeferen/flutter_wallet_card/issues)
 2. Create a new issue with the "documentation" label
 3. Provide specific details about the problem or suggestion
 

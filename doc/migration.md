@@ -582,7 +582,7 @@ If you encounter issues during migration:
 
 1. Check the [API Reference](api-reference.html) for detailed method documentation
 2. Review the [Examples](examples.html) for common use cases
-3. Search [GitHub Issues](https://github.com/WebEferen/flutter_wallet_card/issues) for similar problems
+3. Search [GitHub Issues](https://github.com/webeferen/flutter_wallet_card/issues) for similar problems
 4. Create a new issue if you find a bug or need help
 
 The v4.0 API is designed to be more consistent and easier to use across platforms. While migration requires some effort, the unified API will make your code simpler and more maintainable in the long run.

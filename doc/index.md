@@ -7,8 +7,8 @@ description: A unified Flutter plugin for adding cards to Apple Wallet and Googl
 # Flutter Wallet Card
 
 [![pub package](https://img.shields.io/pub/v/flutter_wallet_card.svg)](https://pub.dev/packages/flutter_wallet_card)
-[![GitHub](https://img.shields.io/github/license/WebEferen/flutter_wallet_card)](https://github.com/WebEferen/flutter_wallet_card/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/WebEferen/flutter_wallet_card)](https://github.com/WebEferen/flutter_wallet_card/stargazers)
+[![GitHub](https://img.shields.io/github/license/webeferen/flutter_wallet_card)](https://github.com/webeferen/flutter_wallet_card/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/webeferen/flutter_wallet_card)](https://github.com/webeferen/flutter_wallet_card/stargazers)
 
 A unified Flutter plugin that provides a consistent API for adding cards to both Apple Wallet (iOS) and Google Wallet (Android). This plugin simplifies wallet integration by offering a single interface for both platforms.
 
@@ -71,11 +71,11 @@ if (isAvailable) {
 
 ## 📖 Documentation
 
-- [Getting Started](getting-started.html)
-- [API Reference](api-reference.html)
-- [Platform Setup](platform-setup.html)
-- [Examples](examples.html)
-- [Migration Guide](migration.html)
+- [Getting Started](getting-started.md)
+- [API Reference](api-reference.md)
+- [Platform Setup](platform-setup.md)
+- [Examples](examples.md)
+- [Migration Guide](migration.md)
 
 ## 🛠️ Platform Setup
 
@@ -118,14 +118,14 @@ await FlutterWalletCard.addToWallet(walletCard);
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](https://github.com/WebEferen/flutter_wallet_card/blob/main/CONTRIBUTING.md) for details.
+Contributions are welcome! Please read our [Contributing Guide](https://github.com/webeferen/flutter_wallet_card/blob/main/CONTRIBUTING.md) for details.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/WebEferen/flutter_wallet_card/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/webeferen/flutter_wallet_card/blob/main/LICENSE) file for details.
 
 ## 🆘 Support
 
-- [GitHub Issues](https://github.com/WebEferen/flutter_wallet_card/issues)
-- [Discussions](https://github.com/WebEferen/flutter_wallet_card/discussions)
+- [GitHub Issues](https://github.com/webeferen/flutter_wallet_card/issues)
+- [Discussions](https://github.com/webeferen/flutter_wallet_card/discussions)
 - [Documentation](https://webeferen.github.io/flutter_wallet_card/)

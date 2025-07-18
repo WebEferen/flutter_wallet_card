@@ -319,7 +319,7 @@ class WalletConfig {
 
 ### Getting Help
 
-- [GitHub Issues](https://github.com/WebEferen/flutter_wallet_card/issues)
+- [GitHub Issues](https://github.com/webeferen/flutter_wallet_card/issues)
 - [Apple Developer Documentation](https://developer.apple.com/documentation/walletpasses)
 - [Google Wallet API Documentation](https://developers.google.com/wallet)
 - [Flutter Community](https://flutter.dev/community)
