@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Examples | Flutter Wallet Card</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Examples" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<meta property="og:description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<link rel="canonical" href="https://webeferen.github.io/flutter_wallet_card/examples.html" />
+<meta property="og:url" content="https://webeferen.github.io/flutter_wallet_card/examples.html" />
+<meta property="og:site_name" content="Flutter Wallet Card" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Examples" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet","headline":"Examples","url":"https://webeferen.github.io/flutter_wallet_card/examples.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/flutter_wallet_card/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://webeferen.github.io/flutter_wallet_card/feed.xml" title="Flutter Wallet Card" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/flutter_wallet_card/">Flutter Wallet Card</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/flutter_wallet_card/getting-started.html">Getting Started</a><a class="page-link" href="/flutter_wallet_card/api-reference.html">API Reference</a><a class="page-link" href="/flutter_wallet_card/platform-setup.html">Platform Setup</a><a class="page-link" href="/flutter_wallet_card/examples.html">Examples</a><a class="page-link" href="/flutter_wallet_card/migration.html">Migration Guide</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h1 id="examples">Examples</h1>
+
+<p>Practical examples of using Flutter Wallet Card in different scenarios.</p>
+
+<h2 id="basic-examples">Basic Examples</h2>
+
+<h3 id="simple-store-card">Simple Store Card</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'package:flutter_wallet_card/flutter_wallet_card.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/models/wallet_card.dart'</span><span class="o">;</span>
+
+<span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">createStoreCard</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'store-loyalty-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.store'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+      <span class="nl">description:</span> <span class="s">'Earn points with every purchase'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Example Store'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'12345'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+      <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF4CAF50</span><span class="p">),</span>
+      <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+      <span class="nl">logoText:</span> <span class="s">'Example Store'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Store card added successfully!'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Failed to add store card: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="event-ticket">Event Ticket</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">createEventTicket</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'concert-ticket-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">eventTicket</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.events'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'Rock Concert'</span><span class="p">,</span>
+      <span class="nl">subtitle:</span> <span class="s">'The Amazing Band'</span><span class="p">,</span>
+      <span class="nl">description:</span> <span class="s">'VIP Access - Front Row'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Concert Venue'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'TKT-VIP-001'</span><span class="p">,</span>
+      <span class="nl">relevantDate:</span> <span class="n">DateTime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="c1">// Concert date</span>
+      <span class="nl">locations:</span> <span class="p">[</span>
+        <span class="n">WalletCardLocation</span><span class="p">(</span>
+          <span class="nl">latitude:</span> <span class="mf">37.7749</span><span class="p">,</span>
+          <span class="nl">longitude:</span> <span class="o">-</span><span class="mf">122.4194</span><span class="p">,</span>
+          <span class="nl">relevantText:</span> <span class="s">'Madison Square Garden'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">],</span>
+      <span class="nl">customFields:</span> <span class="p">{</span>
+        <span class="s">'seat'</span><span class="o">:</span> <span class="s">'A1'</span><span class="p">,</span>
+        <span class="s">'section'</span><span class="o">:</span> <span class="s">'VIP'</span><span class="p">,</span>
+        <span class="s">'gate'</span><span class="o">:</span> <span class="s">'B'</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">),</span>
+    <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+      <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF9C27B0</span><span class="p">),</span>
+      <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+      <span class="nl">logoText:</span> <span class="s">'CONCERT'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="boarding-pass">Boarding Pass</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">createBoardingPass</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'flight-bp-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">boardingPass</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.airline'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'Flight AA123'</span><span class="p">,</span>
+      <span class="nl">subtitle:</span> <span class="s">'New York → Los Angeles'</span><span class="p">,</span>
+      <span class="nl">description:</span> <span class="s">'Economy Class'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Example Airlines'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'BP-AA123-001'</span><span class="p">,</span>
+      <span class="nl">relevantDate:</span> <span class="n">DateTime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="c1">// Departure time</span>
+      <span class="nl">locations:</span> <span class="p">[</span>
+        <span class="n">WalletCardLocation</span><span class="p">(</span>
+          <span class="nl">latitude:</span> <span class="mf">40.6413</span><span class="p">,</span>
+          <span class="nl">longitude:</span> <span class="o">-</span><span class="mf">73.7781</span><span class="p">,</span>
+          <span class="nl">relevantText:</span> <span class="s">'JFK Airport - Terminal 4'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">],</span>
+      <span class="nl">customFields:</span> <span class="p">{</span>
+        <span class="s">'passenger'</span><span class="o">:</span> <span class="s">'John Doe'</span><span class="p">,</span>
+        <span class="s">'seat'</span><span class="o">:</span> <span class="s">'12A'</span><span class="p">,</span>
+        <span class="s">'gate'</span><span class="o">:</span> <span class="s">'B7'</span><span class="p">,</span>
+        <span class="s">'boarding'</span><span class="o">:</span> <span class="s">'Group 2'</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">),</span>
+    <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+      <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF2196F3</span><span class="p">),</span>
+      <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+      <span class="nl">logoText:</span> <span class="s">'AIRLINE'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="advanced-examples">Advanced Examples</h2>
+
+<h3 id="dynamic-card-with-user-data">Dynamic Card with User Data</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">UserCard</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="kt">String</span> <span class="n">userId</span><span class="p">;</span>
+  <span class="kd">final</span> <span class="kt">String</span> <span class="n">userName</span><span class="p">;</span>
+  <span class="kd">final</span> <span class="kt">int</span> <span class="n">loyaltyPoints</span><span class="p">;</span>
+  <span class="kd">final</span> <span class="kt">String</span> <span class="n">membershipLevel</span><span class="p">;</span>
+
+  <span class="n">UserCard</span><span class="p">({</span>
+    <span class="kd">required</span> <span class="k">this</span><span class="o">.</span><span class="na">userId</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="k">this</span><span class="o">.</span><span class="na">userName</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="k">this</span><span class="o">.</span><span class="na">loyaltyPoints</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="k">this</span><span class="o">.</span><span class="na">membershipLevel</span><span class="p">,</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">createDynamicLoyaltyCard</span><span class="p">(</span><span class="n">UserCard</span> <span class="n">user</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="c1">// Determine card color based on membership level</span>
+  <span class="n">Color</span> <span class="n">cardColor</span><span class="p">;</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="na">membershipLevel</span><span class="o">.</span><span class="na">toLowerCase</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s">'gold'</span><span class="o">:</span>
+      <span class="n">cardColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFD700</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">'silver'</span><span class="o">:</span>
+      <span class="n">cardColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFC0C0C0</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">'platinum'</span><span class="o">:</span>
+      <span class="n">cardColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFE5E4E2</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span>
+      <span class="n">cardColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF4CAF50</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'loyalty-</span><span class="si">${user.userId}</span><span class="s">'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.loyalty'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'</span><span class="si">${user.membershipLevel}</span><span class="s"> Member'</span><span class="p">,</span>
+      <span class="nl">subtitle:</span> <span class="n">user</span><span class="o">.</span><span class="na">userName</span><span class="p">,</span>
+      <span class="nl">description:</span> <span class="s">'</span><span class="si">${user.loyaltyPoints}</span><span class="s"> points available'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Premium Store'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="n">user</span><span class="o">.</span><span class="na">userId</span><span class="p">,</span>
+      <span class="nl">customFields:</span> <span class="p">{</span>
+        <span class="s">'member_name'</span><span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">userName</span><span class="p">,</span>
+        <span class="s">'points'</span><span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">loyaltyPoints</span><span class="o">.</span><span class="na">toString</span><span class="p">(),</span>
+        <span class="s">'level'</span><span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">membershipLevel</span><span class="p">,</span>
+        <span class="s">'member_since'</span><span class="o">:</span> <span class="s">'2023'</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">),</span>
+    <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+      <span class="nl">backgroundColor:</span> <span class="n">cardColor</span><span class="p">,</span>
+      <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF000000</span><span class="p">),</span>
+      <span class="nl">logoText:</span> <span class="s">'PREMIUM'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="kd">final</span> <span class="n">user</span> <span class="o">=</span> <span class="n">UserCard</span><span class="p">(</span>
+  <span class="nl">userId:</span> <span class="s">'USER123'</span><span class="p">,</span>
+  <span class="nl">userName:</span> <span class="s">'John Doe'</span><span class="p">,</span>
+  <span class="nl">loyaltyPoints:</span> <span class="mi">2500</span><span class="p">,</span>
+  <span class="nl">membershipLevel:</span> <span class="s">'Gold'</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="k">await</span> <span class="nf">createDynamicLoyaltyCard</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="card-with-expiration-and-location">Card with Expiration and Location</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">createCouponCard</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">expirationDate</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">.</span><span class="na">now</span><span class="p">()</span><span class="o">.</span><span class="na">add</span><span class="p">(</span><span class="n">Duration</span><span class="p">(</span><span class="nl">days:</span> <span class="mi">30</span><span class="p">));</span>
+  
+  <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'coupon-summer-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">coupon</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.coupons'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'20% OFF'</span><span class="p">,</span>
+      <span class="nl">subtitle:</span> <span class="s">'Summer Sale'</span><span class="p">,</span>
+      <span class="nl">description:</span> <span class="s">'Valid on all summer items'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Fashion Store'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'COUPON-SUMMER-001'</span><span class="p">,</span>
+      <span class="nl">expirationDate:</span> <span class="n">expirationDate</span><span class="p">,</span>
+      <span class="nl">locations:</span> <span class="p">[</span>
+        <span class="n">WalletCardLocation</span><span class="p">(</span>
+          <span class="nl">latitude:</span> <span class="mf">37.7749</span><span class="p">,</span>
+          <span class="nl">longitude:</span> <span class="o">-</span><span class="mf">122.4194</span><span class="p">,</span>
+          <span class="nl">relevantText:</span> <span class="s">'Downtown Store'</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">WalletCardLocation</span><span class="p">(</span>
+          <span class="nl">latitude:</span> <span class="mf">37.7849</span><span class="p">,</span>
+          <span class="nl">longitude:</span> <span class="o">-</span><span class="mf">122.4094</span><span class="p">,</span>
+          <span class="nl">relevantText:</span> <span class="s">'Mall Location'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">],</span>
+      <span class="nl">customFields:</span> <span class="p">{</span>
+        <span class="s">'discount'</span><span class="o">:</span> <span class="s">'20%'</span><span class="p">,</span>
+        <span class="s">'category'</span><span class="o">:</span> <span class="s">'Summer Items'</span><span class="p">,</span>
+        <span class="s">'min_purchase'</span><span class="o">:</span> <span class="s">'</span><span class="err">\$</span><span class="s">50'</span><span class="p">,</span>
+        <span class="s">'code'</span><span class="o">:</span> <span class="s">'SUMMER20'</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">),</span>
+    <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+      <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFF9800</span><span class="p">),</span>
+      <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+      <span class="nl">logoText:</span> <span class="s">'SALE'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="multi-platform-card-factory">Multi-Platform Card Factory</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">WalletCardFactory</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="n">WalletCard</span> <span class="n">createLoyaltyCard</span><span class="p">({</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">userId</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">userName</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">int</span> <span class="n">points</span><span class="p">,</span>
+  <span class="p">})</span> <span class="p">{</span>
+    <span class="c1">// Platform-specific configuration</span>
+    <span class="kt">Map</span><span class="p">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kd">dynamic</span><span class="p">&gt;</span> <span class="n">platformData</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.loyalty'</span><span class="p">,</span>
+        <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+        <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'example_issuer_id'</span><span class="p">,</span>
+        <span class="s">'classId'</span><span class="o">:</span> <span class="s">'loyalty_class_id'</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="n">UnsupportedError</span><span class="p">(</span><span class="s">'Platform not supported'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">WalletCard</span><span class="p">(</span>
+      <span class="nl">id:</span> <span class="s">'loyalty-</span><span class="si">$userId</span><span class="s">'</span><span class="p">,</span>
+      <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+      <span class="nl">platformData:</span> <span class="n">platformData</span><span class="p">,</span>
+      <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+        <span class="nl">title:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+        <span class="nl">subtitle:</span> <span class="n">userName</span><span class="p">,</span>
+        <span class="nl">description:</span> <span class="s">'</span><span class="si">$points</span><span class="s"> points available'</span><span class="p">,</span>
+        <span class="nl">organizationName:</span> <span class="s">'Universal Store'</span><span class="p">,</span>
+        <span class="nl">serialNumber:</span> <span class="n">userId</span><span class="p">,</span>
+        <span class="nl">customFields:</span> <span class="p">{</span>
+          <span class="s">'points'</span><span class="o">:</span> <span class="n">points</span><span class="o">.</span><span class="na">toString</span><span class="p">(),</span>
+          <span class="s">'member_name'</span><span class="o">:</span> <span class="n">userName</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">),</span>
+      <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+        <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF673AB7</span><span class="p">),</span>
+        <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+        <span class="nl">logoText:</span> <span class="s">'LOYALTY'</span><span class="p">,</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">static</span> <span class="n">WalletCard</span> <span class="n">createEventTicket</span><span class="p">({</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">eventId</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">eventName</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">venue</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="n">DateTime</span> <span class="n">eventDate</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">seatInfo</span><span class="p">,</span>
+  <span class="p">})</span> <span class="p">{</span>
+    <span class="kt">Map</span><span class="p">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kd">dynamic</span><span class="p">&gt;</span> <span class="n">platformData</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.events'</span><span class="p">,</span>
+        <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+        <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'example_issuer_id'</span><span class="p">,</span>
+        <span class="s">'classId'</span><span class="o">:</span> <span class="s">'event_class_id'</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">WalletCard</span><span class="p">(</span>
+      <span class="nl">id:</span> <span class="s">'event-</span><span class="si">$eventId</span><span class="s">'</span><span class="p">,</span>
+      <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">eventTicket</span><span class="p">,</span>
+      <span class="nl">platformData:</span> <span class="n">platformData</span><span class="p">,</span>
+      <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+        <span class="nl">title:</span> <span class="n">eventName</span><span class="p">,</span>
+        <span class="nl">subtitle:</span> <span class="n">venue</span><span class="p">,</span>
+        <span class="nl">description:</span> <span class="s">'Seat: </span><span class="si">$seatInfo</span><span class="s">'</span><span class="p">,</span>
+        <span class="nl">organizationName:</span> <span class="s">'Event Organizer'</span><span class="p">,</span>
+        <span class="nl">serialNumber:</span> <span class="n">eventId</span><span class="p">,</span>
+        <span class="nl">relevantDate:</span> <span class="n">eventDate</span><span class="p">,</span>
+        <span class="nl">customFields:</span> <span class="p">{</span>
+          <span class="s">'seat'</span><span class="o">:</span> <span class="n">seatInfo</span><span class="p">,</span>
+          <span class="s">'venue'</span><span class="o">:</span> <span class="n">venue</span><span class="p">,</span>
+          <span class="s">'event_date'</span><span class="o">:</span> <span class="n">eventDate</span><span class="o">.</span><span class="na">toIso8601String</span><span class="p">(),</span>
+        <span class="p">},</span>
+      <span class="p">),</span>
+      <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+        <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFE91E63</span><span class="p">),</span>
+        <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+        <span class="nl">logoText:</span> <span class="s">'EVENT'</span><span class="p">,</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="kd">final</span> <span class="n">loyaltyCard</span> <span class="o">=</span> <span class="n">WalletCardFactory</span><span class="o">.</span><span class="na">createLoyaltyCard</span><span class="p">(</span>
+  <span class="nl">userId:</span> <span class="s">'USER123'</span><span class="p">,</span>
+  <span class="nl">userName:</span> <span class="s">'Jane Doe'</span><span class="p">,</span>
+  <span class="nl">points:</span> <span class="mi">1500</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="kd">final</span> <span class="n">eventTicket</span> <span class="o">=</span> <span class="n">WalletCardFactory</span><span class="o">.</span><span class="na">createEventTicket</span><span class="p">(</span>
+  <span class="nl">eventId:</span> <span class="s">'EVT001'</span><span class="p">,</span>
+  <span class="nl">eventName:</span> <span class="s">'Jazz Festival'</span><span class="p">,</span>
+  <span class="nl">venue:</span> <span class="s">'Central Park'</span><span class="p">,</span>
+  <span class="nl">eventDate:</span> <span class="n">DateTime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+  <span class="nl">seatInfo:</span> <span class="s">'General Admission'</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">loyaltyCard</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">eventTicket</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="file-based-examples">File-Based Examples</h2>
+
+<h3 id="adding-card-from-file">Adding Card from File</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">addCardFromFile</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// For iOS (.pkpass file)</span>
+    <span class="kd">final</span> <span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="s">'assets/cards/loyalty_card.pkpass'</span><span class="p">);</span>
+    <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addFromFile</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Card added from file successfully!'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Failed to add card from file: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="adding-card-from-url">Adding Card from URL</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">addCardFromUrl</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="n">url</span> <span class="o">=</span> <span class="s">'https://example.com/cards/loyalty_card.pkpass'</span><span class="p">;</span>
+  
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addFromUrl</span><span class="p">(</span><span class="n">url</span><span class="p">);</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Card added from URL successfully!'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Failed to add card from URL: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="generating-card-file">Generating Card File</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">generateAndSaveCard</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'generated-card-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">generic</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.generic'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'Generated Card'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Example Org'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'001'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kd">final</span> <span class="n">file</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">generateCardFile</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Card file generated at: </span><span class="si">${file.path}</span><span class="s">'</span><span class="p">);</span>
+    
+    <span class="c1">// Optionally share the file</span>
+    <span class="c1">// await Share.shareFiles([file.path]);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Failed to generate card file: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="ui-integration-examples">UI Integration Examples</h2>
+
+<h3 id="complete-flutter-widget">Complete Flutter Widget</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">WalletCardWidget</span> <span class="kd">extends</span> <span class="n">StatefulWidget</span> <span class="p">{</span>
+  <span class="nd">@override</span>
+  <span class="n">_WalletCardWidgetState</span> <span class="n">createState</span><span class="p">()</span> <span class="o">=</span><span class="p">&gt;</span> <span class="n">_WalletCardWidgetState</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">_WalletCardWidgetState</span> <span class="kd">extends</span> <span class="n">State</span><span class="p">&lt;</span><span class="n">WalletCardWidget</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">_isWalletAvailable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">_isLoading</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="kt">String</span><span class="o">?</span> <span class="n">_cardId</span><span class="p">;</span>
+
+  <span class="nd">@override</span>
+  <span class="kt">void</span> <span class="n">initState</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="na">initState</span><span class="p">();</span>
+    <span class="n">_checkWalletAvailability</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">_checkWalletAvailability</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="kd">final</span> <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isWalletAvailable</span><span class="p">;</span>
+      <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+        <span class="n">_isWalletAvailable</span> <span class="o">=</span> <span class="n">isAvailable</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Error checking wallet availability: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">_addToWallet</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+    <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+      <span class="n">_isLoading</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="kd">final</span> <span class="n">cardId</span> <span class="o">=</span> <span class="s">'loyalty-</span><span class="si">${DateTime.now().millisecondsSinceEpoch}</span><span class="s">'</span><span class="p">;</span>
+      <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+        <span class="nl">id:</span> <span class="n">cardId</span><span class="p">,</span>
+        <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+        <span class="nl">platformData:</span> <span class="p">{</span>
+          <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.loyalty'</span><span class="p">,</span>
+          <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+          <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+          <span class="nl">title:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+          <span class="nl">description:</span> <span class="s">'Your store loyalty card'</span><span class="p">,</span>
+          <span class="nl">organizationName:</span> <span class="s">'Example Store'</span><span class="p">,</span>
+          <span class="nl">serialNumber:</span> <span class="n">cardId</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+          <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF4CAF50</span><span class="p">),</span>
+          <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+          <span class="nl">logoText:</span> <span class="s">'STORE'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">);</span>
+
+      <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+      
+      <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+        <span class="n">_cardId</span> <span class="o">=</span> <span class="n">cardId</span><span class="p">;</span>
+      <span class="p">});</span>
+      
+      <span class="n">ScaffoldMessenger</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">showSnackBar</span><span class="p">(</span>
+        <span class="n">SnackBar</span><span class="p">(</span><span class="nl">content:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Card added to wallet!'</span><span class="p">)),</span>
+      <span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">ScaffoldMessenger</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">showSnackBar</span><span class="p">(</span>
+        <span class="n">SnackBar</span><span class="p">(</span><span class="nl">content:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Failed to add card: </span><span class="si">$e</span><span class="s">'</span><span class="p">)),</span>
+      <span class="p">);</span>
+    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+      <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+        <span class="n">_isLoading</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">_viewInWallet</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_cardId</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">try</span> <span class="p">{</span>
+        <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">viewInWallet</span><span class="p">(</span><span class="n">_cardId</span><span class="o">!</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ScaffoldMessenger</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">showSnackBar</span><span class="p">(</span>
+          <span class="n">SnackBar</span><span class="p">(</span><span class="nl">content:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Failed to open wallet: </span><span class="si">$e</span><span class="s">'</span><span class="p">)),</span>
+        <span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nd">@override</span>
+  <span class="n">Widget</span> <span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Card</span><span class="p">(</span>
+      <span class="nl">margin:</span> <span class="n">EdgeInsets</span><span class="o">.</span><span class="na">all</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span>
+      <span class="nl">child:</span> <span class="n">Padding</span><span class="p">(</span>
+        <span class="nl">padding:</span> <span class="n">EdgeInsets</span><span class="o">.</span><span class="na">all</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span>
+        <span class="nl">child:</span> <span class="n">Column</span><span class="p">(</span>
+          <span class="nl">crossAxisAlignment:</span> <span class="n">CrossAxisAlignment</span><span class="o">.</span><span class="na">stretch</span><span class="p">,</span>
+          <span class="nl">children:</span> <span class="p">[</span>
+            <span class="n">Row</span><span class="p">(</span>
+              <span class="nl">children:</span> <span class="p">[</span>
+                <span class="n">Icon</span><span class="p">(</span>
+                  <span class="n">_isWalletAvailable</span> <span class="o">?</span> <span class="n">Icons</span><span class="o">.</span><span class="na">wallet</span> <span class="o">:</span> <span class="n">Icons</span><span class="o">.</span><span class="na">wallet_outlined</span><span class="p">,</span>
+                  <span class="nl">color:</span> <span class="n">_isWalletAvailable</span> <span class="o">?</span> <span class="n">Colors</span><span class="o">.</span><span class="na">green</span> <span class="o">:</span> <span class="n">Colors</span><span class="o">.</span><span class="na">grey</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">SizedBox</span><span class="p">(</span><span class="nl">width:</span> <span class="mi">8</span><span class="p">),</span>
+                <span class="n">Text</span><span class="p">(</span>
+                  <span class="n">_isWalletAvailable</span> 
+                    <span class="o">?</span> <span class="s">'Wallet Available'</span> 
+                    <span class="o">:</span> <span class="s">'Wallet Not Available'</span><span class="p">,</span>
+                  <span class="nl">style:</span> <span class="n">Theme</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">textTheme</span><span class="o">.</span><span class="na">titleMedium</span><span class="p">,</span>
+                <span class="p">),</span>
+              <span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">SizedBox</span><span class="p">(</span><span class="nl">height:</span> <span class="mi">16</span><span class="p">),</span>
+            <span class="n">ElevatedButton</span><span class="p">(</span>
+              <span class="nl">onPressed:</span> <span class="n">_isWalletAvailable</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">_isLoading</span> <span class="o">?</span> <span class="n">_addToWallet</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="nl">child:</span> <span class="n">_isLoading</span> 
+                <span class="o">?</span> <span class="n">SizedBox</span><span class="p">(</span>
+                    <span class="nl">height:</span> <span class="mi">20</span><span class="p">,</span>
+                    <span class="nl">width:</span> <span class="mi">20</span><span class="p">,</span>
+                    <span class="nl">child:</span> <span class="n">CircularProgressIndicator</span><span class="p">(</span><span class="nl">strokeWidth:</span> <span class="mi">2</span><span class="p">),</span>
+                  <span class="p">)</span>
+                <span class="o">:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Add to Wallet'</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">_cardId</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">..[</span>
+              <span class="n">SizedBox</span><span class="p">(</span><span class="nl">height:</span> <span class="mi">8</span><span class="p">),</span>
+              <span class="n">OutlinedButton</span><span class="p">(</span>
+                <span class="nl">onPressed:</span> <span class="n">_viewInWallet</span><span class="p">,</span>
+                <span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'View in Wallet'</span><span class="p">),</span>
+              <span class="p">),</span>
+            <span class="p">],</span>
+          <span class="p">],</span>
+        <span class="p">),</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="card-preview-widget">Card Preview Widget</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">WalletCardPreview</span> <span class="kd">extends</span> <span class="n">StatelessWidget</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">WalletCard</span> <span class="n">card</span><span class="p">;</span>
+  <span class="kd">final</span> <span class="n">VoidCallback</span><span class="o">?</span> <span class="n">onAddToWallet</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="n">WalletCardPreview</span><span class="p">({</span>
+    <span class="n">Key</span><span class="o">?</span> <span class="n">key</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="k">this</span><span class="o">.</span><span class="na">card</span><span class="p">,</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">onAddToWallet</span><span class="p">,</span>
+  <span class="p">})</span> <span class="o">:</span> <span class="k">super</span><span class="p">(</span><span class="nl">key:</span> <span class="n">key</span><span class="p">);</span>
+
+  <span class="nd">@override</span>
+  <span class="n">Widget</span> <span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Container</span><span class="p">(</span>
+      <span class="nl">width:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nl">height:</span> <span class="mi">180</span><span class="p">,</span>
+      <span class="nl">decoration:</span> <span class="n">BoxDecoration</span><span class="p">(</span>
+        <span class="nl">color:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">backgroundColor</span> <span class="o">??</span> <span class="n">Colors</span><span class="o">.</span><span class="na">blue</span><span class="p">,</span>
+        <span class="nl">borderRadius:</span> <span class="n">BorderRadius</span><span class="o">.</span><span class="na">circular</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span>
+        <span class="nl">boxShadow:</span> <span class="p">[</span>
+          <span class="n">BoxShadow</span><span class="p">(</span>
+            <span class="nl">color:</span> <span class="n">Colors</span><span class="o">.</span><span class="na">black26</span><span class="p">,</span>
+            <span class="nl">blurRadius:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="nl">offset:</span> <span class="n">Offset</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+          <span class="p">),</span>
+        <span class="p">],</span>
+      <span class="p">),</span>
+      <span class="nl">child:</span> <span class="n">Padding</span><span class="p">(</span>
+        <span class="nl">padding:</span> <span class="n">EdgeInsets</span><span class="o">.</span><span class="na">all</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span>
+        <span class="nl">child:</span> <span class="n">Column</span><span class="p">(</span>
+          <span class="nl">crossAxisAlignment:</span> <span class="n">CrossAxisAlignment</span><span class="o">.</span><span class="na">start</span><span class="p">,</span>
+          <span class="nl">children:</span> <span class="p">[</span>
+            <span class="n">Row</span><span class="p">(</span>
+              <span class="nl">mainAxisAlignment:</span> <span class="n">MainAxisAlignment</span><span class="o">.</span><span class="na">spaceBetween</span><span class="p">,</span>
+              <span class="nl">children:</span> <span class="p">[</span>
+                <span class="n">Text</span><span class="p">(</span>
+                  <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">logoText</span> <span class="o">??</span> <span class="n">card</span><span class="o">.</span><span class="na">metadata</span><span class="o">.</span><span class="na">organizationName</span><span class="p">,</span>
+                  <span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span>
+                    <span class="nl">color:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">foregroundColor</span> <span class="o">??</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white</span><span class="p">,</span>
+                    <span class="nl">fontSize:</span> <span class="mi">16</span><span class="p">,</span>
+                    <span class="nl">fontWeight:</span> <span class="n">FontWeight</span><span class="o">.</span><span class="na">bold</span><span class="p">,</span>
+                  <span class="p">),</span>
+                <span class="p">),</span>
+                <span class="n">Icon</span><span class="p">(</span>
+                  <span class="n">_getCardTypeIcon</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">type</span><span class="p">),</span>
+                  <span class="nl">color:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">foregroundColor</span> <span class="o">??</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white</span><span class="p">,</span>
+                <span class="p">),</span>
+              <span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">Spacer</span><span class="p">(),</span>
+            <span class="n">Text</span><span class="p">(</span>
+              <span class="n">card</span><span class="o">.</span><span class="na">metadata</span><span class="o">.</span><span class="na">title</span><span class="p">,</span>
+              <span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span>
+                <span class="nl">color:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">foregroundColor</span> <span class="o">??</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white</span><span class="p">,</span>
+                <span class="nl">fontSize:</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="nl">fontWeight:</span> <span class="n">FontWeight</span><span class="o">.</span><span class="na">bold</span><span class="p">,</span>
+              <span class="p">),</span>
+            <span class="p">),</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">metadata</span><span class="o">.</span><span class="na">subtitle</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span>
+              <span class="n">Text</span><span class="p">(</span>
+                <span class="n">card</span><span class="o">.</span><span class="na">metadata</span><span class="o">.</span><span class="na">subtitle</span><span class="o">!</span><span class="p">,</span>
+                <span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span>
+                  <span class="nl">color:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">foregroundColor</span> <span class="o">??</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white</span><span class="p">,</span>
+                  <span class="nl">fontSize:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="p">),</span>
+              <span class="p">),</span>
+            <span class="n">Spacer</span><span class="p">(),</span>
+            <span class="n">Row</span><span class="p">(</span>
+              <span class="nl">mainAxisAlignment:</span> <span class="n">MainAxisAlignment</span><span class="o">.</span><span class="na">spaceBetween</span><span class="p">,</span>
+              <span class="nl">children:</span> <span class="p">[</span>
+                <span class="n">Text</span><span class="p">(</span>
+                  <span class="s">'ID: </span><span class="si">${card.metadata.serialNumber}</span><span class="s">'</span><span class="p">,</span>
+                  <span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span>
+                    <span class="nl">color:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">labelColor</span> <span class="o">??</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white70</span><span class="p">,</span>
+                    <span class="nl">fontSize:</span> <span class="mi">12</span><span class="p">,</span>
+                  <span class="p">),</span>
+                <span class="p">),</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">onAddToWallet</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span>
+                  <span class="n">ElevatedButton</span><span class="p">(</span>
+                    <span class="nl">onPressed:</span> <span class="n">onAddToWallet</span><span class="p">,</span>
+                    <span class="nl">style:</span> <span class="n">ElevatedButton</span><span class="o">.</span><span class="na">styleFrom</span><span class="p">(</span>
+                      <span class="nl">backgroundColor:</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white</span><span class="p">,</span>
+                      <span class="nl">foregroundColor:</span> <span class="n">card</span><span class="o">.</span><span class="na">visuals</span><span class="o">?.</span><span class="na">backgroundColor</span><span class="p">,</span>
+                      <span class="nl">minimumSize:</span> <span class="n">Size</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Add'</span><span class="p">,</span> <span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span><span class="nl">fontSize:</span> <span class="mi">12</span><span class="p">)),</span>
+                  <span class="p">),</span>
+              <span class="p">],</span>
+            <span class="p">),</span>
+          <span class="p">],</span>
+        <span class="p">),</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">IconData</span> <span class="n">_getCardTypeIcon</span><span class="p">(</span><span class="n">WalletCardType</span> <span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">Icons</span><span class="o">.</span><span class="na">store</span><span class="p">;</span>
+      <span class="k">case</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">eventTicket</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">Icons</span><span class="o">.</span><span class="na">event</span><span class="p">;</span>
+      <span class="k">case</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">boardingPass</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">Icons</span><span class="o">.</span><span class="na">flight</span><span class="p">;</span>
+      <span class="k">case</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">coupon</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">Icons</span><span class="o">.</span><span class="na">local_offer</span><span class="p">;</span>
+      <span class="k">default</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">Icons</span><span class="o">.</span><span class="na">credit_card</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="error-handling-examples">Error Handling Examples</h2>
+
+<h3 id="comprehensive-error-handling">Comprehensive Error Handling</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">addCardWithErrorHandling</span><span class="p">(</span><span class="n">WalletCard</span> <span class="n">card</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// Check if wallet is available first</span>
+    <span class="kd">final</span> <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isWalletAvailable</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isAvailable</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="n">WalletException</span><span class="p">(</span><span class="s">'Wallet is not available on this device'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Check if card is already added</span>
+    <span class="kd">final</span> <span class="n">isAdded</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isCardAdded</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">id</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isAdded</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Card already exists, ask user if they want to view it</span>
+      <span class="kd">final</span> <span class="n">shouldView</span> <span class="o">=</span> <span class="k">await</span> <span class="n">_showCardExistsDialog</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">shouldView</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">viewInWallet</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">id</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Add the card</span>
+    <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+    <span class="n">_showSuccessMessage</span><span class="p">(</span><span class="s">'Card added successfully!'</span><span class="p">);</span>
+    
+  <span class="p">}</span> <span class="kd">on</span> <span class="n">WalletException</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">_handleWalletException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">_showErrorMessage</span><span class="p">(</span><span class="s">'Unexpected error: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">_handleWalletException</span><span class="p">(</span><span class="n">WalletException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="na">code</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s">'PLATFORM_NOT_SUPPORTED'</span><span class="o">:</span>
+      <span class="n">_showErrorMessage</span><span class="p">(</span><span class="s">'Wallet is not supported on this platform'</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">'WALLET_NOT_AVAILABLE'</span><span class="o">:</span>
+      <span class="n">_showErrorMessage</span><span class="p">(</span><span class="s">'Wallet app is not available'</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">'INVALID_CARD_DATA'</span><span class="o">:</span>
+      <span class="n">_showErrorMessage</span><span class="p">(</span><span class="s">'Card data is invalid: </span><span class="si">${e.message}</span><span class="s">'</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">'NETWORK_ERROR'</span><span class="o">:</span>
+      <span class="n">_showErrorMessage</span><span class="p">(</span><span class="s">'Network error. Please check your connection.'</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span>
+      <span class="n">_showErrorMessage</span><span class="p">(</span><span class="s">'Wallet error: </span><span class="si">${e.message}</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Future</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span> <span class="n">_showCardExistsDialog</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="c1">// Implementation depends on your UI framework</span>
+  <span class="c1">// Return true if user wants to view the card</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">_showSuccessMessage</span><span class="p">(</span><span class="kt">String</span> <span class="n">message</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Show success message to user</span>
+  <span class="n">print</span><span class="p">(</span><span class="s">'Success: </span><span class="si">$message</span><span class="s">'</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">_showErrorMessage</span><span class="p">(</span><span class="kt">String</span> <span class="n">message</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Show error message to user</span>
+  <span class="n">print</span><span class="p">(</span><span class="s">'Error: </span><span class="si">$message</span><span class="s">'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>These examples demonstrate various use cases and patterns for integrating Flutter Wallet Card into your application. Choose the examples that best fit your specific requirements and customize them according to your app’s design and functionality.</p>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/flutter_wallet_card/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Flutter Wallet Card</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Flutter Wallet Card</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/webeferen"><svg class="svg-icon"><use xlink:href="/flutter_wallet_card/assets/minima-social-icons.svg#github"></use></svg> <span class="username">webeferen</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

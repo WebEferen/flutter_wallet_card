@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Getting Started | Flutter Wallet Card</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Getting Started" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<meta property="og:description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<link rel="canonical" href="https://webeferen.github.io/flutter_wallet_card/getting-started.html" />
+<meta property="og:url" content="https://webeferen.github.io/flutter_wallet_card/getting-started.html" />
+<meta property="og:site_name" content="Flutter Wallet Card" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Getting Started" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet","headline":"Getting Started","url":"https://webeferen.github.io/flutter_wallet_card/getting-started.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/flutter_wallet_card/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://webeferen.github.io/flutter_wallet_card/feed.xml" title="Flutter Wallet Card" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/flutter_wallet_card/">Flutter Wallet Card</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/flutter_wallet_card/getting-started.html">Getting Started</a><a class="page-link" href="/flutter_wallet_card/api-reference.html">API Reference</a><a class="page-link" href="/flutter_wallet_card/platform-setup.html">Platform Setup</a><a class="page-link" href="/flutter_wallet_card/examples.html">Examples</a><a class="page-link" href="/flutter_wallet_card/migration.html">Migration Guide</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h1 id="getting-started">Getting Started</h1>
+
+<p>This guide will help you integrate Flutter Wallet Card into your Flutter application.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li>Flutter SDK 3.0.0 or higher</li>
+  <li>iOS 11.0+ for Apple Wallet support</li>
+  <li>Android API level 21+ for Google Wallet support</li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<h3 id="1-add-dependency">1. Add Dependency</h3>
+
+<p>Add <code class="language-plaintext highlighter-rouge">flutter_wallet_card</code> to your <code class="language-plaintext highlighter-rouge">pubspec.yaml</code>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">dependencies</span><span class="pi">:</span>
+  <span class="na">flutter_wallet_card</span><span class="pi">:</span> <span class="s">^4.0.0</span>
+</code></pre></div></div>
+
+<h3 id="2-install-packages">2. Install Packages</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flutter pub get
+</code></pre></div></div>
+
+<h3 id="3-platform-configuration">3. Platform Configuration</h3>
+
+<h4 id="ios-configuration">iOS Configuration</h4>
+
+<ol>
+  <li><strong>Enable Wallet Capability</strong>
+    <ul>
+      <li>Open your iOS project in Xcode</li>
+      <li>Select your target → Signing &amp; Capabilities</li>
+      <li>Add “Wallet” capability</li>
+    </ul>
+  </li>
+  <li><strong>Configure Info.plist</strong>
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;key&gt;</span>com.apple.developer.pass-type-identifiers<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;array&gt;</span>
+    <span class="nt">&lt;string&gt;</span>pass.com.yourcompany.yourapp<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/array&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="android-configuration">Android Configuration</h4>
+
+<ol>
+  <li>
+    <p><strong>Add Permissions</strong></p>
+
+    <p>Add to <code class="language-plaintext highlighter-rouge">android/app/src/main/AndroidManifest.xml</code>:</p>
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Minimum SDK Version</strong></p>
+
+    <p>Ensure <code class="language-plaintext highlighter-rouge">android/app/build.gradle</code> has:</p>
+    <div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
+    <span class="n">compileSdkVersion</span> <span class="mi">33</span>
+       
+    <span class="n">defaultConfig</span> <span class="o">{</span>
+        <span class="n">minSdkVersion</span> <span class="mi">21</span>
+        <span class="n">targetSdkVersion</span> <span class="mi">33</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="basic-implementation">Basic Implementation</h2>
+
+<h3 id="1-import-the-package">1. Import the Package</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'package:flutter_wallet_card/flutter_wallet_card.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/models/wallet_card.dart'</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h3 id="2-check-wallet-availability">2. Check Wallet Availability</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">checkWalletAvailability</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isWalletAvailable</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isAvailable</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Wallet is available on this device'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Wallet is not available'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Error checking wallet availability: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="3-create-a-wallet-card">3. Create a Wallet Card</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">WalletCard</span> <span class="nf">createSampleCard</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'sample-card-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.yourcompany.yourapp'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'YOUR_TEAM_ID'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'Sample Store Card'</span><span class="p">,</span>
+      <span class="nl">description:</span> <span class="s">'A sample loyalty card'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Your Company'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'001'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+      <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF1976D2</span><span class="p">),</span>
+      <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+      <span class="nl">logoText:</span> <span class="s">'Your Store'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="4-add-card-to-wallet">4. Add Card to Wallet</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">addCardToWallet</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">createSampleCard</span><span class="p">();</span>
+    <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Card added successfully!'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">'Failed to add card: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="5-complete-example">5. Complete Example</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'package:flutter/material.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/flutter_wallet_card.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/models/wallet_card.dart'</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">WalletCardExample</span> <span class="kd">extends</span> <span class="n">StatefulWidget</span> <span class="p">{</span>
+  <span class="nd">@override</span>
+  <span class="n">_WalletCardExampleState</span> <span class="n">createState</span><span class="p">()</span> <span class="o">=</span><span class="p">&gt;</span> <span class="n">_WalletCardExampleState</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">_WalletCardExampleState</span> <span class="kd">extends</span> <span class="n">State</span><span class="p">&lt;</span><span class="n">WalletCardExample</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">_isWalletAvailable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">_isLoading</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nd">@override</span>
+  <span class="kt">void</span> <span class="n">initState</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="na">initState</span><span class="p">();</span>
+    <span class="n">_checkWalletAvailability</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">_checkWalletAvailability</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="kd">final</span> <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isWalletAvailable</span><span class="p">;</span>
+      <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+        <span class="n">_isWalletAvailable</span> <span class="o">=</span> <span class="n">isAvailable</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Error checking wallet availability: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">_addToWallet</span><span class="p">()</span> <span class="kd">async</span> <span class="p">{</span>
+    <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+      <span class="n">_isLoading</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+        <span class="nl">id:</span> <span class="s">'loyalty-card-</span><span class="si">${DateTime.now().millisecondsSinceEpoch}</span><span class="s">'</span><span class="p">,</span>
+        <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+        <span class="nl">platformData:</span> <span class="p">{</span>
+          <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.yourcompany.loyalty'</span><span class="p">,</span>
+          <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'YOUR_TEAM_ID'</span><span class="p">,</span>
+          <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+          <span class="nl">title:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+          <span class="nl">description:</span> <span class="s">'Your loyalty rewards card'</span><span class="p">,</span>
+          <span class="nl">organizationName:</span> <span class="s">'Your Store'</span><span class="p">,</span>
+          <span class="nl">serialNumber:</span> <span class="n">DateTime</span><span class="o">.</span><span class="na">now</span><span class="p">()</span><span class="o">.</span><span class="na">millisecondsSinceEpoch</span><span class="o">.</span><span class="na">toString</span><span class="p">(),</span>
+        <span class="p">),</span>
+        <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+          <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF2196F3</span><span class="p">),</span>
+          <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+          <span class="nl">logoText:</span> <span class="s">'Your Store'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">);</span>
+
+      <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+      
+      <span class="n">ScaffoldMessenger</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">showSnackBar</span><span class="p">(</span>
+        <span class="n">SnackBar</span><span class="p">(</span><span class="nl">content:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Card added to wallet successfully!'</span><span class="p">)),</span>
+      <span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">ScaffoldMessenger</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">showSnackBar</span><span class="p">(</span>
+        <span class="n">SnackBar</span><span class="p">(</span><span class="nl">content:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Failed to add card: </span><span class="si">$e</span><span class="s">'</span><span class="p">)),</span>
+      <span class="p">);</span>
+    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+      <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+        <span class="n">_isLoading</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nd">@override</span>
+  <span class="n">Widget</span> <span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Scaffold</span><span class="p">(</span>
+      <span class="nl">appBar:</span> <span class="n">AppBar</span><span class="p">(</span>
+        <span class="nl">title:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Wallet Card Example'</span><span class="p">),</span>
+      <span class="p">),</span>
+      <span class="nl">body:</span> <span class="n">Padding</span><span class="p">(</span>
+        <span class="nl">padding:</span> <span class="n">EdgeInsets</span><span class="o">.</span><span class="na">all</span><span class="p">(</span><span class="mf">16.0</span><span class="p">),</span>
+        <span class="nl">child:</span> <span class="n">Column</span><span class="p">(</span>
+          <span class="nl">crossAxisAlignment:</span> <span class="n">CrossAxisAlignment</span><span class="o">.</span><span class="na">stretch</span><span class="p">,</span>
+          <span class="nl">children:</span> <span class="p">[</span>
+            <span class="n">Card</span><span class="p">(</span>
+              <span class="nl">child:</span> <span class="n">Padding</span><span class="p">(</span>
+                <span class="nl">padding:</span> <span class="n">EdgeInsets</span><span class="o">.</span><span class="na">all</span><span class="p">(</span><span class="mf">16.0</span><span class="p">),</span>
+                <span class="nl">child:</span> <span class="n">Column</span><span class="p">(</span>
+                  <span class="nl">children:</span> <span class="p">[</span>
+                    <span class="n">Icon</span><span class="p">(</span>
+                      <span class="n">_isWalletAvailable</span> <span class="o">?</span> <span class="n">Icons</span><span class="o">.</span><span class="na">check_circle</span> <span class="o">:</span> <span class="n">Icons</span><span class="o">.</span><span class="na">error</span><span class="p">,</span>
+                      <span class="nl">color:</span> <span class="n">_isWalletAvailable</span> <span class="o">?</span> <span class="n">Colors</span><span class="o">.</span><span class="na">green</span> <span class="o">:</span> <span class="n">Colors</span><span class="o">.</span><span class="na">red</span><span class="p">,</span>
+                      <span class="nl">size:</span> <span class="mi">48</span><span class="p">,</span>
+                    <span class="p">),</span>
+                    <span class="n">SizedBox</span><span class="p">(</span><span class="nl">height:</span> <span class="mi">8</span><span class="p">),</span>
+                    <span class="n">Text</span><span class="p">(</span>
+                      <span class="n">_isWalletAvailable</span> 
+                        <span class="o">?</span> <span class="s">'Wallet is available'</span> 
+                        <span class="o">:</span> <span class="s">'Wallet is not available'</span><span class="p">,</span>
+                      <span class="nl">style:</span> <span class="n">Theme</span><span class="o">.</span><span class="na">of</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="na">textTheme</span><span class="o">.</span><span class="na">titleMedium</span><span class="p">,</span>
+                    <span class="p">),</span>
+                  <span class="p">],</span>
+                <span class="p">),</span>
+              <span class="p">),</span>
+            <span class="p">),</span>
+            <span class="n">SizedBox</span><span class="p">(</span><span class="nl">height:</span> <span class="mi">24</span><span class="p">),</span>
+            <span class="n">ElevatedButton</span><span class="p">(</span>
+              <span class="nl">onPressed:</span> <span class="n">_isWalletAvailable</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">_isLoading</span> <span class="o">?</span> <span class="n">_addToWallet</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="nl">child:</span> <span class="n">_isLoading</span> 
+                <span class="o">?</span> <span class="n">CircularProgressIndicator</span><span class="p">(</span><span class="nl">color:</span> <span class="n">Colors</span><span class="o">.</span><span class="na">white</span><span class="p">)</span>
+                <span class="o">:</span> <span class="n">Text</span><span class="p">(</span><span class="s">'Add Card to Wallet'</span><span class="p">),</span>
+            <span class="p">),</span>
+          <span class="p">],</span>
+        <span class="p">),</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="platform-setup.html">Platform Setup</a> - Detailed platform configuration</li>
+  <li><a href="api-reference.html">API Reference</a> - Complete API documentation</li>
+  <li><a href="examples.html">Examples</a> - More usage examples</li>
+  <li><a href="migration.html">Migration Guide</a> - Upgrading from v3.x</li>
+</ul>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<ol>
+  <li><strong>“Wallet not available” on iOS Simulator</strong>
+    <ul>
+      <li>Apple Wallet is not available in iOS Simulator</li>
+      <li>Test on a physical device</li>
+    </ul>
+  </li>
+  <li><strong>Certificate errors on iOS</strong>
+    <ul>
+      <li>Ensure your Pass Type ID is properly configured</li>
+      <li>Check your team identifier and certificates</li>
+    </ul>
+  </li>
+  <li><strong>Permission denied on Android</strong>
+    <ul>
+      <li>Verify internet permission is added</li>
+      <li>Check Google Wallet API configuration</li>
+    </ul>
+  </li>
+</ol>
+
+<p>For more help, check our <a href="https://github.com/webeferen/flutter_wallet_card/issues">GitHub Issues</a>.</p>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/flutter_wallet_card/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Flutter Wallet Card</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Flutter Wallet Card</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/webeferen"><svg class="svg-icon"><use xlink:href="/flutter_wallet_card/assets/minima-social-icons.svg#github"></use></svg> <span class="username">webeferen</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

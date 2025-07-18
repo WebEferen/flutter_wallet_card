@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Changelog | Flutter Wallet Card</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Changelog" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<meta property="og:description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<link rel="canonical" href="https://webeferen.github.io/flutter_wallet_card/CHANGELOG.html" />
+<meta property="og:url" content="https://webeferen.github.io/flutter_wallet_card/CHANGELOG.html" />
+<meta property="og:site_name" content="Flutter Wallet Card" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Changelog" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet","headline":"Changelog","url":"https://webeferen.github.io/flutter_wallet_card/CHANGELOG.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/flutter_wallet_card/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://webeferen.github.io/flutter_wallet_card/feed.xml" title="Flutter Wallet Card" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/flutter_wallet_card/">Flutter Wallet Card</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/flutter_wallet_card/getting-started.html">Getting Started</a><a class="page-link" href="/flutter_wallet_card/api-reference.html">API Reference</a><a class="page-link" href="/flutter_wallet_card/platform-setup.html">Platform Setup</a><a class="page-link" href="/flutter_wallet_card/examples.html">Examples</a><a class="page-link" href="/flutter_wallet_card/migration.html">Migration Guide</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Changelog</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="changelog">Changelog</h1>
+
+<p>All notable changes to this project will be documented in this file.</p>
+
+<p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
+and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+
+<h2 id="400---2024-01-xx">[4.0.0] - 2024-01-XX</h2>
+
+<h3 id="-major-refactoring--new-features">🚀 Major Refactoring &amp; New Features</h3>
+
+<h4 id="added">Added</h4>
+<ul>
+  <li><strong>Cross-platform support</strong>: Full Android Google Wallet integration alongside existing iOS Apple Wallet support</li>
+  <li><strong>Unified API</strong>: Single codebase for both iOS and Android platforms</li>
+  <li><strong>New WalletCard model</strong>: Comprehensive data structure supporting both platforms</li>
+  <li><strong>Platform factory pattern</strong>: Automatic platform detection and appropriate implementation selection</li>
+  <li><strong>Enhanced file management</strong>: Improved file operations with better error handling</li>
+  <li><strong>Card generators</strong>: Separate generators for Apple Wallet (.pkpass) and Google Wallet (.json) files</li>
+  <li><strong>Comprehensive test coverage</strong>: 90%+ test coverage with unit and integration tests</li>
+  <li><strong>Location-based relevance</strong>: Support for location-triggered wallet cards</li>
+  <li><strong>Date-based relevance</strong>: Support for time-sensitive wallet cards</li>
+  <li><strong>Multiple card types</strong>: Support for boarding passes, coupons, event tickets, store cards, and generic cards</li>
+  <li><strong>Custom styling</strong>: Enhanced color and visual customization options</li>
+  <li><strong>Network operations</strong>: Improved URL downloading with better error handling</li>
+  <li><strong>JSON serialization</strong>: Automatic JSON serialization/deserialization for all models</li>
+</ul>
+
+<h4 id="changed">Changed</h4>
+<ul>
+  <li><strong>BREAKING</strong>: Complete API redesign for better consistency and platform unification</li>
+  <li><strong>BREAKING</strong>: New model structure with <code class="language-plaintext highlighter-rouge">WalletCard</code>, <code class="language-plaintext highlighter-rouge">WalletCardMetadata</code>, and <code class="language-plaintext highlighter-rouge">WalletCardVisuals</code></li>
+  <li><strong>BREAKING</strong>: Method names updated for clarity and consistency</li>
+  <li><strong>Improved error handling</strong>: Custom <code class="language-plaintext highlighter-rouge">WalletException</code> with detailed error information</li>
+  <li><strong>Better dependency management</strong>: Updated to latest versions of all dependencies</li>
+  <li><strong>Enhanced documentation</strong>: Comprehensive README with examples and migration guide</li>
+  <li><strong>Modernized codebase</strong>: Updated to latest Flutter and Dart standards</li>
+</ul>
+
+<h4 id="fixed">Fixed</h4>
+<ul>
+  <li><strong>OpenSSL compatibility</strong>: Fixed legacy cipher support for older certificate formats</li>
+  <li><strong>Memory management</strong>: Improved file cleanup and memory usage</li>
+  <li><strong>Platform detection</strong>: More reliable platform-specific feature detection</li>
+  <li><strong>Error propagation</strong>: Better error handling and user feedback</li>
+</ul>
+
+<h4 id="removed">Removed</h4>
+<ul>
+  <li><strong>BREAKING</strong>: Removed deprecated methods from v3.x</li>
+  <li><strong>BREAKING</strong>: Removed platform-specific APIs in favor of unified interface</li>
+  <li><strong>Dependency cleanup</strong>: Removed unused dependencies</li>
+</ul>
+
+<h3 id="-technical-improvements">🔧 Technical Improvements</h3>
+
+<h4 id="architecture">Architecture</h4>
+<ul>
+  <li>Implemented clean architecture with separation of concerns</li>
+  <li>Added abstract platform interfaces for better testability</li>
+  <li>Introduced factory pattern for platform-specific implementations</li>
+  <li>Enhanced error handling with custom exception types</li>
+</ul>
+
+<h4 id="code-quality">Code Quality</h4>
+<ul>
+  <li>Added comprehensive linting rules</li>
+  <li>Implemented automated code generation for JSON serialization</li>
+  <li>Added mock generation for testing</li>
+  <li>Improved code documentation and inline comments</li>
+</ul>
+
+<h4 id="testing">Testing</h4>
+<ul>
+  <li>Added unit tests for all core functionality</li>
+  <li>Added integration tests for platform-specific features</li>
+  <li>Added mock testing for network operations</li>
+  <li>Added test coverage reporting</li>
+</ul>
+
+<h3 id="-platform-specific-features">📱 Platform-Specific Features</h3>
+
+<h4 id="ios-apple-wallet">iOS (Apple Wallet)</h4>
+<ul>
+  <li>Enhanced Passkit integration</li>
+  <li>Support for multiple card addition</li>
+  <li>Improved certificate handling</li>
+  <li>Better error messages for iOS-specific issues</li>
+</ul>
+
+<h4 id="android-google-wallet">Android (Google Wallet)</h4>
+<ul>
+  <li><strong>NEW</strong>: Full Google Wallet API integration</li>
+  <li><strong>NEW</strong>: JWT-based pass saving</li>
+  <li><strong>NEW</strong>: Pass link generation</li>
+  <li><strong>NEW</strong>: Google Pay integration</li>
+</ul>
+
+<h3 id="-migration-guide">🔄 Migration Guide</h3>
+
+<h4 id="from-v3x-to-v40">From v3.x to v4.0</h4>
+
+<p><strong>Old API:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// iOS specific</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addPasskit</span><span class="p">(</span><span class="n">passData</span><span class="p">);</span>
+
+<span class="c1">// Platform checking</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// iOS code</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>New API:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unified API</span>
+<span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+
+<span class="c1">// Automatic platform handling</span>
+<span class="kt">bool</span> <span class="n">available</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isWalletAvailable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h4 id="key-changes">Key Changes</h4>
+<ol>
+  <li>Replace <code class="language-plaintext highlighter-rouge">PasskitFile</code> with <code class="language-plaintext highlighter-rouge">WalletCard</code></li>
+  <li>Use unified methods instead of platform-specific ones</li>
+  <li>Update model structure to new format</li>
+  <li>Handle new exception types</li>
+</ol>
+
+<h3 id="-dependencies">📦 Dependencies</h3>
+
+<h4 id="updated">Updated</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">archive</code>: ^3.4.10 (was ^3.3.0)</li>
+  <li><code class="language-plaintext highlighter-rouge">dio</code>: ^5.4.0 (was ^4.0.6)</li>
+  <li><code class="language-plaintext highlighter-rouge">path_provider</code>: ^2.1.2 (was ^2.0.11)</li>
+  <li><code class="language-plaintext highlighter-rouge">uuid</code>: ^4.3.3 (was ^3.0.6)</li>
+</ul>
+
+<h4 id="added-1">Added</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">json_annotation</code>: ^4.9.0</li>
+  <li><code class="language-plaintext highlighter-rouge">build_runner</code>: ^2.4.7</li>
+  <li><code class="language-plaintext highlighter-rouge">json_serializable</code>: ^6.7.1</li>
+  <li><code class="language-plaintext highlighter-rouge">mockito</code>: ^5.4.4</li>
+</ul>
+
+<h3 id="-bug-fixes">🐛 Bug Fixes</h3>
+<ul>
+  <li>Fixed OpenSSL legacy cipher compatibility issues</li>
+  <li>Fixed memory leaks in file operations</li>
+  <li>Fixed platform detection edge cases</li>
+  <li>Fixed error handling in network operations</li>
+  <li>Fixed certificate parsing on newer OpenSSL versions</li>
+</ul>
+
+<h3 id="-security">🔒 Security</h3>
+<ul>
+  <li>Enhanced certificate validation</li>
+  <li>Improved error message sanitization</li>
+  <li>Better handling of sensitive data</li>
+  <li>Secure file operations</li>
+</ul>
+
+<hr />
+
+<h2 id="310---2023-06-15">[3.1.0] - 2023-06-15</h2>
+
+<h3 id="added-2">Added</h3>
+<ul>
+  <li>Support for Flutter 3.0</li>
+  <li>Improved error handling</li>
+  <li>Better documentation</li>
+</ul>
+
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+  <li>iOS compatibility issues</li>
+  <li>Memory management improvements</li>
+</ul>
+
+<hr />
+
+<h2 id="300---2023-03-20">[3.0.0] - 2023-03-20</h2>
+
+<h3 id="added-3">Added</h3>
+<ul>
+  <li>Null safety support</li>
+  <li>Flutter 2.0 compatibility</li>
+  <li>Enhanced Passkit generation</li>
+</ul>
+
+<h3 id="changed-1">Changed</h3>
+<ul>
+  <li><strong>BREAKING</strong>: Migrated to null safety</li>
+  <li>Updated minimum Dart SDK to 2.12.0</li>
+</ul>
+
+<h3 id="fixed-2">Fixed</h3>
+<ul>
+  <li>Various stability improvements</li>
+</ul>
+
+<hr />
+
+<h2 id="210---2022-08-10">[2.1.0] - 2022-08-10</h2>
+
+<h3 id="added-4">Added</h3>
+<ul>
+  <li>Support for custom pass fields</li>
+  <li>Enhanced image handling</li>
+  <li>Better error messages</li>
+</ul>
+
+<h3 id="fixed-3">Fixed</h3>
+<ul>
+  <li>iOS 15 compatibility</li>
+  <li>Certificate handling improvements</li>
+</ul>
+
+<hr />
+
+<h2 id="200---2022-02-15">[2.0.0] - 2022-02-15</h2>
+
+<h3 id="added-5">Added</h3>
+<ul>
+  <li>Complete rewrite of the plugin</li>
+  <li>Support for all Passkit features</li>
+  <li>Enhanced documentation</li>
+</ul>
+
+<h3 id="changed-2">Changed</h3>
+<ul>
+  <li><strong>BREAKING</strong>: New API structure</li>
+  <li>Improved performance</li>
+</ul>
+
+<hr />
+
+<h2 id="100---2021-09-01">[1.0.0] - 2021-09-01</h2>
+
+<h3 id="added-6">Added</h3>
+<ul>
+  <li>Initial release</li>
+  <li>Basic Passkit support for iOS</li>
+  <li>File-based pass generation</li>
+  <li>URL-based pass downloading</li>
+</ul>
+
+<hr />
+
+<h2 id="legend">Legend</h2>
+
+<ul>
+  <li>🚀 <strong>Major Features</strong>: Significant new functionality</li>
+  <li>🔧 <strong>Technical</strong>: Internal improvements and refactoring</li>
+  <li>📱 <strong>Platform</strong>: Platform-specific changes</li>
+  <li>🔄 <strong>Migration</strong>: Breaking changes and migration information</li>
+  <li>📦 <strong>Dependencies</strong>: Dependency updates</li>
+  <li>🐛 <strong>Bug Fixes</strong>: Bug fixes and stability improvements</li>
+  <li>🔒 <strong>Security</strong>: Security-related changes</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/flutter_wallet_card/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Flutter Wallet Card</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Flutter Wallet Card</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/webeferen"><svg class="svg-icon"><use xlink:href="/flutter_wallet_card/assets/minima-social-icons.svg#github"></use></svg> <span class="username">webeferen</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

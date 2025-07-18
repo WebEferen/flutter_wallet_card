@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Platform Setup | Flutter Wallet Card</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Platform Setup" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<meta property="og:description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<link rel="canonical" href="https://webeferen.github.io/flutter_wallet_card/platform-setup.html" />
+<meta property="og:url" content="https://webeferen.github.io/flutter_wallet_card/platform-setup.html" />
+<meta property="og:site_name" content="Flutter Wallet Card" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Platform Setup" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet","headline":"Platform Setup","url":"https://webeferen.github.io/flutter_wallet_card/platform-setup.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/flutter_wallet_card/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://webeferen.github.io/flutter_wallet_card/feed.xml" title="Flutter Wallet Card" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/flutter_wallet_card/">Flutter Wallet Card</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/flutter_wallet_card/getting-started.html">Getting Started</a><a class="page-link" href="/flutter_wallet_card/api-reference.html">API Reference</a><a class="page-link" href="/flutter_wallet_card/platform-setup.html">Platform Setup</a><a class="page-link" href="/flutter_wallet_card/examples.html">Examples</a><a class="page-link" href="/flutter_wallet_card/migration.html">Migration Guide</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h1 id="platform-setup">Platform Setup</h1>
+
+<p>Detailed setup instructions for iOS (Apple Wallet) and Android (Google Wallet).</p>
+
+<h2 id="ios-setup-apple-wallet">iOS Setup (Apple Wallet)</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>iOS 11.0 or later</li>
+  <li>Xcode 12.0 or later</li>
+  <li>Apple Developer Account</li>
+  <li>Valid iOS Distribution Certificate</li>
+</ul>
+
+<h3 id="step-1-enable-wallet-capability">Step 1: Enable Wallet Capability</h3>
+
+<ol>
+  <li>Open your iOS project in Xcode</li>
+  <li>Select your app target</li>
+  <li>Go to “Signing &amp; Capabilities” tab</li>
+  <li>Click “+” and add “Wallet” capability</li>
+</ol>
+
+<h3 id="step-2-create-pass-type-id">Step 2: Create Pass Type ID</h3>
+
+<ol>
+  <li>Go to <a href="https://developer.apple.com/account/">Apple Developer Portal</a></li>
+  <li>Navigate to “Certificates, Identifiers &amp; Profiles”</li>
+  <li>Select “Identifiers” → “Pass Type IDs”</li>
+  <li>Click “+” to create a new Pass Type ID</li>
+  <li>Enter description and identifier (e.g., <code class="language-plaintext highlighter-rouge">pass.com.yourcompany.yourapp</code>)</li>
+  <li>Register the Pass Type ID</li>
+</ol>
+
+<h3 id="step-3-create-pass-type-id-certificate">Step 3: Create Pass Type ID Certificate</h3>
+
+<ol>
+  <li>In the Pass Type IDs section, select your Pass Type ID</li>
+  <li>Click “Create Certificate”</li>
+  <li>Follow the instructions to generate a Certificate Signing Request (CSR)</li>
+  <li>Upload the CSR and download the certificate</li>
+  <li>Install the certificate in Keychain Access</li>
+</ol>
+
+<h3 id="step-4-configure-infoplist">Step 4: Configure Info.plist</h3>
+
+<p>Add the following to your <code class="language-plaintext highlighter-rouge">ios/Runner/Info.plist</code>:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;key&gt;</span>com.apple.developer.pass-type-identifiers<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;array&gt;</span>
+    <span class="nt">&lt;string&gt;</span>pass.com.yourcompany.yourapp<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/array&gt;</span>
+</code></pre></div></div>
+
+<h3 id="step-5-update-entitlements">Step 5: Update Entitlements</h3>
+
+<p>Ensure your <code class="language-plaintext highlighter-rouge">ios/Runner/Runner.entitlements</code> includes:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>com.apple.developer.pass-type-identifiers<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;array&gt;</span>
+        <span class="nt">&lt;string&gt;</span>pass.com.yourcompany.yourapp<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;/array&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
+</code></pre></div></div>
+
+<h3 id="step-6-code-configuration">Step 6: Code Configuration</h3>
+
+<p>Use your Pass Type ID in your Flutter code:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'my-card-001'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{</span>
+    <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.yourcompany.yourapp'</span><span class="p">,</span> <span class="c1">// Your Pass Type ID</span>
+    <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span> <span class="c1">// Your Team ID</span>
+    <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="c1">// ... other properties</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="finding-your-team-id">Finding Your Team ID</h3>
+
+<ol>
+  <li>Go to <a href="https://developer.apple.com/account/">Apple Developer Portal</a></li>
+  <li>Navigate to “Membership” section</li>
+  <li>Your Team ID is displayed there</li>
+</ol>
+
+<h3 id="testing-on-ios">Testing on iOS</h3>
+
+<ul>
+  <li><strong>Physical Device Required</strong>: Apple Wallet is not available in iOS Simulator</li>
+  <li><strong>Development Provisioning</strong>: Ensure your device is included in your development provisioning profile</li>
+  <li><strong>Certificate Validity</strong>: Make sure your Pass Type ID certificate is valid and installed</li>
+</ul>
+
+<h3 id="common-ios-issues">Common iOS Issues</h3>
+
+<h4 id="pass-not-supported-error">“Pass not supported” Error</h4>
+<ul>
+  <li>Verify Pass Type ID is correctly configured</li>
+  <li>Check that the certificate is installed and valid</li>
+  <li>Ensure Team ID matches your developer account</li>
+</ul>
+
+<h4 id="certificate-issues">Certificate Issues</h4>
+<ul>
+  <li>Regenerate Pass Type ID certificate if expired</li>
+  <li>Ensure certificate is installed in Keychain Access</li>
+  <li>Check that the certificate matches your Pass Type ID</li>
+</ul>
+
+<hr />
+
+<h2 id="android-setup-google-wallet">Android Setup (Google Wallet)</h2>
+
+<h3 id="prerequisites-1">Prerequisites</h3>
+
+<ul>
+  <li>Android API level 21 or higher</li>
+  <li>Google Cloud Console account</li>
+  <li>Google Wallet API access</li>
+</ul>
+
+<h3 id="step-1-enable-google-wallet-api">Step 1: Enable Google Wallet API</h3>
+
+<ol>
+  <li>Go to <a href="https://console.cloud.google.com/">Google Cloud Console</a></li>
+  <li>Create a new project or select existing one</li>
+  <li>Navigate to “APIs &amp; Services” → “Library”</li>
+  <li>Search for “Google Wallet API” and enable it</li>
+</ol>
+
+<h3 id="step-2-create-service-account">Step 2: Create Service Account</h3>
+
+<ol>
+  <li>Go to “APIs &amp; Services” → “Credentials”</li>
+  <li>Click “Create Credentials” → “Service Account”</li>
+  <li>Fill in service account details</li>
+  <li>Grant necessary roles (Google Wallet API access)</li>
+  <li>Create and download the JSON key file</li>
+</ol>
+
+<h3 id="step-3-configure-android-permissions">Step 3: Configure Android Permissions</h3>
+
+<p>Add to <code class="language-plaintext highlighter-rouge">android/app/src/main/AndroidManifest.xml</code>:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_NETWORK_STATE"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="step-4-update-build-configuration">Step 4: Update Build Configuration</h3>
+
+<p>Ensure <code class="language-plaintext highlighter-rouge">android/app/build.gradle</code> has:</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
+    <span class="n">compileSdkVersion</span> <span class="mi">33</span>
+    
+    <span class="n">defaultConfig</span> <span class="o">{</span>
+        <span class="n">minSdkVersion</span> <span class="mi">21</span>
+        <span class="n">targetSdkVersion</span> <span class="mi">33</span>
+    <span class="o">}</span>
+    
+    <span class="n">compileOptions</span> <span class="o">{</span>
+        <span class="n">sourceCompatibility</span> <span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_1_8</span>
+        <span class="n">targetCompatibility</span> <span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_1_8</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="step-5-set-up-issuer-account">Step 5: Set Up Issuer Account</h3>
+
+<ol>
+  <li>Go to <a href="https://pay.google.com/business/console/">Google Pay &amp; Wallet Console</a></li>
+  <li>Create an issuer account</li>
+  <li>Note your Issuer ID for use in your app</li>
+</ol>
+
+<h3 id="step-6-create-object-classes">Step 6: Create Object Classes</h3>
+
+<p>For each type of pass, create an object class:</p>
+
+<ol>
+  <li>In Google Pay &amp; Wallet Console</li>
+  <li>Navigate to “Google Wallet API”</li>
+  <li>Create object classes for your pass types</li>
+  <li>Note the Class IDs for use in your app</li>
+</ol>
+
+<h3 id="step-7-code-configuration">Step 7: Code Configuration</h3>
+
+<p>Use your Issuer ID and Class ID in your Flutter code:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'my-card-001'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{</span>
+    <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'YOUR_ISSUER_ID'</span><span class="p">,</span>
+    <span class="s">'classId'</span><span class="o">:</span> <span class="s">'YOUR_CLASS_ID'</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="c1">// ... other properties</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="step-8-authentication-setup">Step 8: Authentication Setup</h3>
+
+<p>Store your service account JSON securely and configure authentication:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example of setting up authentication</span>
+<span class="c1">// Note: In production, store credentials securely</span>
+<span class="kd">final</span> <span class="n">serviceAccountJson</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"type"</span><span class="o">:</span> <span class="s">"service_account"</span><span class="p">,</span>
+  <span class="s">"project_id"</span><span class="o">:</span> <span class="s">"your-project-id"</span><span class="p">,</span>
+  <span class="s">"private_key_id"</span><span class="o">:</span> <span class="s">"your-private-key-id"</span><span class="p">,</span>
+  <span class="s">"private_key"</span><span class="o">:</span> <span class="s">"-----BEGIN PRIVATE KEY-----</span><span class="se">\n</span><span class="s">...</span><span class="se">\n</span><span class="s">-----END PRIVATE KEY-----</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+  <span class="s">"client_email"</span><span class="o">:</span> <span class="s">"your-service-account@your-project.iam.gserviceaccount.com"</span><span class="p">,</span>
+  <span class="s">"client_id"</span><span class="o">:</span> <span class="s">"your-client-id"</span><span class="p">,</span>
+  <span class="s">"auth_uri"</span><span class="o">:</span> <span class="s">"https://accounts.google.com/o/oauth2/auth"</span><span class="p">,</span>
+  <span class="s">"token_uri"</span><span class="o">:</span> <span class="s">"https://oauth2.googleapis.com/token"</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="testing-on-android">Testing on Android</h3>
+
+<ul>
+  <li><strong>Physical Device or Emulator</strong>: Google Wallet works on both</li>
+  <li><strong>Google Play Services</strong>: Ensure Google Play Services is installed and updated</li>
+  <li><strong>Google Account</strong>: Device must be signed in to a Google account</li>
+</ul>
+
+<h3 id="common-android-issues">Common Android Issues</h3>
+
+<h4 id="google-wallet-not-available-error">“Google Wallet not available” Error</h4>
+<ul>
+  <li>Check that Google Play Services is installed and updated</li>
+  <li>Verify device is signed in to Google account</li>
+  <li>Ensure Google Wallet app is installed</li>
+</ul>
+
+<h4 id="authentication-errors">Authentication Errors</h4>
+<ul>
+  <li>Verify service account JSON is correct</li>
+  <li>Check that Google Wallet API is enabled</li>
+  <li>Ensure service account has proper permissions</li>
+</ul>
+
+<h4 id="classissuer-id-issues">Class/Issuer ID Issues</h4>
+<ul>
+  <li>Verify Issuer ID and Class ID are correct</li>
+  <li>Check that object classes are properly configured</li>
+  <li>Ensure issuer account is approved</li>
+</ul>
+
+<hr />
+
+<h2 id="cross-platform-considerations">Cross-Platform Considerations</h2>
+
+<h3 id="unified-code-approach">Unified Code Approach</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">WalletCard</span> <span class="nf">createPlatformCard</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Platform-specific data</span>
+  <span class="kt">Map</span><span class="p">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kd">dynamic</span><span class="p">&gt;</span> <span class="n">platformData</span><span class="p">;</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.yourcompany.yourapp'</span><span class="p">,</span>
+      <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'YOUR_TEAM_ID'</span><span class="p">,</span>
+      <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">};</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'YOUR_ISSUER_ID'</span><span class="p">,</span>
+      <span class="s">'classId'</span><span class="o">:</span> <span class="s">'YOUR_CLASS_ID'</span><span class="p">,</span>
+    <span class="p">};</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">UnsupportedError</span><span class="p">(</span><span class="s">'Platform not supported'</span><span class="p">);</span>
+  <span class="p">}</span>
+  
+  <span class="k">return</span> <span class="n">WalletCard</span><span class="p">(</span>
+    <span class="nl">id:</span> <span class="s">'cross-platform-card-001'</span><span class="p">,</span>
+    <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+    <span class="nl">platformData:</span> <span class="n">platformData</span><span class="p">,</span>
+    <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+      <span class="nl">title:</span> <span class="s">'Store Card'</span><span class="p">,</span>
+      <span class="nl">organizationName:</span> <span class="s">'Your Store'</span><span class="p">,</span>
+      <span class="nl">serialNumber:</span> <span class="s">'001'</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="environment-configuration">Environment Configuration</h3>
+
+<p>Create different configurations for development and production:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">WalletConfig</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">const</span> <span class="kt">bool</span> <span class="n">isDevelopment</span> <span class="o">=</span> <span class="kt">bool</span><span class="o">.</span><span class="na">fromEnvironment</span><span class="p">(</span><span class="s">'DEVELOPMENT'</span><span class="p">,</span> <span class="nl">defaultValue:</span> <span class="kc">false</span><span class="p">);</span>
+  
+  <span class="kd">static</span> <span class="kt">String</span> <span class="kd">get</span> <span class="n">iosPassTypeId</span> <span class="o">=</span><span class="p">&gt;</span> <span class="n">isDevelopment</span> 
+    <span class="o">?</span> <span class="s">'pass.com.yourcompany.yourapp.dev'</span>
+    <span class="o">:</span> <span class="s">'pass.com.yourcompany.yourapp'</span><span class="p">;</span>
+    
+  <span class="kd">static</span> <span class="kt">String</span> <span class="kd">get</span> <span class="n">androidIssuerId</span> <span class="o">=</span><span class="p">&gt;</span> <span class="n">isDevelopment</span>
+    <span class="o">?</span> <span class="s">'dev_issuer_id'</span>
+    <span class="o">:</span> <span class="s">'prod_issuer_id'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="security-best-practices">Security Best Practices</h3>
+
+<ol>
+  <li><strong>Never commit credentials</strong> to version control</li>
+  <li><strong>Use environment variables</strong> for sensitive data</li>
+  <li><strong>Implement certificate pinning</strong> for production</li>
+  <li><strong>Validate all input data</strong> before creating wallet cards</li>
+  <li><strong>Use secure storage</strong> for authentication tokens</li>
+</ol>
+
+<h3 id="testing-strategy">Testing Strategy</h3>
+
+<ol>
+  <li><strong>Unit Tests</strong>: Test wallet card creation and validation</li>
+  <li><strong>Integration Tests</strong>: Test actual wallet operations on devices</li>
+  <li><strong>Platform Tests</strong>: Test on both iOS and Android devices</li>
+  <li><strong>Edge Cases</strong>: Test error scenarios and edge cases</li>
+</ol>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="general-issues">General Issues</h3>
+
+<ul>
+  <li><strong>Check platform support</strong>: Ensure the device supports wallet functionality</li>
+  <li><strong>Verify permissions</strong>: Check that all required permissions are granted</li>
+  <li><strong>Update dependencies</strong>: Ensure all dependencies are up to date</li>
+  <li><strong>Check logs</strong>: Review device logs for detailed error messages</li>
+</ul>
+
+<h3 id="getting-help">Getting Help</h3>
+
+<ul>
+  <li><a href="https://github.com/webeferen/flutter_wallet_card/issues">GitHub Issues</a></li>
+  <li><a href="https://developer.apple.com/documentation/walletpasses">Apple Developer Documentation</a></li>
+  <li><a href="https://developers.google.com/wallet">Google Wallet API Documentation</a></li>
+  <li><a href="https://flutter.dev/community">Flutter Community</a></li>
+</ul>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/flutter_wallet_card/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Flutter Wallet Card</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Flutter Wallet Card</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/webeferen"><svg class="svg-icon"><use xlink:href="/flutter_wallet_card/assets/minima-social-icons.svg#github"></use></svg> <span class="username">webeferen</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

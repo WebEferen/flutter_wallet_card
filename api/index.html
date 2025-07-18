@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="flutter_wallet_card API docs, for the Dart programming language.">
+  <title>flutter_wallet_card - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/WebEferen/flutter_wallet_card">flutter_wallet_card package</a></li>
+  </ol>
+  <div class="self-name">flutter_wallet_card</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="flutter-wallet-card">Flutter Wallet Card</h1>
+<p><a href="https://pub.dartlang.org/packages/flutter_wallet_card"><img src="https://img.shields.io/pub/v/flutter_wallet_card.svg" alt="pub package"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></p>
+<p>A comprehensive Flutter plugin for creating and managing wallet cards on both iOS (Apple Wallet) and Android (Google Wallet). This plugin provides a unified API for generating, adding, and managing wallet passes across platforms.</p>
+<h2 id="features">Features</h2>
+<h3 id="cross-platform-support">Cross-Platform Support</h3>
+<ul>
+<li><strong>iOS</strong>: Full Apple Wallet (Passkit) integration</li>
+<li><strong>Android</strong>: Google Wallet integration</li>
+<li><strong>Unified API</strong>: Single codebase for both platforms</li>
+</ul>
+<h3 id="card-operations">Card Operations</h3>
+<ul>
+<li>✅ Check wallet availability</li>
+<li>✅ Add cards to wallet</li>
+<li>✅ Check if card is already added</li>
+<li>✅ View cards in wallet</li>
+<li>✅ Generate card files from data</li>
+<li>✅ Parse existing card files</li>
+<li>✅ Download cards from URLs</li>
+</ul>
+<h3 id="card-types-supported">Card Types Supported</h3>
+<ul>
+<li><strong>Generic Cards</strong>: General purpose cards</li>
+<li><strong>Boarding Passes</strong>: Flight tickets</li>
+<li><strong>Coupons</strong>: Discount and promotional cards</li>
+<li><strong>Event Tickets</strong>: Concert, sports, and event passes</li>
+<li><strong>Store Cards</strong>: Loyalty and membership cards</li>
+</ul>
+<h3 id="advanced-features">Advanced Features</h3>
+<ul>
+<li>🎨 Custom colors and styling</li>
+<li>📍 Location-based relevance</li>
+<li>📅 Date-based relevance</li>
+<li>🔒 Secure certificate signing (iOS)</li>
+<li>🌐 Network download support</li>
+<li>🧪 Comprehensive test coverage</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Add this to your package's <code>pubspec.yaml</code> file:</p>
+<pre class="language-yaml"><code class="language-yaml">dependencies:
+  flutter_wallet_card: ^4.0.0
+</code></pre>
+<p>Then run:</p>
+<pre class="language-bash"><code class="language-bash">flutter pub get
+</code></pre>
+<h2 id="platform-setup">Platform Setup</h2>
+<h3 id="ios-setup">iOS Setup</h3>
+<ol>
+<li>
+<p><strong>Enable Wallet capability</strong> in your iOS project:</p>
+<ul>
+<li>Open <code>ios/Runner.xcworkspace</code> in Xcode</li>
+<li>Select your target → Signing &amp; Capabilities</li>
+<li>Add "Wallet" capability</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure your Apple Developer account</strong>:</p>
+<ul>
+<li>Create a Pass Type ID in Apple Developer Console</li>
+<li>Generate certificates for pass signing</li>
+</ul>
+</li>
+</ol>
+<h3 id="android-setup">Android Setup</h3>
+<ol>
+<li>
+<p><strong>Add Google Wallet API</strong> to your project:</p>
+<ul>
+<li>Enable Google Wallet API in Google Cloud Console</li>
+<li>Configure OAuth 2.0 credentials</li>
+</ul>
+</li>
+<li>
+<p><strong>Update Android manifest</strong> (automatically handled by plugin):</p>
+<pre class="language-xml"><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
+</code></pre>
+</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<h3 id="basic-example">Basic Example</h3>
+<pre class="language-dart"><code class="language-dart">import 'package:flutter_wallet_card/flutter_wallet_card.dart';
+import 'package:flutter_wallet_card/models/wallet_card.dart';
+
+// Check if wallet is available
+bool isAvailable = await FlutterWalletCard.isWalletAvailable();
+
+if (isAvailable) {
+  // Create a wallet card
+  final card = WalletCard(
+    id: 'my-card-123',
+    type: WalletCardType.generic,
+    platformData: {
+      // iOS specific data
+      'passTypeIdentifier': 'pass.com.yourcompany.yourpass',
+      'teamIdentifier': 'YOUR_TEAM_ID',
+      // Android specific data
+      'issuerId': 'your-issuer-id',
+      'classId': 'your-class-id',
+    },
+    metadata: WalletCardMetadata(
+      title: 'My Awesome Card',
+      description: 'This is a sample wallet card',
+      organizationName: 'Your Company',
+      serialNumber: 'CARD123',
+    ),
+    visuals: WalletCardVisuals(
+      backgroundColor: '#1E88E5',
+      foregroundColor: '#FFFFFF',
+      labelColor: '#E3F2FD',
+    ),
+  );
+
+  // Add card to wallet
+  bool success = await FlutterWalletCard.addToWallet(card);
+  
+  if (success) {
+    print('Card added successfully!');
+  }
+}
+</code></pre>
+<h3 id="advanced-usage">Advanced Usage</h3>
+<h4 id="creating-cards-with-locations">Creating Cards with Locations</h4>
+<pre class="language-dart"><code class="language-dart">final cardWithLocation = WalletCard(
+  id: 'location-card',
+  type: WalletCardType.storeCard,
+  platformData: {
+    'passTypeIdentifier': 'pass.com.yourcompany.store',
+    'teamIdentifier': 'YOUR_TEAM_ID',
+  },
+  metadata: WalletCardMetadata(
+    title: 'Store Loyalty Card',
+    description: 'Get rewards at our store',
+    organizationName: 'Your Store',
+    locations: [
+      WalletCardLocation(
+        latitude: 37.7749,
+        longitude: -122.4194,
+        altitude: 100.0,
+        relevantText: 'Welcome to our San Francisco store!',
+      ),
+    ],
+  ),
+  visuals: WalletCardVisuals(
+    backgroundColor: '#4CAF50',
+    foregroundColor: '#FFFFFF',
+  ),
+);
+</code></pre>
+<h4 id="generating-card-files">Generating Card Files</h4>
+<pre class="language-dart"><code class="language-dart">// Generate a card file for sharing or storage
+File cardFile = await FlutterWalletCard.generateCardFile(
+  card,
+  outputDirectory: await getApplicationDocumentsDirectory(),
+);
+
+print('Card file created at: ${cardFile.path}');
+</code></pre>
+<h4 id="downloading-cards-from-urls">Downloading Cards from URLs</h4>
+<pre class="language-dart"><code class="language-dart">// Download and add a card from a URL
+try {
+  File downloadedCard = await FlutterWalletCard.downloadFromUrl(
+    'https://example.com/mycard.pkpass',
+  );
+  
+  // Parse the downloaded card
+  WalletCard card = await FlutterWalletCard.parseFromFile(downloadedCard.path);
+  
+  // Add to wallet
+  await FlutterWalletCard.addToWallet(card);
+} catch (e) {
+  print('Failed to download card: $e');
+}
+</code></pre>
+<h4 id="platform-specific-features">Platform-Specific Features</h4>
+<pre class="language-dart"><code class="language-dart">// iOS: Add multiple cards at once
+if (Platform.isIOS) {
+  List&lt;WalletCard&gt; cards = [card1, card2, card3];
+  bool success = await FlutterWalletCard.addMultipleToWallet(cards);
+}
+
+// Android: Save pass with JWT
+if (Platform.isAndroid) {
+  String jwt = 'your-google-wallet-jwt';
+  bool success = await FlutterWalletCard.savePassWithJwt(jwt);
+  
+  // Create a pass link
+  String link = await FlutterWalletCard.createPassLink({
+    'objectId': 'your-object-id',
+  });
+}
+</code></pre>
+<h2 id="api-reference">API Reference</h2>
+<h3 id="core-methods">Core Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isWalletAvailable()</code></td>
+<td>Check if wallet is available on device</td>
+<td><code>Future&lt;bool&gt;</code></td>
+</tr>
+<tr>
+<td><code>isCardAdded(String cardId)</code></td>
+<td>Check if specific card is added</td>
+<td><code>Future&lt;bool&gt;</code></td>
+</tr>
+<tr>
+<td><code>addToWallet(WalletCard card)</code></td>
+<td>Add card to wallet</td>
+<td><code>Future&lt;bool&gt;</code></td>
+</tr>
+<tr>
+<td><code>viewInWallet(String cardId)</code></td>
+<td>Open card in wallet app</td>
+<td><code>Future&lt;bool&gt;</code></td>
+</tr>
+<tr>
+<td><code>generateCardFile(WalletCard card)</code></td>
+<td>Generate card file</td>
+<td><code>Future&lt;File&gt;</code></td>
+</tr>
+<tr>
+<td><code>parseFromFile(String path)</code></td>
+<td>Parse card from file</td>
+<td><code>Future&lt;WalletCard&gt;</code></td>
+</tr>
+<tr>
+<td><code>downloadFromUrl(String url)</code></td>
+<td>Download card from URL</td>
+<td><code>Future&lt;File&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ios-specific-methods">iOS-Specific Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addMultipleToWallet(List&lt;WalletCard&gt; cards)</code></td>
+<td>Add multiple cards</td>
+<td><code>Future&lt;bool&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="android-specific-methods">Android-Specific Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>savePassWithJwt(String jwt)</code></td>
+<td>Save pass using JWT</td>
+<td><code>Future&lt;bool&gt;</code></td>
+</tr>
+<tr>
+<td><code>createPassLink(Map&lt;String, dynamic&gt; data)</code></td>
+<td>Create pass link</td>
+<td><code>Future&lt;String&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="models">Models</h2>
+<h3 id="walletcard">WalletCard</h3>
+<p>The main model representing a wallet card:</p>
+<pre class="language-dart"><code class="language-dart">class WalletCard {
+  final String id;
+  final WalletCardType type;
+  final Map&lt;String, dynamic&gt; platformData;
+  final WalletCardMetadata metadata;
+  final WalletCardVisuals visuals;
+  final File? file;
+}
+</code></pre>
+<h3 id="walletcardmetadata">WalletCardMetadata</h3>
+<p>Card information and content:</p>
+<pre class="language-dart"><code class="language-dart">class WalletCardMetadata {
+  final String title;
+  final String description;
+  final String? organizationName;
+  final String? serialNumber;
+  final DateTime? expirationDate;
+  final DateTime? relevantDate;
+  final List&lt;WalletCardLocation&gt;? locations;
+  final Map&lt;String, dynamic&gt;? additionalData;
+}
+</code></pre>
+<h3 id="walletcardvisuals">WalletCardVisuals</h3>
+<p>Card appearance and styling:</p>
+<pre class="language-dart"><code class="language-dart">class WalletCardVisuals {
+  final String backgroundColor;
+  final String foregroundColor;
+  final String? labelColor;
+  final Map&lt;String, dynamic&gt;? additionalStyles;
+}
+</code></pre>
+<h2 id="error-handling">Error Handling</h2>
+<p>The plugin throws <code>WalletException</code> for wallet-related errors:</p>
+<pre class="language-dart"><code class="language-dart">try {
+  await FlutterWalletCard.addToWallet(card);
+} on WalletException catch (e) {
+  print('Wallet error: ${e.message}');
+  if (e.details != null) {
+    print('Details: ${e.details}');
+  }
+} catch (e) {
+  print('General error: $e');
+}
+</code></pre>
+<h2 id="testing">Testing</h2>
+<p>Run the test suite:</p>
+<pre class="language-bash"><code class="language-bash">flutter test
+</code></pre>
+<p>For comprehensive testing:</p>
+<pre class="language-bash"><code class="language-bash">flutter test test/test_all.dart
+</code></pre>
+<h2 id="migration-from-v3x">Migration from v3.x</h2>
+<p>If you're upgrading from version 3.x, here are the key changes:</p>
+<h3 id="breaking-changes">Breaking Changes</h3>
+<ol>
+<li><strong>New unified API</strong>: Replace platform-specific calls with unified methods</li>
+<li><strong>Updated models</strong>: Use new <code>WalletCard</code> model instead of separate iOS/Android models</li>
+<li><strong>Method names</strong>: Some method names have changed for consistency</li>
+</ol>
+<h3 id="migration-example">Migration Example</h3>
+<p><strong>Old (v3.x):</strong></p>
+<pre class="language-dart"><code class="language-dart">// iOS
+await FlutterWalletCard.addPasskit(passData);
+
+// Android
+await FlutterWalletCard.addGoogleWallet(walletData);
+</code></pre>
+<p><strong>New (v4.x):</strong></p>
+<pre class="language-dart"><code class="language-dart">// Unified
+final card = WalletCard(/* ... */);
+await FlutterWalletCard.addToWallet(card);
+</code></pre>
+<h2 id="-documentation">📚 Documentation</h2>
+<p>For detailed documentation, examples, and API reference, visit our <a href="https://webeferen.github.io/flutter_wallet_card/">documentation site</a>.</p>
+<h3 id="quick-links">Quick Links</h3>
+<ul>
+<li><a href="https://webeferen.github.io/flutter_wallet_card/getting-started">Getting Started Guide</a> - Setup and basic integration</li>
+<li><a href="https://webeferen.github.io/flutter_wallet_card/api-reference">API Reference</a> - Complete API documentation</li>
+<li><a href="https://webeferen.github.io/flutter_wallet_card/platform-setup">Platform Setup</a> - iOS and Android configuration</li>
+<li><a href="https://webeferen.github.io/flutter_wallet_card/examples">Examples</a> - Practical code examples</li>
+<li><a href="https://webeferen.github.io/flutter_wallet_card/migration">Migration Guide</a> - Upgrading from v3.x to v4.0</li>
+</ul>
+<h3 id="development-resources">Development Resources</h3>
+<ul>
+<li><a href=".github/workflows/README.md">GitHub Actions Workflows</a> - CI/CD and automation</li>
+<li><a href="docs/README.md">Documentation Development</a> - Contributing to docs</li>
+<li><a href="scripts/README.md">Deployment Scripts</a> - Local development tools</li>
+</ul>
+<h2 id="-development--deployment">🚀 Development &amp; Deployment</h2>
+<h3 id="local-development">Local Development</h3>
+<pre class="language-bash"><code class="language-bash"># Setup documentation development
+./scripts/deploy-docs.sh dev
+
+# Validate package before publishing
+./scripts/publish-package.sh validate
+
+# Run comprehensive tests
+./scripts/publish-package.sh test
+</code></pre>
+<h3 id="publishing">Publishing</h3>
+<pre class="language-bash"><code class="language-bash"># Create a new release
+./scripts/publish-package.sh release --version 1.0.0
+
+# Publish to pub.dev (manual)
+./scripts/publish-package.sh publish
+</code></pre>
+<h3 id="automated-workflows">Automated Workflows</h3>
+<p>This project includes comprehensive GitHub Actions workflows:</p>
+<ul>
+<li><strong>CI/CD Pipeline</strong> - Automated testing, validation, and quality checks</li>
+<li><strong>Documentation Deployment</strong> - Automatic GitHub Pages updates</li>
+<li><strong>Package Publishing</strong> - Automated pub.dev releases</li>
+<li><strong>Release Management</strong> - Version bumping and changelog generation</li>
+</ul>
+<p>See <a href=".github/workflows/README.md">GitHub Actions Documentation</a> for details.</p>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are welcome! Please read our <a href="CONTRIBUTING.md">contributing guidelines</a> before submitting PRs.</p>
+<h3 id="development-setup">Development Setup</h3>
+<ol>
+<li>Fork the repository</li>
+<li>Clone your fork: <code>git clone https://github.com/your-username/flutter_wallet_card.git</code></li>
+<li>Install dependencies: <code>flutter pub get</code></li>
+<li>Run tests: <code>flutter test</code></li>
+<li>Start documentation server: <code>./scripts/deploy-docs.sh dev</code></li>
+</ol>
+<h3 id="before-submitting">Before Submitting</h3>
+<ul>
+<li>Run <code>./scripts/publish-package.sh validate</code> to ensure quality</li>
+<li>Update documentation if needed</li>
+<li>Add tests for new features</li>
+<li>Follow existing code style</li>
+</ul>
+<h2 id="license">License</h2>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
+<h2 id="support">Support</h2>
+<ul>
+<li>📧 Email: <a href="mailto:support@example.com"></a><a href="mailto:support@example.com">support@example.com</a></li>
+<li>🐛 Issues: <a href="https://github.com/WebEferen/flutter_wallet_card/issues">GitHub Issues</a></li>
+<li>💬 Discussions: <a href="https://github.com/WebEferen/flutter_wallet_card/discussions">GitHub Discussions</a></li>
+</ul>
+<h2 id="changelog">Changelog</h2>
+<p>See <a href="CHANGELOG.md">CHANGELOG.md</a> for a detailed list of changes.</p>
+<hr>
+<p><strong>Made with ❤️ for the Flutter community</strong></p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="android_wallet_platform">
+  <span class="name"><a href="core_android_wallet_platform/">core/android_wallet_platform</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="card_generator">
+  <span class="name"><a href="core_card_generator/">core/card_generator</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="file_manager">
+  <span class="name"><a href="core_file_manager/">core/file_manager</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="ios_wallet_platform">
+  <span class="name"><a href="core_ios_wallet_platform/">core/ios_wallet_platform</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="wallet_factory">
+  <span class="name"><a href="core_wallet_factory/">core/wallet_factory</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="wallet_platform">
+  <span class="name"><a href="core_wallet_platform/">core/wallet_platform</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="flutter_wallet_card">
+  <span class="name"><a href="flutter_wallet_card/">flutter_wallet_card</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="color">
+  <span class="name"><a href="helpers_color/">helpers/color</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="wallet_card">
+  <span class="name"><a href="models_wallet_card/">models/wallet_card</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+        </dl>
+      </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="https://github.com/WebEferen/flutter_wallet_card">flutter_wallet_card package</a></li>
+</ol>
+
+    <h5 class="hidden-xs"><span class="package-name">flutter_wallet_card</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="core_android_wallet_platform/">core/android_wallet_platform</a></li>
+      <li><a href="core_card_generator/">core/card_generator</a></li>
+      <li><a href="core_file_manager/">core/file_manager</a></li>
+      <li><a href="core_ios_wallet_platform/">core/ios_wallet_platform</a></li>
+      <li><a href="core_wallet_factory/">core/wallet_factory</a></li>
+      <li><a href="core_wallet_platform/">core/wallet_platform</a></li>
+      <li><a href="flutter_wallet_card/">flutter_wallet_card</a></li>
+      <li><a href="helpers_color/">helpers/color</a></li>
+      <li><a href="models_wallet_card/">models/wallet_card</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+</main>
+<footer>
+  <span class="no-break">
+    flutter_wallet_card
+      4.0.0
+  </span>
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

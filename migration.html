@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Migration Guide | Flutter Wallet Card</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Migration Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<meta property="og:description" content="A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet" />
+<link rel="canonical" href="https://webeferen.github.io/flutter_wallet_card/migration.html" />
+<meta property="og:url" content="https://webeferen.github.io/flutter_wallet_card/migration.html" />
+<meta property="og:site_name" content="Flutter Wallet Card" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Migration Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet","headline":"Migration Guide","url":"https://webeferen.github.io/flutter_wallet_card/migration.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/flutter_wallet_card/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://webeferen.github.io/flutter_wallet_card/feed.xml" title="Flutter Wallet Card" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/flutter_wallet_card/">Flutter Wallet Card</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/flutter_wallet_card/getting-started.html">Getting Started</a><a class="page-link" href="/flutter_wallet_card/api-reference.html">API Reference</a><a class="page-link" href="/flutter_wallet_card/platform-setup.html">Platform Setup</a><a class="page-link" href="/flutter_wallet_card/examples.html">Examples</a><a class="page-link" href="/flutter_wallet_card/migration.html">Migration Guide</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h1 id="migration-guide">Migration Guide</h1>
+
+<p>Guide for migrating from Flutter Wallet Card v3.x to v4.0.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Version 4.0 introduces a unified API that works across both iOS and Android platforms, replacing the separate platform-specific methods from v3.x. This guide will help you update your existing code to use the new API.</p>
+
+<h2 id="breaking-changes">Breaking Changes</h2>
+
+<h3 id="1-unified-api">1. Unified API</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Platform-specific methods</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addPasskit</span><span class="p">(</span><span class="n">passkitData</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addGoogleWallet</span><span class="p">(</span><span class="n">googleWalletData</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unified method for both platforms</span>
+<span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="2-new-model-structure">2. New Model Structure</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Separate models for each platform</span>
+<span class="kd">final</span> <span class="n">passkitPass</span> <span class="o">=</span> <span class="n">PasskitPass</span><span class="p">(</span>
+  <span class="nl">description:</span> <span class="s">'Store Card'</span><span class="p">,</span>
+  <span class="nl">organizationName:</span> <span class="s">'My Store'</span><span class="p">,</span>
+  <span class="nl">passTypeIdentifier:</span> <span class="s">'pass.com.example.store'</span><span class="p">,</span>
+  <span class="nl">serialNumber:</span> <span class="s">'001'</span><span class="p">,</span>
+  <span class="nl">teamIdentifier:</span> <span class="s">'ABC123'</span><span class="p">,</span>
+  <span class="c1">// ... other properties</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unified WalletCard model</span>
+<span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'store-card-001'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{</span>
+    <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.store'</span><span class="p">,</span>
+    <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123'</span><span class="p">,</span>
+    <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+    <span class="nl">title:</span> <span class="s">'Store Card'</span><span class="p">,</span>
+    <span class="nl">organizationName:</span> <span class="s">'My Store'</span><span class="p">,</span>
+    <span class="nl">serialNumber:</span> <span class="s">'001'</span><span class="p">,</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="3-method-name-changes">3. Method Name Changes</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>v3.x Method</th>
+      <th>v4.0 Method</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">addPasskit()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">addToWallet()</code></td>
+      <td>Unified method</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">addGoogleWallet()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">addToWallet()</code></td>
+      <td>Unified method</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">isPasskitAvailable()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">isWalletAvailable</code></td>
+      <td>Now a getter</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">isGoogleWalletAvailable()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">isWalletAvailable</code></td>
+      <td>Now a getter</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">viewPassInWallet()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">viewInWallet()</code></td>
+      <td>Simplified name</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">isPassAdded()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">isCardAdded()</code></td>
+      <td>Consistent naming</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="4-exception-handling">4. Exception Handling</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addPasskit</span><span class="p">(</span><span class="n">pass</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Generic exception handling</span>
+  <span class="n">print</span><span class="p">(</span><span class="s">'Error: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+<span class="p">}</span> <span class="kd">on</span> <span class="n">WalletException</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Specific wallet exception with error codes</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="na">code</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s">'PLATFORM_NOT_SUPPORTED'</span><span class="o">:</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Platform not supported'</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">'WALLET_NOT_AVAILABLE'</span><span class="o">:</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Wallet not available'</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span>
+      <span class="n">print</span><span class="p">(</span><span class="s">'Wallet error: </span><span class="si">${e.message}</span><span class="s">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">print</span><span class="p">(</span><span class="s">'Unexpected error: </span><span class="si">$e</span><span class="s">'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="step-by-step-migration">Step-by-Step Migration</h2>
+
+<h3 id="step-1-update-dependencies">Step 1: Update Dependencies</h3>
+
+<p>Update your <code class="language-plaintext highlighter-rouge">pubspec.yaml</code>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">dependencies</span><span class="pi">:</span>
+  <span class="na">flutter_wallet_card</span><span class="pi">:</span> <span class="s">^4.0.0</span>  <span class="c1"># Update to v4.0</span>
+</code></pre></div></div>
+
+<p>Run:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flutter pub get
+</code></pre></div></div>
+
+<h3 id="step-2-update-imports">Step 2: Update Imports</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'package:flutter_wallet_card/flutter_wallet_card.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/models/PasskitPass.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/models/PasskitField.dart'</span><span class="o">;</span>
+<span class="c1">// ... other old model imports</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'package:flutter_wallet_card/flutter_wallet_card.dart'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'package:flutter_wallet_card/models/wallet_card.dart'</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h3 id="step-3-replace-platform-specific-code">Step 3: Replace Platform-Specific Code</h3>
+
+<h4 id="ios-migration-example">iOS Migration Example</h4>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">passkitPass</span> <span class="o">=</span> <span class="n">PasskitPass</span><span class="p">(</span>
+  <span class="nl">description:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+  <span class="nl">formatVersion:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nl">organizationName:</span> <span class="s">'My Store'</span><span class="p">,</span>
+  <span class="nl">passTypeIdentifier:</span> <span class="s">'pass.com.example.loyalty'</span><span class="p">,</span>
+  <span class="nl">serialNumber:</span> <span class="s">'12345'</span><span class="p">,</span>
+  <span class="nl">teamIdentifier:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+  <span class="nl">logoText:</span> <span class="s">'MY STORE'</span><span class="p">,</span>
+  <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="o">.</span><span class="na">fromRGBO</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+  <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="o">.</span><span class="na">fromRGBO</span><span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+  <span class="nl">labelColor:</span> <span class="n">Color</span><span class="o">.</span><span class="na">fromRGBO</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+  <span class="nl">generic:</span> <span class="n">PasskitStructure</span><span class="p">(</span>
+    <span class="nl">primaryFields:</span> <span class="p">[</span>
+      <span class="n">PasskitField</span><span class="p">(</span>
+        <span class="nl">key:</span> <span class="s">'points'</span><span class="p">,</span>
+        <span class="nl">label:</span> <span class="s">'Points'</span><span class="p">,</span>
+        <span class="nl">value:</span> <span class="s">'2500'</span><span class="p">,</span>
+      <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="nl">secondaryFields:</span> <span class="p">[</span>
+      <span class="n">PasskitField</span><span class="p">(</span>
+        <span class="nl">key:</span> <span class="s">'member'</span><span class="p">,</span>
+        <span class="nl">label:</span> <span class="s">'Member'</span><span class="p">,</span>
+        <span class="nl">value:</span> <span class="s">'John Doe'</span><span class="p">,</span>
+      <span class="p">),</span>
+    <span class="p">],</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addPasskit</span><span class="p">(</span><span class="n">passkitPass</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'loyalty-12345'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{</span>
+    <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.loyalty'</span><span class="p">,</span>
+    <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123DEF4'</span><span class="p">,</span>
+    <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+    <span class="nl">title:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+    <span class="nl">description:</span> <span class="s">'My Store Loyalty Card'</span><span class="p">,</span>
+    <span class="nl">organizationName:</span> <span class="s">'My Store'</span><span class="p">,</span>
+    <span class="nl">serialNumber:</span> <span class="s">'12345'</span><span class="p">,</span>
+    <span class="nl">customFields:</span> <span class="p">{</span>
+      <span class="s">'points'</span><span class="o">:</span> <span class="s">'2500'</span><span class="p">,</span>
+      <span class="s">'member'</span><span class="o">:</span> <span class="s">'John Doe'</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">),</span>
+  <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+    <span class="nl">backgroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFF4CAF50</span><span class="p">),</span>
+    <span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+    <span class="nl">labelColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+    <span class="nl">logoText:</span> <span class="s">'MY STORE'</span><span class="p">,</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+
+<span class="c1">// Works on both iOS and Android</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="android-migration-example">Android Migration Example</h4>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">googleWalletData</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'your_issuer_id'</span><span class="p">,</span>
+  <span class="s">'classId'</span><span class="o">:</span> <span class="s">'your_class_id'</span><span class="p">,</span>
+  <span class="s">'objectId'</span><span class="o">:</span> <span class="s">'loyalty_object_001'</span><span class="p">,</span>
+  <span class="s">'title'</span><span class="o">:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+  <span class="s">'subtitle'</span><span class="o">:</span> <span class="s">'My Store'</span><span class="p">,</span>
+  <span class="s">'description'</span><span class="o">:</span> <span class="s">'Store loyalty program'</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addGoogleWallet</span><span class="p">(</span><span class="n">googleWalletData</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'loyalty_object_001'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{</span>
+    <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'your_issuer_id'</span><span class="p">,</span>
+    <span class="s">'classId'</span><span class="o">:</span> <span class="s">'your_class_id'</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+    <span class="nl">title:</span> <span class="s">'Loyalty Card'</span><span class="p">,</span>
+    <span class="nl">subtitle:</span> <span class="s">'My Store'</span><span class="p">,</span>
+    <span class="nl">description:</span> <span class="s">'Store loyalty program'</span><span class="p">,</span>
+    <span class="nl">organizationName:</span> <span class="s">'My Store'</span><span class="p">,</span>
+    <span class="nl">serialNumber:</span> <span class="s">'loyalty_object_001'</span><span class="p">,</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+
+<span class="c1">// Works on both iOS and Android</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="step-4-update-availability-checks">Step 4: Update Availability Checks</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">isAvailable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isPasskitAvailable</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isGoogleWalletAvailable</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unified availability check</span>
+<span class="kt">bool</span> <span class="n">isAvailable</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isWalletAvailable</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="step-5-update-card-status-checks">Step 5: Update Card Status Checks</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">isAdded</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">isAdded</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isPassAdded</span><span class="p">(</span><span class="s">'pass_id'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Android-specific check</span>
+  <span class="n">isAdded</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isGoogleWalletCardAdded</span><span class="p">(</span><span class="s">'card_id'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unified card status check</span>
+<span class="kt">bool</span> <span class="n">isAdded</span> <span class="o">=</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">isCardAdded</span><span class="p">(</span><span class="s">'card_id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="step-6-update-file-operations">Step 6: Update File Operations</h3>
+
+<p><strong>v3.x (Old):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// File operations were platform-specific</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">passkit</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Passkit</span><span class="p">()</span><span class="o">.</span><span class="na">saveFromPath</span><span class="p">(</span><span class="nl">id:</span> <span class="s">'example'</span><span class="p">,</span> <span class="nl">file:</span> <span class="n">file</span><span class="p">);</span>
+  <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addPasskit</span><span class="p">(</span><span class="n">passkit</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>v4.0 (New):</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unified file operations</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addFromFile</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+<span class="c1">// or</span>
+<span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addFromUrl</span><span class="p">(</span><span class="s">'https://example.com/card.pkpass'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="migration-helpers">Migration Helpers</h2>
+
+<h3 id="cross-platform-card-factory">Cross-Platform Card Factory</h3>
+
+<p>Create a helper class to ease migration:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">MigrationHelper</span> <span class="p">{</span>
+  <span class="c1">/// Converts old PasskitPass to new WalletCard</span>
+  <span class="kd">static</span> <span class="n">WalletCard</span> <span class="n">fromPasskitPass</span><span class="p">(</span><span class="n">PasskitPass</span> <span class="n">oldPass</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">WalletCard</span><span class="p">(</span>
+      <span class="nl">id:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">serialNumber</span><span class="p">,</span>
+      <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">generic</span><span class="p">,</span>
+      <span class="nl">platformData:</span> <span class="p">{</span>
+        <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">passTypeIdentifier</span><span class="p">,</span>
+        <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">teamIdentifier</span><span class="p">,</span>
+        <span class="s">'formatVersion'</span><span class="o">:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">formatVersion</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+        <span class="nl">title:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">description</span><span class="p">,</span>
+        <span class="nl">organizationName:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">organizationName</span><span class="p">,</span>
+        <span class="nl">serialNumber:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">serialNumber</span><span class="p">,</span>
+      <span class="p">),</span>
+      <span class="nl">visuals:</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+        <span class="nl">backgroundColor:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">backgroundColor</span><span class="p">,</span>
+        <span class="nl">foregroundColor:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">foregroundColor</span><span class="p">,</span>
+        <span class="nl">labelColor:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">labelColor</span><span class="p">,</span>
+        <span class="nl">logoText:</span> <span class="n">oldPass</span><span class="o">.</span><span class="na">logoText</span><span class="p">,</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">/// Creates platform-appropriate card data</span>
+  <span class="kd">static</span> <span class="n">WalletCard</span> <span class="n">createUnifiedCard</span><span class="p">({</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">id</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">title</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">organizationName</span><span class="p">,</span>
+    <span class="kd">required</span> <span class="kt">String</span> <span class="n">serialNumber</span><span class="p">,</span>
+    <span class="n">WalletCardType</span> <span class="n">type</span> <span class="o">=</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">generic</span><span class="p">,</span>
+    <span class="n">Color</span><span class="o">?</span> <span class="n">backgroundColor</span><span class="p">,</span>
+    <span class="kt">String</span><span class="o">?</span> <span class="n">logoText</span><span class="p">,</span>
+  <span class="p">})</span> <span class="p">{</span>
+    <span class="kt">Map</span><span class="p">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kd">dynamic</span><span class="p">&gt;</span> <span class="n">platformData</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.generic'</span><span class="p">,</span>
+        <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'YOUR_TEAM_ID'</span><span class="p">,</span>
+        <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'YOUR_ISSUER_ID'</span><span class="p">,</span>
+        <span class="s">'classId'</span><span class="o">:</span> <span class="s">'YOUR_CLASS_ID'</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="n">UnsupportedError</span><span class="p">(</span><span class="s">'Platform not supported'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">WalletCard</span><span class="p">(</span>
+      <span class="nl">id:</span> <span class="n">id</span><span class="p">,</span>
+      <span class="nl">type:</span> <span class="n">type</span><span class="p">,</span>
+      <span class="nl">platformData:</span> <span class="n">platformData</span><span class="p">,</span>
+      <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+        <span class="nl">title:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="nl">organizationName:</span> <span class="n">organizationName</span><span class="p">,</span>
+        <span class="nl">serialNumber:</span> <span class="n">serialNumber</span><span class="p">,</span>
+      <span class="p">),</span>
+      <span class="nl">visuals:</span> <span class="n">backgroundColor</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">logoText</span> <span class="o">!=</span> <span class="kc">null</span>
+        <span class="o">?</span> <span class="n">WalletCardVisuals</span><span class="p">(</span>
+            <span class="nl">backgroundColor:</span> <span class="n">backgroundColor</span><span class="p">,</span>
+            <span class="nl">logoText:</span> <span class="n">logoText</span><span class="p">,</span>
+          <span class="p">)</span>
+        <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="gradual-migration-strategy">Gradual Migration Strategy</h3>
+
+<p>If you need to migrate gradually, you can use version checks:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">WalletService</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="n">Future</span><span class="p">&lt;</span><span class="kt">void</span><span class="p">&gt;</span> <span class="n">addCard</span><span class="p">(</span><span class="kd">dynamic</span> <span class="n">cardData</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cardData</span> <span class="k">is</span> <span class="n">WalletCard</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// v4.0 code path</span>
+      <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">cardData</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">cardData</span> <span class="k">is</span> <span class="n">PasskitPass</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Migration path: convert old model to new</span>
+      <span class="kd">final</span> <span class="n">newCard</span> <span class="o">=</span> <span class="n">MigrationHelper</span><span class="o">.</span><span class="na">fromPasskitPass</span><span class="p">(</span><span class="n">cardData</span><span class="p">);</span>
+      <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">newCard</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="s">'Unsupported card data type'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="common-migration-issues">Common Migration Issues</h2>
+
+<h3 id="issue-1-missing-required-fields">Issue 1: Missing Required Fields</h3>
+
+<p><strong>Problem:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This will cause an error in v4.0</span>
+<span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'card-001'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{},</span>
+  <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+    <span class="nl">title:</span> <span class="s">'Card'</span><span class="p">,</span>
+    <span class="c1">// Missing required fields!</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>Solution:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+  <span class="nl">id:</span> <span class="s">'card-001'</span><span class="p">,</span>
+  <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+  <span class="nl">platformData:</span> <span class="p">{</span>
+    <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example.store'</span><span class="p">,</span>
+    <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123'</span><span class="p">,</span>
+    <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+    <span class="nl">title:</span> <span class="s">'Card'</span><span class="p">,</span>
+    <span class="nl">organizationName:</span> <span class="s">'Required!'</span><span class="p">,</span> <span class="c1">// Add required field</span>
+    <span class="nl">serialNumber:</span> <span class="s">'Required!'</span><span class="p">,</span>     <span class="c1">// Add required field</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="issue-2-color-format-changes">Issue 2: Color Format Changes</h3>
+
+<p><strong>Problem:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// v3.x color format</span>
+<span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="o">.</span><span class="na">fromRGBO</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p><strong>Solution:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// v4.0 color format (both work, but hex is preferred)</span>
+<span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="p">(</span><span class="mh">0xFFFFFFFF</span><span class="p">),</span>
+<span class="c1">// or</span>
+<span class="nl">foregroundColor:</span> <span class="n">Color</span><span class="o">.</span><span class="na">fromRGBO</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</code></pre></div></div>
+
+<h3 id="issue-3-platform-data-structure">Issue 3: Platform Data Structure</h3>
+
+<p><strong>Problem:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Mixing platform data</span>
+<span class="nl">platformData:</span> <span class="p">{</span>
+  <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example'</span><span class="p">,</span> <span class="c1">// iOS</span>
+  <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'issuer_id'</span><span class="p">,</span>                   <span class="c1">// Android</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Solution:</strong></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Use platform-specific data</span>
+<span class="kt">Map</span><span class="p">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kd">dynamic</span><span class="p">&gt;</span> <span class="n">platformData</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Platform</span><span class="o">.</span><span class="na">isIOS</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.example'</span><span class="p">,</span>
+    <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'ABC123'</span><span class="p">,</span>
+    <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="n">platformData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'issuerId'</span><span class="o">:</span> <span class="s">'issuer_id'</span><span class="p">,</span>
+    <span class="s">'classId'</span><span class="o">:</span> <span class="s">'class_id'</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="testing-your-migration">Testing Your Migration</h2>
+
+<h3 id="unit-tests">Unit Tests</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">group</span><span class="p">(</span><span class="s">'Migration Tests'</span><span class="p">,</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">test</span><span class="p">(</span><span class="s">'should create valid WalletCard from old data'</span><span class="p">,</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+        <span class="nl">id:</span> <span class="s">'test-001'</span><span class="p">,</span>
+        <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">,</span>
+        <span class="nl">platformData:</span> <span class="p">{</span>
+          <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.test'</span><span class="p">,</span>
+          <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'TEST123'</span><span class="p">,</span>
+          <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+          <span class="nl">title:</span> <span class="s">'Test Card'</span><span class="p">,</span>
+          <span class="nl">organizationName:</span> <span class="s">'Test Org'</span><span class="p">,</span>
+          <span class="nl">serialNumber:</span> <span class="s">'test-001'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">);</span>
+
+      <span class="n">expect</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">id</span><span class="p">,</span> <span class="s">'test-001'</span><span class="p">);</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">type</span><span class="p">,</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">storeCard</span><span class="p">);</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="na">metadata</span><span class="o">.</span><span class="na">title</span><span class="p">,</span> <span class="s">'Test Card'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="n">test</span><span class="p">(</span><span class="s">'should handle platform-specific data correctly'</span><span class="p">,</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// Test iOS data</span>
+      <span class="kd">final</span> <span class="n">iosCard</span> <span class="o">=</span> <span class="n">MigrationHelper</span><span class="o">.</span><span class="na">createUnifiedCard</span><span class="p">(</span>
+        <span class="nl">id:</span> <span class="s">'ios-001'</span><span class="p">,</span>
+        <span class="nl">title:</span> <span class="s">'iOS Card'</span><span class="p">,</span>
+        <span class="nl">organizationName:</span> <span class="s">'Test'</span><span class="p">,</span>
+        <span class="nl">serialNumber:</span> <span class="s">'001'</span><span class="p">,</span>
+      <span class="p">);</span>
+
+      <span class="n">expect</span><span class="p">(</span><span class="n">iosCard</span><span class="o">.</span><span class="na">platformData</span><span class="o">.</span><span class="na">containsKey</span><span class="p">(</span><span class="s">'passTypeIdentifier'</span><span class="p">),</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="integration-tests">Integration Tests</h3>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">group</span><span class="p">(</span><span class="s">'Wallet Integration Tests'</span><span class="p">,</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">testWidgets</span><span class="p">(</span><span class="s">'should add card to wallet'</span><span class="p">,</span> <span class="p">(</span><span class="n">WidgetTester</span> <span class="n">tester</span><span class="p">)</span> <span class="kd">async</span> <span class="p">{</span>
+      <span class="kd">final</span> <span class="n">card</span> <span class="o">=</span> <span class="n">WalletCard</span><span class="p">(</span>
+        <span class="nl">id:</span> <span class="s">'integration-test-001'</span><span class="p">,</span>
+        <span class="nl">type:</span> <span class="n">WalletCardType</span><span class="o">.</span><span class="na">generic</span><span class="p">,</span>
+        <span class="nl">platformData:</span> <span class="p">{</span>
+          <span class="s">'passTypeIdentifier'</span><span class="o">:</span> <span class="s">'pass.com.test'</span><span class="p">,</span>
+          <span class="s">'teamIdentifier'</span><span class="o">:</span> <span class="s">'TEST123'</span><span class="p">,</span>
+          <span class="s">'formatVersion'</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nl">metadata:</span> <span class="n">WalletCardMetadata</span><span class="p">(</span>
+          <span class="nl">title:</span> <span class="s">'Integration Test Card'</span><span class="p">,</span>
+          <span class="nl">organizationName:</span> <span class="s">'Test Org'</span><span class="p">,</span>
+          <span class="nl">serialNumber:</span> <span class="s">'integration-test-001'</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">);</span>
+
+      <span class="c1">// This should not throw an exception</span>
+      <span class="n">expect</span><span class="p">(()</span> <span class="kd">async</span> <span class="o">=</span><span class="p">&gt;</span> <span class="k">await</span> <span class="n">FlutterWalletCard</span><span class="o">.</span><span class="na">addToWallet</span><span class="p">(</span><span class="n">card</span><span class="p">),</span> 
+             <span class="n">returnsNormally</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="post-migration-checklist">Post-Migration Checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Updated all imports to use new models</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Replaced platform-specific methods with unified API</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Updated exception handling to use <code class="language-plaintext highlighter-rouge">WalletException</code></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Converted old model structures to <code class="language-plaintext highlighter-rouge">WalletCard</code></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Updated availability checks to use unified getter</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Tested on both iOS and Android devices</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Updated documentation and comments</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Removed old v3.x dependencies and imports</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Verified all wallet operations work correctly</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Updated error handling and user feedback</li>
+</ul>
+
+<h2 id="getting-help">Getting Help</h2>
+
+<p>If you encounter issues during migration:</p>
+
+<ol>
+  <li>Check the <a href="api-reference.html">API Reference</a> for detailed method documentation</li>
+  <li>Review the <a href="examples.html">Examples</a> for common use cases</li>
+  <li>Search <a href="https://github.com/webeferen/flutter_wallet_card/issues">GitHub Issues</a> for similar problems</li>
+  <li>Create a new issue if you find a bug or need help</li>
+</ol>
+
+<p>The v4.0 API is designed to be more consistent and easier to use across platforms. While migration requires some effort, the unified API will make your code simpler and more maintainable in the long run.</p>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/flutter_wallet_card/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Flutter Wallet Card</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Flutter Wallet Card</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/webeferen"><svg class="svg-icon"><use xlink:href="/flutter_wallet_card/assets/minima-social-icons.svg#github"></use></svg> <span class="username">webeferen</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A unified Flutter plugin for adding cards to Apple Wallet and Google Wallet</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
