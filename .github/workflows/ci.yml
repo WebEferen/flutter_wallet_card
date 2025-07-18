@@ -1,15 +1,15 @@
 name: CI
 
 # This workflow runs on:
-# - Push to main/develop branches and custom feature branches
-# - Pull requests to main/develop branches
+# - Push to master/develop branches and custom feature branches
+# - Pull requests from any branch to any branch
 # - Manual workflow dispatch from any branch
-# Resource-intensive jobs are optimized to run only on main branches and PRs
+# Resource-intensive jobs are optimized to run only on master/develop branches and PRs
 
 on:
   push:
     branches: 
-      - main
+      - master
       - develop
       - 'feature/**'
       - 'bugfix/**'
@@ -25,8 +25,7 @@ on:
       - 'experimental/**'
       - 'wip/**'
   pull_request:
-    branches: [ main, develop ]
-    # Run CI for PRs from any branch to main/develop
+    # Run CI for PRs from any branch to any branch
   workflow_dispatch:
     # Allow manual triggering from any branch
 
@@ -126,8 +125,8 @@ jobs:
   package-analysis:
     runs-on: ubuntu-latest
     name: Package Analysis
-    # Run package analysis on main branches and PRs
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
+    # Run package analysis on master branches and PRs
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
     
     steps:
     - name: Checkout repository
@@ -157,8 +156,8 @@ jobs:
   security-scan:
     runs-on: ubuntu-latest
     name: Security Scan
-    # Run security scans on main branches and PRs
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
+    # Run security scans on master branches and PRs
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
     
     steps:
     - name: Checkout repository
@@ -272,8 +271,8 @@ jobs:
   compatibility-check:
     runs-on: ubuntu-latest
     name: Flutter Version Compatibility
-    # Only run compatibility checks on main branches to save CI resources
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
+    # Only run compatibility checks on master branches to save CI resources
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
     strategy:
       matrix:
         flutter-version: ['3.13.0', '3.16.0', '3.19.0']

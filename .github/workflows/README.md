@@ -7,8 +7,8 @@ This directory contains GitHub Actions workflows for automating various aspects 
 ### 1. CI Workflow (`ci.yml`)
 
 **Triggers:**
-- Push to `main` or `develop` branches
-- Pull requests to `main` or `develop` branches
+- Push to `master` or `develop` branches
+- Pull requests to `master` or `develop` branches
 - Manual dispatch
 
 **Jobs:**
@@ -35,7 +35,7 @@ This directory contains GitHub Actions workflows for automating various aspects 
 ### 2. Documentation Workflow (`docs.yml`)
 
 **Triggers:**
-- Push to `main` branch (when docs, lib, README, or CHANGELOG change)
+- Push to `master` branch (when docs, lib, README, or CHANGELOG change)
 - Manual dispatch
 
 **Jobs:**
@@ -125,7 +125,7 @@ GITHUB_TOKEN  # Usually provided automatically
 
 #### Branch Protection (Recommended):
 1. Go to repository Settings → Branches
-2. Add protection rules for `main` branch:
+2. Add protection rules for `master` branch:
    - Require status checks to pass
    - Require branches to be up to date
    - Include administrators
@@ -166,7 +166,7 @@ GITHUB_TOKEN  # Usually provided automatically
 ### Updating Documentation
 
 1. **Automatic:**
-   - Documentation updates automatically when you push to `main`
+   - Documentation updates automatically when you push to `master`
    - Changes to `docs/`, `lib/`, `README.md`, or `CHANGELOG.md` trigger updates
 
 2. **Manual:**
