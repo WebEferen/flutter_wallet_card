@@ -127,7 +127,7 @@ class FlutterWalletCard {
       } else if (file.path.endsWith('.json')) {
         return await _parseGoogleWalletCard(file);
       } else {
-        throw WalletException('Unsupported file format');
+        throw const WalletException('Unsupported file format');
       }
     } catch (e) {
       throw WalletException('Failed to parse wallet card: $e');
@@ -147,7 +147,7 @@ class FlutterWalletCard {
   /// Only works on iOS platform
   static Future<bool> addMultipleToWallet(List<WalletCard> cards) async {
     if (_platform.platformType != WalletPlatformType.ios) {
-      throw WalletException('Multiple card addition is only supported on iOS');
+      throw const WalletException('Multiple card addition is only supported on iOS');
     }
 
     try {
@@ -176,7 +176,7 @@ class FlutterWalletCard {
   /// Only works on Android platform
   static Future<bool> savePassWithJwt(String jwt) async {
     if (_platform.platformType != WalletPlatformType.android) {
-      throw WalletException('JWT pass saving is only supported on Android');
+      throw const WalletException('JWT pass saving is only supported on Android');
     }
 
     try {
@@ -196,7 +196,7 @@ class FlutterWalletCard {
   /// Only works on Android platform
   static Future<String> createPassLink(Map<String, dynamic> passData) async {
     if (_platform.platformType != WalletPlatformType.android) {
-      throw WalletException('Pass link creation is only supported on Android');
+      throw const WalletException('Pass link creation is only supported on Android');
     }
 
     try {
@@ -216,7 +216,7 @@ class FlutterWalletCard {
   /// Returns validation result with pass information
   static Future<Map<String, dynamic>> validatePass(File file) async {
     if (_platform.platformType != WalletPlatformType.ios) {
-      throw WalletException('Pass validation is only supported on iOS');
+      throw const WalletException('Pass validation is only supported on iOS');
     }
 
     try {
@@ -236,7 +236,7 @@ class FlutterWalletCard {
   /// Returns detailed pass information
   static Future<Map<String, dynamic>> getPassInfo(String identifier) async {
     if (_platform.platformType != WalletPlatformType.ios) {
-      throw WalletException('Pass info retrieval is only supported on iOS');
+      throw const WalletException('Pass info retrieval is only supported on iOS');
     }
 
     try {
@@ -277,7 +277,7 @@ class FlutterWalletCard {
       case WalletPlatformType.android:
         return GoogleWalletGenerator(fileManager: _fileManager);
       case WalletPlatformType.unsupported:
-        throw WalletException(
+        throw const WalletException(
             'Wallet operations are not supported on this platform');
     }
   }
@@ -290,7 +290,7 @@ class FlutterWalletCard {
       // Read pass.json
       final passJsonFile = File('${extractedDir.path}/pass.json');
       if (!passJsonFile.existsSync()) {
-        throw WalletException('Invalid .pkpass file: missing pass.json');
+        throw const WalletException('Invalid .pkpass file: missing pass.json');
       }
 
       final passJsonContent = await passJsonFile.readAsString();
@@ -372,8 +372,9 @@ class FlutterWalletCard {
       Map<String, dynamic> passJson) {
     if (passJson.containsKey('storeCard')) return WalletCardType.storeCard;
     if (passJson.containsKey('eventTicket')) return WalletCardType.eventTicket;
-    if (passJson.containsKey('boardingPass'))
+    if (passJson.containsKey('boardingPass')) {
       return WalletCardType.boardingPass;
+    }
     if (passJson.containsKey('coupon')) return WalletCardType.coupon;
     return WalletCardType.generic;
   }

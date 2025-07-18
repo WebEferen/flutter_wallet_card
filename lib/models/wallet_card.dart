@@ -150,7 +150,7 @@ class WalletCardVisuals extends Equatable {
 
   static String? _colorToJson(Color? color) {
     if (color == null) return null;
-    return '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
+    return '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
   }
 
   @override

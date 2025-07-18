@@ -15,7 +15,7 @@ void main() {
 
     setUp(() async {
       tempDir = await Directory.systemTemp.createTemp('card_generator_test_');
-      testCard = WalletCard(
+      testCard = const WalletCard(
         id: 'test-card-123',
         type: WalletCardType.generic,
         platformData: {
@@ -29,9 +29,9 @@ void main() {
           serialNumber: 'TEST123',
         ),
         visuals: WalletCardVisuals(
-          backgroundColor: const Color(0xFFFFFFFF),
-          foregroundColor: const Color(0xFF000000),
-          labelColor: const Color(0xFF666666),
+          backgroundColor: Color(0xFFFFFFFF),
+          foregroundColor: Color(0xFF000000),
+          labelColor: Color(0xFF666666),
         ),
       );
     });
@@ -54,7 +54,7 @@ void main() {
       });
 
       test('should validate required platform data', () {
-        final invalidCard = WalletCard(
+        const invalidCard = WalletCard(
           id: 'invalid',
           type: WalletCardType.generic,
           platformData: {}, // Missing required fields
@@ -65,8 +65,8 @@ void main() {
             serialNumber: '12345',
           ),
           visuals: WalletCardVisuals(
-            backgroundColor: const Color(0xFFFFFFFF),
-            foregroundColor: const Color(0xFF000000),
+            backgroundColor: Color(0xFFFFFFFF),
+            foregroundColor: Color(0xFF000000),
           ),
         );
 
@@ -121,10 +121,10 @@ void main() {
 
       test('should handle colors correctly', () {
         final cardWithColors = testCard.copyWith(
-          visuals: WalletCardVisuals(
-            backgroundColor: const Color(0xFFFF0000),
-            foregroundColor: const Color(0xFF00FF00),
-            labelColor: const Color(0xFF0000FF),
+          visuals: const WalletCardVisuals(
+            backgroundColor: Color(0xFFFF0000),
+            foregroundColor: Color(0xFF00FF00),
+            labelColor: Color(0xFF0000FF),
           ),
         );
 
@@ -139,7 +139,7 @@ void main() {
         final cardWithLocation = testCard.copyWith(
           metadata: testCard.metadata.copyWith(
             locations: [
-              WalletCardLocation(
+              const WalletCardLocation(
                 latitude: 37.7749,
                 longitude: -122.4194,
                 altitude: 100.0,
@@ -172,7 +172,7 @@ void main() {
       });
 
       test('should validate required platform data', () {
-        final invalidCard = WalletCard(
+        const invalidCard = WalletCard(
           id: 'invalid',
           type: WalletCardType.generic,
           platformData: {}, // Missing required fields
@@ -183,8 +183,8 @@ void main() {
             serialNumber: '12345',
           ),
           visuals: WalletCardVisuals(
-            backgroundColor: const Color(0xFFFFFFFF),
-            foregroundColor: const Color(0xFF000000),
+            backgroundColor: Color(0xFFFFFFFF),
+            foregroundColor: Color(0xFF000000),
           ),
         );
 
@@ -250,9 +250,9 @@ void main() {
             'issuerId': 'test-issuer-id',
             'classId': 'test-class-id',
           },
-          visuals: WalletCardVisuals(
-            backgroundColor: const Color(0xFFFF0000),
-            foregroundColor: const Color(0xFF00FF00),
+          visuals: const WalletCardVisuals(
+            backgroundColor: Color(0xFFFF0000),
+            foregroundColor: Color(0xFF00FF00),
           ),
         );
 
@@ -270,7 +270,7 @@ void main() {
           },
           metadata: testCard.metadata.copyWith(
             locations: [
-              WalletCardLocation(
+              const WalletCardLocation(
                 latitude: 37.7749,
                 longitude: -122.4194,
                 relevantText: 'Near San Francisco',

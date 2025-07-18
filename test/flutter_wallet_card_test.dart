@@ -246,7 +246,7 @@ void main() {
 }
 
 WalletCard createTestCard() {
-  return WalletCard(
+  return const WalletCard(
     id: 'test-card-123',
     type: WalletCardType.generic,
     platformData: {},
@@ -257,14 +257,14 @@ WalletCard createTestCard() {
       serialNumber: '12345',
     ),
     visuals: WalletCardVisuals(
-      backgroundColor: const Color(0xFFFFFFFF),
-      foregroundColor: const Color(0xFF000000),
+      backgroundColor: Color(0xFFFFFFFF),
+      foregroundColor: Color(0xFF000000),
     ),
   );
 }
 
 WalletCard createAppleWalletCard() {
-  return WalletCard(
+  return const WalletCard(
     id: 'apple-card-123',
     type: WalletCardType.generic,
     platformData: {
@@ -278,14 +278,14 @@ WalletCard createAppleWalletCard() {
       serialNumber: 'APPLE123',
     ),
     visuals: WalletCardVisuals(
-      backgroundColor: const Color(0xFFFFFFFF),
-      foregroundColor: const Color(0xFF000000),
+      backgroundColor: Color(0xFFFFFFFF),
+      foregroundColor: Color(0xFF000000),
     ),
   );
 }
 
 WalletCard createGoogleWalletCard() {
-  return WalletCard(
+  return const WalletCard(
     id: 'google-card-123',
     type: WalletCardType.generic,
     platformData: {
@@ -299,8 +299,8 @@ WalletCard createGoogleWalletCard() {
       serialNumber: 'GOOGLE123',
     ),
     visuals: WalletCardVisuals(
-      backgroundColor: const Color(0xFFFFFFFF),
-      foregroundColor: const Color(0xFF000000),
+      backgroundColor: Color(0xFFFFFFFF),
+      foregroundColor: Color(0xFF000000),
     ),
   );
 }
