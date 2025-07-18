@@ -1,13 +1,13 @@
 // This is a basic test file for the Flutter Wallet Card example app.
 // You can add your widget tests here.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_wallet_card_example/main.dart';
 
 void main() {
-  testWidgets('Flutter Wallet Card Example app smoke test', (WidgetTester tester) async {
+  testWidgets('Flutter Wallet Card Example app smoke test',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 

@@ -7,23 +7,19 @@ import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 import 'package:flutter_wallet_card/models/wallet_card.dart';
 import 'package:flutter_wallet_card/core/wallet_platform.dart';
 import 'package:flutter_wallet_card/core/wallet_factory.dart';
-import 'package:mockito/mockito.dart';
+
 import 'package:mockito/annotations.dart';
 import 'package:path/path.dart' as path;
 
 // Generate mocks
 @GenerateMocks([WalletPlatform])
-import 'flutter_wallet_card_test.mocks.dart';
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('FlutterWalletCard', () {
-    late MockWalletPlatform mockPlatform;
     late Directory tempDir;
 
     setUp(() async {
-      mockPlatform = MockWalletPlatform();
       tempDir = await Directory.systemTemp.createTemp('wallet_test_');
 
       // Reset the factory instance

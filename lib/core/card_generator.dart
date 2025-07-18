@@ -1,6 +1,5 @@
-import 'dart:io';
 import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:archive/archive_io.dart';
 import 'package:path/path.dart' as path;
@@ -53,7 +52,7 @@ class AppleWalletGenerator extends CardGenerator {
       await _copyImages(card, tempDir);
 
       // Generate manifest.json
-      final manifestFile = await _generateManifest(tempDir);
+      await _generateManifest(tempDir);
 
       // Create empty signature file (actual signing should be implemented with certificates)
       final signatureFile = File(path.join(tempDir.path, 'signature'));
@@ -91,7 +90,7 @@ class AppleWalletGenerator extends CardGenerator {
       await _copyImages(card, tempDir);
 
       // Generate manifest.json
-      final manifestFile = await _generateManifest(tempDir);
+      await _generateManifest(tempDir);
 
       // Create empty signature file (actual signing should be implemented with certificates)
       final signatureFile = File(path.join(tempDir.path, 'signature'));

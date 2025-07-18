@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 import 'package:flutter_wallet_card/models/wallet_card.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/cupertino.dart';
 
 void generateWalletPassFromUri(String url) async {
   try {

@@ -54,26 +54,26 @@ class UnsupportedWalletPlatform implements WalletPlatform {
 
   @override
   Future<bool> isWalletAvailable() async {
-    throw WalletException(
+    throw const WalletException(
         'Wallet operations are not supported on this platform');
   }
 
   @override
   Future<bool> isCardAdded(String identifier) async {
-    throw WalletException(
+    throw const WalletException(
         'Wallet operations are not supported on this platform');
   }
 
   @override
   Future<bool> addToWallet(io.File file,
       {Map<String, dynamic>? metadata}) async {
-    throw WalletException(
+    throw const WalletException(
         'Wallet operations are not supported on this platform');
   }
 
   @override
   Future<bool> viewInWallet(String identifier) async {
-    throw WalletException(
+    throw const WalletException(
         'Wallet operations are not supported on this platform');
   }
 }
