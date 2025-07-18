@@ -8,7 +8,7 @@ import 'package:path/path.dart' as path;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   group('CardGenerator', () {
     late Directory tempDir;
     late WalletCard testCard;
@@ -30,7 +30,7 @@ void main() {
         ),
         visuals: WalletCardVisuals(
           backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
+          foregroundColor: const Color(0xFF000000),
           labelColor: const Color(0xFF666666),
         ),
       );
@@ -66,7 +66,7 @@ void main() {
           ),
           visuals: WalletCardVisuals(
             backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
+            foregroundColor: const Color(0xFF000000),
           ),
         );
 
@@ -82,7 +82,7 @@ void main() {
 
       test('should generate pass.json content', () {
         final passJson = generator.generatePassJson(testCard);
-        
+
         expect(passJson['passTypeIdentifier'], 'pass.com.example.test');
         expect(passJson['teamIdentifier'], 'TEAM123');
         expect(passJson['serialNumber'], 'TEST123');
@@ -92,7 +92,8 @@ void main() {
       });
 
       test('should generate different pass types', () {
-        final boardingPassCard = testCard.copyWith(type: WalletCardType.boardingPass);
+        final boardingPassCard =
+            testCard.copyWith(type: WalletCardType.boardingPass);
         final couponCard = testCard.copyWith(type: WalletCardType.coupon);
         final eventCard = testCard.copyWith(type: WalletCardType.eventTicket);
         final storeCard = testCard.copyWith(type: WalletCardType.storeCard);
@@ -110,9 +111,9 @@ void main() {
 
       test('should generate file successfully', () async {
         final outputFile = File(path.join(tempDir.path, 'test.pkpass'));
-        
+
         final result = await generator.generateFile(testCard, outputFile);
-        
+
         expect(await result.exists(), isTrue);
         expect(result.path.endsWith('.pkpass'), isTrue);
         expect(await result.length(), greaterThan(0));
@@ -122,13 +123,13 @@ void main() {
         final cardWithColors = testCard.copyWith(
           visuals: WalletCardVisuals(
             backgroundColor: const Color(0xFFFF0000),
-        foregroundColor: const Color(0xFF00FF00),
+            foregroundColor: const Color(0xFF00FF00),
             labelColor: const Color(0xFF0000FF),
           ),
         );
 
         final passJson = generator.generatePassJson(cardWithColors);
-        
+
         expect(passJson['backgroundColor'], 'rgb(255,0,0)');
         expect(passJson['foregroundColor'], 'rgb(0,255,0)');
         expect(passJson['labelColor'], 'rgb(0,0,255)');
@@ -150,7 +151,7 @@ void main() {
 
         final passJson = generator.generatePassJson(cardWithLocation);
         final locations = passJson['locations'] as List;
-        
+
         expect(locations.length, 1);
         expect(locations[0]['latitude'], 37.7749);
         expect(locations[0]['longitude'], -122.4194);
@@ -183,7 +184,7 @@ void main() {
           ),
           visuals: WalletCardVisuals(
             backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
+            foregroundColor: const Color(0xFF000000),
           ),
         );
 
@@ -200,7 +201,7 @@ void main() {
             'classId': 'test-class-id',
           },
         );
-        
+
         expect(() => generator.validateCard(validCard), returnsNormally);
       });
 
@@ -211,9 +212,9 @@ void main() {
             'classId': 'test-class-id',
           },
         );
-        
+
         final walletJson = generator.generateWalletJson(validCard);
-        
+
         expect(walletJson['id'], 'test-card-123');
         expect(walletJson['classId'], 'test-class-id');
         expect(walletJson['state'], 'ACTIVE');
@@ -228,15 +229,15 @@ void main() {
             'classId': 'test-class-id',
           },
         );
-        
+
         final outputFile = File(path.join(tempDir.path, 'test.json'));
-        
+
         final result = await generator.generateFile(validCard, outputFile);
-        
+
         expect(await result.exists(), isTrue);
         expect(result.path.endsWith('.json'), isTrue);
         expect(await result.length(), greaterThan(0));
-        
+
         // Verify JSON content
         final content = await result.readAsString();
         final json = jsonDecode(content);
@@ -251,13 +252,13 @@ void main() {
           },
           visuals: WalletCardVisuals(
             backgroundColor: const Color(0xFFFF0000),
-        foregroundColor: const Color(0xFF00FF00),
+            foregroundColor: const Color(0xFF00FF00),
           ),
         );
 
         final walletJson = generator.generateWalletJson(validCard);
         final heroImage = walletJson['heroImage'];
-        
+
         expect(heroImage['contentDescription'], isNotNull);
       });
 
@@ -280,7 +281,7 @@ void main() {
 
         final walletJson = generator.generateWalletJson(validCard);
         final locations = walletJson['locations'] as List;
-        
+
         expect(locations.length, 1);
         expect(locations[0]['latitude'], 37.7749);
         expect(locations[0]['longitude'], -122.4194);

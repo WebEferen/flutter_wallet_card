@@ -73,8 +73,8 @@ void main() {
       final json = visuals.toJson();
 
       expect(json['backgroundColor'], '#FFFFFF');
-       expect(json['foregroundColor'], '#000000');
-       expect(json['labelColor'], '#666666');
+      expect(json['foregroundColor'], '#000000');
+      expect(json['labelColor'], '#666666');
     });
   });
 

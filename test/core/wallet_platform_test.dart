@@ -17,7 +17,7 @@ void main() {
     test('should create exception with message', () {
       const message = 'Test error';
       final exception = WalletException(message);
-      
+
       expect(exception.message, message);
       expect(exception.toString(), 'WalletException: $message');
     });
@@ -26,7 +26,7 @@ void main() {
       const message = 'Test error';
       const code = 'TEST_ERROR';
       final exception = WalletException(message, code: code);
-      
+
       expect(exception.message, message);
       expect(exception.code, code);
       expect(exception.toString(), 'WalletException: $message (Code: $code)');
@@ -57,7 +57,8 @@ class TestWalletPlatform extends WalletPlatform {
   Future<bool> isCardAdded(String cardId) async => false;
 
   @override
-  Future<bool> addToWallet(File file, {Map<String, dynamic>? metadata}) async => true;
+  Future<bool> addToWallet(File file, {Map<String, dynamic>? metadata}) async =>
+      true;
 
   @override
   WalletPlatformType get platformType => WalletPlatformType.unsupported;

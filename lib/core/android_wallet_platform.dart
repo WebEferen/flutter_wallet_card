@@ -5,14 +5,15 @@ import 'wallet_platform.dart';
 /// Android-specific wallet platform implementation using Google Wallet
 class AndroidWalletPlatform implements WalletPlatform {
   static const MethodChannel _channel = MethodChannel('flutter_wallet_card');
-  
+
   @override
   WalletPlatformType get platformType => WalletPlatformType.android;
-  
+
   @override
   Future<bool> isWalletAvailable() async {
     try {
-      final result = await _channel.invokeMethod<bool>('isGoogleWalletAvailable');
+      final result =
+          await _channel.invokeMethod<bool>('isGoogleWalletAvailable');
       return result ?? false;
     } on PlatformException catch (e) {
       throw WalletException(
@@ -22,7 +23,7 @@ class AndroidWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   @override
   Future<bool> isCardAdded(String identifier) async {
     try {
@@ -39,19 +40,19 @@ class AndroidWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   @override
   Future<bool> addToWallet(File file, {Map<String, dynamic>? metadata}) async {
     if (!file.existsSync()) {
       throw WalletException('File does not exist: ${file.path}');
     }
-    
+
     try {
       final args = {
         'path': file.path,
         if (metadata != null) ...metadata,
       };
-      
+
       final result = await _channel.invokeMethod<bool>(
         'addGoogleWalletCard',
         args,
@@ -65,7 +66,7 @@ class AndroidWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   @override
   Future<bool> viewInWallet(String identifier) async {
     try {
@@ -82,7 +83,7 @@ class AndroidWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   /// Save a pass to Google Wallet using JWT (Android-specific)
   Future<bool> savePassWithJwt(String jwt) async {
     try {
@@ -99,7 +100,7 @@ class AndroidWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   /// Create a Google Wallet pass link
   Future<String> createPassLink(Map<String, dynamic> passData) async {
     try {

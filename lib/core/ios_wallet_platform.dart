@@ -5,10 +5,10 @@ import 'wallet_platform.dart';
 /// iOS-specific wallet platform implementation using Apple Wallet/PassKit
 class IOSWalletPlatform implements WalletPlatform {
   static const MethodChannel _channel = MethodChannel('flutter_wallet_card');
-  
+
   @override
   WalletPlatformType get platformType => WalletPlatformType.ios;
-  
+
   @override
   Future<bool> isWalletAvailable() async {
     try {
@@ -22,7 +22,7 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   @override
   Future<bool> isCardAdded(String identifier) async {
     try {
@@ -39,13 +39,13 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   @override
   Future<bool> addToWallet(File file, {Map<String, dynamic>? metadata}) async {
     if (!file.existsSync()) {
       throw WalletException('File does not exist: ${file.path}');
     }
-    
+
     try {
       final result = await _channel.invokeMethod<bool>(
         'addWalletCard',
@@ -60,7 +60,7 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   @override
   Future<bool> viewInWallet(String identifier) async {
     try {
@@ -77,17 +77,17 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   /// Add multiple passes to wallet (iOS-specific feature)
   Future<bool> addMultipleToWallet(List<File> files) async {
     final paths = files.map((f) => f.path).toList();
-    
+
     for (final file in files) {
       if (!file.existsSync()) {
         throw WalletException('File does not exist: ${file.path}');
       }
     }
-    
+
     try {
       final result = await _channel.invokeMethod<bool>(
         'addMultipleWalletCards',
@@ -102,7 +102,7 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   /// Add a pass from URL (iOS-specific feature)
   Future<bool> addFromUrl(String url) async {
     try {
@@ -119,13 +119,13 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   /// Validate a pass file without adding it to wallet
   Future<Map<String, dynamic>> validatePass(File file) async {
     if (!file.existsSync()) {
       throw WalletException('File does not exist: ${file.path}');
     }
-    
+
     try {
       final result = await _channel.invokeMethod<Map<Object?, Object?>>(
         'validatePass',
@@ -140,7 +140,7 @@ class IOSWalletPlatform implements WalletPlatform {
       );
     }
   }
-  
+
   /// Get detailed information about a pass in the wallet
   Future<Map<String, dynamic>> getPassInfo(String identifier) async {
     try {

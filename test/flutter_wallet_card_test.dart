@@ -25,10 +25,10 @@ void main() {
     setUp(() async {
       mockPlatform = MockWalletPlatform();
       tempDir = await Directory.systemTemp.createTemp('wallet_test_');
-      
+
       // Reset the factory instance
       WalletFactory.resetInstance();
-      
+
       // Mock the method channel
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
@@ -47,55 +47,63 @@ void main() {
     });
 
     group('Wallet Availability', () {
-      testWidgets('should check if wallet is available', (WidgetTester tester) async {
+      testWidgets('should check if wallet is available',
+          (WidgetTester tester) async {
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.isWalletAvailable, throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.isWalletAvailable,
+            throwsA(isA<WalletException>()));
       });
     });
 
     group('Card Operations', () {
       testWidgets('should check if card is added', (WidgetTester tester) async {
         const cardId = 'test-card-123';
-        
+
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.isCardAdded(cardId), throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.isCardAdded(cardId),
+            throwsA(isA<WalletException>()));
       });
 
       testWidgets('should add card to wallet', (WidgetTester tester) async {
         final card = createTestCard();
-        
+
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.addToWallet(card), throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.addToWallet(card),
+            throwsA(isA<WalletException>()));
       });
 
       testWidgets('should view card in wallet', (WidgetTester tester) async {
         const cardId = 'test-card-123';
-        
+
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.viewInWallet(cardId), throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.viewInWallet(cardId),
+            throwsA(isA<WalletException>()));
       });
     });
 
     group('File Generation', () {
       test('should generate card file', () async {
         final card = createTestCard();
-        
+
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.generateCardFile(card), throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.generateCardFile(card),
+            throwsA(isA<WalletException>()));
       });
 
       test('should generate Apple Wallet file', () async {
         final card = createAppleWalletCard();
-        
+
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.generateCardFile(card), throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.generateCardFile(card),
+            throwsA(isA<WalletException>()));
       });
 
       test('should generate Google Wallet file', () async {
         final card = createGoogleWalletCard();
-        
+
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.generateCardFile(card), throwsA(isA<WalletException>()));
+        await expectLater(FlutterWalletCard.generateCardFile(card),
+            throwsA(isA<WalletException>()));
       });
     });
 
@@ -104,7 +112,7 @@ void main() {
         // Create a test pkpass file structure
         final passDir = Directory(path.join(tempDir.path, 'test_pass'));
         await passDir.create();
-        
+
         final passJson = {
           'formatVersion': 1,
           'passTypeIdentifier': 'pass.com.example.test',
@@ -119,20 +127,21 @@ void main() {
             'backFields': [],
           },
         };
-        
+
         final passFile = File(path.join(passDir.path, 'pass.json'));
         await passFile.writeAsString(jsonEncode(passJson));
-        
+
         // Create a .pkpass archive for testing
         final pkpassFile = File(path.join(tempDir.path, 'test.pkpass'));
         final archive = Archive();
         final passJsonBytes = await passFile.readAsBytes();
-        archive.addFile(ArchiveFile('pass.json', passJsonBytes.length, passJsonBytes));
+        archive.addFile(
+            ArchiveFile('pass.json', passJsonBytes.length, passJsonBytes));
         final zipData = ZipEncoder().encode(archive);
         await pkpassFile.writeAsBytes(zipData!);
-        
+
         final card = await FlutterWalletCard.parseFromFile(pkpassFile);
-        
+
         expect(card.id, 'TEST123');
         expect(card.type, WalletCardType.generic);
         expect(card.metadata.title, 'Test Pass');
@@ -155,12 +164,12 @@ void main() {
             },
           ],
         };
-        
+
         final jsonFile = File(path.join(tempDir.path, 'google_wallet.json'));
         await jsonFile.writeAsString(jsonEncode(walletJson));
-        
+
         final card = await FlutterWalletCard.parseFromFile(jsonFile);
-        
+
         expect(card.id, 'google-wallet-123');
         expect(card.metadata.title, 'Google Wallet Card');
         expect(card.metadata.description, 'Test Google Wallet Card');
@@ -170,10 +179,10 @@ void main() {
     group('URL Operations', () {
       test('should handle download from URL', () async {
         const url = 'https://example.com/test.pkpass';
-        
+
         try {
           final result = await FlutterWalletCard.addFromUrl(url);
-          
+
           expect(result, isA<bool>());
         } catch (e) {
           // Network operations might fail in test environment
@@ -185,7 +194,7 @@ void main() {
     group('Platform-specific Operations', () {
       test('should handle iOS multiple cards', () async {
         final cards = [createAppleWalletCard(), createAppleWalletCard()];
-        
+
         // Test method throws exception on non-iOS platforms
         expect(
           () => FlutterWalletCard.addMultipleToWallet(cards),
@@ -195,7 +204,7 @@ void main() {
 
       test('should handle Android JWT save', () async {
         const jwt = 'test.jwt.token';
-        
+
         // Test method throws exception on non-Android platforms
         expect(
           () => FlutterWalletCard.savePassWithJwt(jwt),
@@ -205,7 +214,7 @@ void main() {
 
       test('should handle Android pass link creation', () async {
         final passData = {'objectId': 'test-object-123'};
-        
+
         // Test method throws exception on non-Android platforms
         expect(
           () => FlutterWalletCard.createPassLink(passData),
@@ -224,7 +233,8 @@ void main() {
 
       test('should handle invalid directory paths', () async {
         expect(
-          () => FlutterWalletCard.parseFromFile(File('/nonexistent/directory/file.json')),
+          () => FlutterWalletCard.parseFromFile(
+              File('/nonexistent/directory/file.json')),
           throwsA(isA<Exception>()),
         );
       });
@@ -252,7 +262,7 @@ WalletCard createTestCard() {
     ),
     visuals: WalletCardVisuals(
       backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
+      foregroundColor: const Color(0xFF000000),
     ),
   );
 }
@@ -273,7 +283,7 @@ WalletCard createAppleWalletCard() {
     ),
     visuals: WalletCardVisuals(
       backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
+      foregroundColor: const Color(0xFF000000),
     ),
   );
 }
@@ -294,7 +304,7 @@ WalletCard createGoogleWalletCard() {
     ),
     visuals: WalletCardVisuals(
       backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
+      foregroundColor: const Color(0xFF000000),
     ),
   );
 }

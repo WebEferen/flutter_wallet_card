@@ -10,23 +10,23 @@ part 'wallet_card.g.dart';
 class WalletCard extends Equatable {
   /// Unique identifier for the card
   final String id;
-  
+
   /// Card type (store card, event ticket, boarding pass, etc.)
   final WalletCardType type;
-  
+
   /// Platform-specific data
   final Map<String, dynamic> platformData;
-  
+
   /// Card metadata
   final WalletCardMetadata metadata;
-  
+
   /// Visual elements
   final WalletCardVisuals? visuals;
-  
+
   /// Associated file (if any)
   @JsonKey(includeFromJson: false, includeToJson: false)
   final File? file;
-  
+
   const WalletCard({
     required this.id,
     required this.type,
@@ -35,12 +35,14 @@ class WalletCard extends Equatable {
     this.visuals,
     this.file,
   });
-  
-  factory WalletCard.fromJson(Map<String, dynamic> json) => _$WalletCardFromJson(json);
+
+  factory WalletCard.fromJson(Map<String, dynamic> json) =>
+      _$WalletCardFromJson(json);
   Map<String, dynamic> toJson() => _$WalletCardToJson(this);
-  
+
   @override
-  List<Object?> get props => [id, type, platformData, metadata, visuals, file?.path];
+  List<Object?> get props =>
+      [id, type, platformData, metadata, visuals, file?.path];
 }
 
 /// Card types supported by both platforms
@@ -73,7 +75,7 @@ class WalletCardMetadata extends Equatable {
   final DateTime? relevantDate;
   final List<WalletCardLocation>? locations;
   final Map<String, String>? customFields;
-  
+
   const WalletCardMetadata({
     required this.title,
     this.subtitle,
@@ -85,15 +87,23 @@ class WalletCardMetadata extends Equatable {
     this.locations,
     this.customFields,
   });
-  
-  factory WalletCardMetadata.fromJson(Map<String, dynamic> json) => _$WalletCardMetadataFromJson(json);
+
+  factory WalletCardMetadata.fromJson(Map<String, dynamic> json) =>
+      _$WalletCardMetadataFromJson(json);
   Map<String, dynamic> toJson() => _$WalletCardMetadataToJson(this);
-  
+
   @override
   List<Object?> get props => [
-    title, subtitle, description, organizationName, serialNumber,
-    expirationDate, relevantDate, locations, customFields
-  ];
+        title,
+        subtitle,
+        description,
+        organizationName,
+        serialNumber,
+        expirationDate,
+        relevantDate,
+        locations,
+        customFields
+      ];
 }
 
 /// Visual elements for the card
@@ -107,7 +117,7 @@ class WalletCardVisuals extends Equatable {
   final Color? labelColor;
   final String? logoText;
   final Map<String, String>? images; // image type -> file path
-  
+
   const WalletCardVisuals({
     this.backgroundColor,
     this.foregroundColor,
@@ -115,17 +125,19 @@ class WalletCardVisuals extends Equatable {
     this.logoText,
     this.images,
   });
-  
-  factory WalletCardVisuals.fromJson(Map<String, dynamic> json) => _$WalletCardVisualsFromJson(json);
+
+  factory WalletCardVisuals.fromJson(Map<String, dynamic> json) =>
+      _$WalletCardVisualsFromJson(json);
   Map<String, dynamic> toJson() => _$WalletCardVisualsToJson(this);
-  
+
   static Color? _colorFromJson(String? colorString) {
     if (colorString == null) return null;
     if (colorString.startsWith('#')) {
       return Color(int.parse(colorString.substring(1), radix: 16) + 0xFF000000);
     }
     if (colorString.startsWith('rgb(')) {
-      final values = colorString.substring(4, colorString.length - 1).split(',');
+      final values =
+          colorString.substring(4, colorString.length - 1).split(',');
       return Color.fromRGBO(
         int.parse(values[0].trim()),
         int.parse(values[1].trim()),
@@ -135,14 +147,15 @@ class WalletCardVisuals extends Equatable {
     }
     return null;
   }
-  
+
   static String? _colorToJson(Color? color) {
     if (color == null) return null;
     return '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
   }
-  
+
   @override
-  List<Object?> get props => [backgroundColor, foregroundColor, labelColor, logoText, images];
+  List<Object?> get props =>
+      [backgroundColor, foregroundColor, labelColor, logoText, images];
 }
 
 /// Location information for the card
@@ -152,17 +165,18 @@ class WalletCardLocation extends Equatable {
   final double longitude;
   final double? altitude;
   final String? relevantText;
-  
+
   const WalletCardLocation({
     required this.latitude,
     required this.longitude,
     this.altitude,
     this.relevantText,
   });
-  
-  factory WalletCardLocation.fromJson(Map<String, dynamic> json) => _$WalletCardLocationFromJson(json);
+
+  factory WalletCardLocation.fromJson(Map<String, dynamic> json) =>
+      _$WalletCardLocationFromJson(json);
   Map<String, dynamic> toJson() => _$WalletCardLocationToJson(this);
-  
+
   @override
   List<Object?> get props => [latitude, longitude, altitude, relevantText];
 }
