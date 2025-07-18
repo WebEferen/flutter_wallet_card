@@ -117,13 +117,13 @@ jobs:
       run: |
         # Check if all required documentation files exist
         required_files=(
-          "docs/index.md"
-          "docs/getting-started.md"
-          "docs/api-reference.md"
-          "docs/platform-setup.md"
-          "docs/examples.md"
-          "docs/migration.md"
-          "docs/_config.yml"
+          "doc/index.md"
+          "doc/getting-started.md"
+          "doc/api-reference.md"
+          "doc/platform-setup.md"
+          "doc/examples.md"
+          "doc/migration.md"
+          "doc/_config.yml"
         )
         
         for file in "${required_files[@]}"; do
