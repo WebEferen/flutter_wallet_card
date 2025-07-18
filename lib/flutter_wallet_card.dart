@@ -147,7 +147,8 @@ class FlutterWalletCard {
   /// Only works on iOS platform
   static Future<bool> addMultipleToWallet(List<WalletCard> cards) async {
     if (_platform.platformType != WalletPlatformType.ios) {
-      throw const WalletException('Multiple card addition is only supported on iOS');
+      throw const WalletException(
+          'Multiple card addition is only supported on iOS');
     }
 
     try {
@@ -176,7 +177,8 @@ class FlutterWalletCard {
   /// Only works on Android platform
   static Future<bool> savePassWithJwt(String jwt) async {
     if (_platform.platformType != WalletPlatformType.android) {
-      throw const WalletException('JWT pass saving is only supported on Android');
+      throw const WalletException(
+          'JWT pass saving is only supported on Android');
     }
 
     try {
@@ -196,7 +198,8 @@ class FlutterWalletCard {
   /// Only works on Android platform
   static Future<String> createPassLink(Map<String, dynamic> passData) async {
     if (_platform.platformType != WalletPlatformType.android) {
-      throw const WalletException('Pass link creation is only supported on Android');
+      throw const WalletException(
+          'Pass link creation is only supported on Android');
     }
 
     try {
@@ -236,7 +239,8 @@ class FlutterWalletCard {
   /// Returns detailed pass information
   static Future<Map<String, dynamic>> getPassInfo(String identifier) async {
     if (_platform.platformType != WalletPlatformType.ios) {
-      throw const WalletException('Pass info retrieval is only supported on iOS');
+      throw const WalletException(
+          'Pass info retrieval is only supported on iOS');
     }
 
     try {
