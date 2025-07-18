@@ -8,6 +8,11 @@
 
 build/
 
+# Generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+
 certificates/*.p12
 certificates/*.pem
 passes/*

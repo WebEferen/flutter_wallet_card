@@ -35,6 +35,23 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () => generateWalletPassFromPath(),
                 child: Text('Add apple pass (from path)'),
               ),
+              const SizedBox(height: 20),
+              const Text('iOS Enhanced Features'),
+              const SizedBox(height: 5),
+              CupertinoButton.filled(
+                onPressed: () => validatePassFile(),
+                child: Text('Validate Pass File'),
+              ),
+              const SizedBox(height: 10),
+              CupertinoButton.filled(
+                onPressed: () => checkPassValidity(),
+                child: Text('Check Pass Validity'),
+              ),
+              const SizedBox(height: 10),
+              CupertinoButton.filled(
+                onPressed: () => getPassInformation(),
+                child: Text('Get Pass Information'),
+              ),
             ],
           ),
         ),
