@@ -19,11 +19,6 @@ on:
       - 'docs/**'
       - 'test/**'
       - 'ci/**'
-    # Exclude temporary or experimental branches
-    branches-ignore:
-      - 'temp/**'
-      - 'experimental/**'
-      - 'wip/**'
   pull_request:
     # Run CI for PRs from any branch to any branch
   workflow_dispatch:
