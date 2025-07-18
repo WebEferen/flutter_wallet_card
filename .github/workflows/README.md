@@ -188,7 +188,7 @@ Update the Flutter version in all workflows:
 - name: Setup Flutter
   uses: subosito/flutter-action@v2
   with:
-    flutter-version: '3.16.0'  # Change this version
+    flutter-version: '3.32.0'  # Change this version
     channel: 'stable'
     cache: true
 ```
