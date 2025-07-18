@@ -280,7 +280,7 @@ dart doc --output docs/api --verbose
 npm install -g markdown-link-check
 
 # Check specific file
-markdown-link-check docs/index.md
+markdown-link-check doc/index.md
 ```
 
 #### Publishing Issues
