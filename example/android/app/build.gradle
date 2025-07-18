@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "dev.flutter.flutter-gradle-plugin"
 }
 
 def localProperties = new Properties()
@@ -56,6 +55,8 @@ android {
         }
     }
 }
+
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 flutter {
     source '../..'
