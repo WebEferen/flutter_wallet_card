@@ -27,6 +27,7 @@ rootProject.allprojects {
 }
 
 android {
+    namespace 'com.flutter.wallet_card'
     compileSdkVersion 34
 
     compileOptions {
