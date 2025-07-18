@@ -1,0 +1,273 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test on Ubuntu
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Verify formatting
+      run: dart format --output=none --set-exit-if-changed .
+
+    - name: Analyze project source
+      run: dart analyze --fatal-infos
+
+    - name: Run tests
+      run: flutter test --coverage
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage/lcov.info
+        name: flutter_wallet_card
+        fail_ci_if_error: false
+
+  test-ios:
+    runs-on: macos-latest
+    name: Test on macOS (iOS)
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run iOS tests
+      run: flutter test
+
+    - name: Build iOS example
+      run: |
+        cd example
+        flutter build ios --no-codesign
+
+  test-android:
+    runs-on: ubuntu-latest
+    name: Test on Ubuntu (Android)
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run Android tests
+      run: flutter test
+
+    - name: Build Android example
+      run: |
+        cd example
+        flutter build apk --debug
+
+  package-analysis:
+    runs-on: ubuntu-latest
+    name: Package Analysis
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Check package dependencies
+      run: flutter pub deps
+
+    - name: Analyze package
+      run: dart pub publish --dry-run
+
+    - name: Check package score
+      run: |
+        dart pub global activate pana
+        dart pub global run pana --no-warning .
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run security audit
+      run: |
+        dart pub deps --json > deps.json
+        # Check for known vulnerabilities in dependencies
+        if command -v osv-scanner &> /dev/null; then
+          osv-scanner --lockfile=pubspec.lock
+        else
+          echo "OSV Scanner not available, skipping vulnerability check"
+        fi
+
+  documentation:
+    runs-on: ubuntu-latest
+    name: Documentation Check
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Generate documentation
+      run: dart doc --validate-links
+
+    - name: Check documentation completeness
+      run: |
+        # Check if all public APIs are documented
+        dart doc --output temp_docs
+        
+        # Verify README exists and is not empty
+        if [ ! -s "README.md" ]; then
+          echo "README.md is missing or empty"
+          exit 1
+        fi
+        
+        # Verify CHANGELOG exists and is not empty
+        if [ ! -s "CHANGELOG.md" ]; then
+          echo "CHANGELOG.md is missing or empty"
+          exit 1
+        fi
+        
+        # Clean up
+        rm -rf temp_docs
+
+  example-app:
+    runs-on: ubuntu-latest
+    name: Example App Build
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: |
+        flutter pub get
+        cd example
+        flutter pub get
+
+    - name: Test example app
+      run: |
+        cd example
+        flutter test
+
+    - name: Build example app (Android)
+      run: |
+        cd example
+        flutter build apk --debug
+
+    - name: Upload example APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: example-app-debug.apk
+        path: example/build/app/outputs/flutter-apk/app-debug.apk
+        retention-days: 7
+
+  compatibility-check:
+    runs-on: ubuntu-latest
+    name: Flutter Version Compatibility
+    strategy:
+      matrix:
+        flutter-version: ['3.13.0', '3.16.0', '3.19.0']
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter ${{ matrix.flutter-version }}
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ matrix.flutter-version }}
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run tests with Flutter ${{ matrix.flutter-version }}
+      run: flutter test
+
+    - name: Build with Flutter ${{ matrix.flutter-version }}
+      run: |
+        cd example
+        flutter pub get
+        flutter build apk --debug

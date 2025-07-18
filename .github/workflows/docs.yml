@@ -1,0 +1,288 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'lib/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    name: Deploy Documentation to GitHub Pages
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for proper git operations
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Generate API documentation
+      run: |
+        # Generate Dart API documentation
+        dart doc --output docs/api
+        
+        # Copy important files to docs directory
+        cp README.md docs/
+        cp CHANGELOG.md docs/
+
+    - name: Setup Ruby for Jekyll
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+        working-directory: docs
+
+    - name: Create Gemfile for Jekyll
+      run: |
+        cd docs
+        cat > Gemfile << EOF
+        source "https://rubygems.org"
+        
+        gem "github-pages", group: :jekyll_plugins
+        gem "jekyll-include-cache", group: :jekyll_plugins
+        gem "jekyll-sitemap", group: :jekyll_plugins
+        gem "jekyll-feed", group: :jekyll_plugins
+        gem "jekyll-seo-tag", group: :jekyll_plugins
+        EOF
+
+    - name: Install Jekyll dependencies
+      run: |
+        cd docs
+        bundle install
+
+    - name: Build Jekyll site
+      run: |
+        cd docs
+        bundle exec jekyll build --destination _site
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/_site
+        enable_jekyll: false  # We're building Jekyll ourselves
+        commit_message: 'docs: deploy documentation ${{ github.sha }}'
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+
+  validate-docs:
+    runs-on: ubuntu-latest
+    name: Validate Documentation
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Validate API documentation
+      run: |
+        # Generate documentation and check for warnings
+        dart doc --validate-links --output temp_docs
+        
+        # Check if documentation was generated successfully
+        if [ ! -d "temp_docs" ]; then
+          echo "Documentation generation failed"
+          exit 1
+        fi
+        
+        # Clean up
+        rm -rf temp_docs
+
+    - name: Check documentation files
+      run: |
+        # Check if all required documentation files exist
+        required_files=(
+          "docs/index.md"
+          "docs/getting-started.md"
+          "docs/api-reference.md"
+          "docs/platform-setup.md"
+          "docs/examples.md"
+          "docs/migration.md"
+          "docs/_config.yml"
+        )
+        
+        for file in "${required_files[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "Required documentation file missing: $file"
+            exit 1
+          fi
+        done
+        
+        echo "All required documentation files are present"
+
+    - name: Validate markdown links
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: 'yes'
+        use-verbose-mode: 'yes'
+        config-file: '.github/workflows/markdown-link-check-config.json'
+        folder-path: 'docs'
+
+    - name: Check documentation completeness
+      run: |
+        # Check if README has proper content
+        if [ $(wc -l < README.md) -lt 20 ]; then
+          echo "README.md seems too short (less than 20 lines)"
+          exit 1
+        fi
+        
+        # Check if CHANGELOG has proper content
+        if [ $(wc -l < CHANGELOG.md) -lt 10 ]; then
+          echo "CHANGELOG.md seems too short (less than 10 lines)"
+          exit 1
+        fi
+        
+        # Check if documentation files have proper content
+        for file in docs/*.md; do
+          if [ $(wc -l < "$file") -lt 10 ]; then
+            echo "Documentation file $file seems too short (less than 10 lines)"
+            exit 1
+          fi
+        done
+        
+        echo "Documentation completeness check passed"
+
+  check-links:
+    runs-on: ubuntu-latest
+    name: Check External Links
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install link checker
+      run: npm install -g markdown-link-check
+
+    - name: Create link check config
+      run: |
+        cat > .github/workflows/markdown-link-check-config.json << EOF
+        {
+          "ignorePatterns": [
+            {
+              "pattern": "^http://localhost"
+            },
+            {
+              "pattern": "^https://localhost"
+            },
+            {
+              "pattern": "^http://127.0.0.1"
+            },
+            {
+              "pattern": "^https://127.0.0.1"
+            }
+          ],
+          "timeout": "20s",
+          "retryOn429": true,
+          "retryCount": 3,
+          "fallbackRetryDelay": "30s",
+          "aliveStatusCodes": [200, 206, 999]
+        }
+        EOF
+
+    - name: Check links in documentation
+      run: |
+        find docs -name "*.md" -exec markdown-link-check -c .github/workflows/markdown-link-check-config.json {} \;
+        markdown-link-check -c .github/workflows/markdown-link-check-config.json README.md
+        markdown-link-check -c .github/workflows/markdown-link-check-config.json CHANGELOG.md
+
+  preview-docs:
+    runs-on: ubuntu-latest
+    name: Preview Documentation
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Generate API documentation
+      run: |
+        dart doc --output docs/api
+        cp README.md docs/
+        cp CHANGELOG.md docs/
+
+    - name: Setup Ruby for Jekyll
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+        working-directory: docs
+
+    - name: Create Gemfile for Jekyll
+      run: |
+        cd docs
+        cat > Gemfile << EOF
+        source "https://rubygems.org"
+        
+        gem "github-pages", group: :jekyll_plugins
+        gem "jekyll-include-cache", group: :jekyll_plugins
+        gem "jekyll-sitemap", group: :jekyll_plugins
+        gem "jekyll-feed", group: :jekyll_plugins
+        gem "jekyll-seo-tag", group: :jekyll_plugins
+        EOF
+
+    - name: Install Jekyll dependencies
+      run: |
+        cd docs
+        bundle install
+
+    - name: Build Jekyll site for preview
+      run: |
+        cd docs
+        bundle exec jekyll build --destination _site
+
+    - name: Upload documentation preview
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation-preview
+        path: docs/_site
+        retention-days: 7
+
+    - name: Comment PR with preview info
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '📖 Documentation preview has been generated and uploaded as an artifact. You can download it from the Actions tab to review the changes.'
+          })

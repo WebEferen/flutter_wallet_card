@@ -1,0 +1,177 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.0.0, v2.1.3, etc.
+  workflow_dispatch:  # Allows manual triggering
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: dart analyze --fatal-infos
+
+      - name: Run tests
+        run: flutter test
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    name: Publish Package
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup Pub Credentials
+        shell: bash
+        env:
+          PUB_DEV_PUBLISH_ACCESS_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}
+          PUB_DEV_PUBLISH_REFRESH_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}
+          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: ${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}
+          PUB_DEV_PUBLISH_EXPIRATION: ${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}
+        run: |
+          sh -c "cat <<EOF > ~/.pub-cache/credentials.json
+          {
+            \"accessToken\":\"$PUB_DEV_PUBLISH_ACCESS_TOKEN\",
+            \"refreshToken\":\"$PUB_DEV_PUBLISH_REFRESH_TOKEN\",
+            \"tokenEndpoint\":\"$PUB_DEV_PUBLISH_TOKEN_ENDPOINT\",
+            \"scopes\":[\"openid\",\"https://www.googleapis.com/auth/userinfo.email\"],
+            \"expiration\":$PUB_DEV_PUBLISH_EXPIRATION
+          }
+          EOF"
+
+      - name: Check package
+        run: dart pub publish --dry-run
+
+      - name: Publish package
+        run: dart pub publish --force
+
+  create-release:
+    needs: [test, publish]
+    runs-on: ubuntu-latest
+    name: Create GitHub Release
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for changelog generation
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog
+        id: changelog
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          
+          # Extract changelog for this version
+          if [ -f "CHANGELOG.md" ]; then
+            # Find the section for this version
+            CHANGELOG_CONTENT=$(awk "/^## \[$VERSION\]/ {flag=1; next} /^## \[/ {flag=0} flag" CHANGELOG.md)
+            
+            if [ -z "$CHANGELOG_CONTENT" ]; then
+              # Fallback: get content between first two ## headers
+              CHANGELOG_CONTENT=$(awk '/^## / {if(++count==2) exit} count==1 && !/^## / {print}' CHANGELOG.md)
+            fi
+            
+            # If still empty, use a default message
+            if [ -z "$CHANGELOG_CONTENT" ]; then
+              CHANGELOG_CONTENT="Release version $VERSION"
+            fi
+          else
+            CHANGELOG_CONTENT="Release version $VERSION"
+          fi
+          
+          # Save to file to preserve formatting
+          echo "$CHANGELOG_CONTENT" > changelog_excerpt.md
+          echo "changelog_file=changelog_excerpt.md" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_version.outputs.tag }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          body_path: ${{ steps.changelog.outputs.changelog_file }}
+          draft: false
+          prerelease: ${{ contains(steps.get_version.outputs.version, '-') }}
+
+  update-docs:
+    needs: [test, publish]
+    runs-on: ubuntu-latest
+    name: Update Documentation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate documentation
+        run: |
+          # Generate API documentation
+          dart doc --output docs/api
+          
+          # Update version in documentation files
+          VERSION=${GITHUB_REF#refs/tags/v}
+          find docs -name "*.md" -type f -exec sed -i "s/flutter_wallet_card: .*/flutter_wallet_card: ^$VERSION/g" {} \;
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          enable_jekyll: true
+          commit_message: 'docs: update documentation for version ${{ steps.get_version.outputs.version }}'

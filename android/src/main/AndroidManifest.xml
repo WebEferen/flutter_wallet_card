@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.flutter.wallet_card">
+    
+    <!-- Permissions for Google Wallet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!-- Google Wallet API requires this -->
+    <uses-feature
+        android:name="android.software.wallet"
+        android:required="false" />
+        
+</manifest>
