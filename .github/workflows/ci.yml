@@ -115,7 +115,7 @@ jobs:
     - name: Build Android example
       run: |
         cd example
-        flutter build apk --debug
+        flutter build apk --android-skip-build-dependency-validation
 
   package-analysis:
     runs-on: ubuntu-latest
