@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   group('IOSWalletPlatform Enhanced Methods', () {
     late IOSWalletPlatform platform;
     late List<MethodCall> methodCalls;
@@ -14,14 +14,14 @@ void main() {
     setUp(() {
       platform = IOSWalletPlatform();
       methodCalls = [];
-      
+
       // Mock the method channel
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
         const MethodChannel('flutter_wallet_card'),
         (MethodCall methodCall) async {
           methodCalls.add(methodCall);
-          
+
           switch (methodCall.method) {
             case 'addWalletCardFromUrl':
               return true;
@@ -61,9 +61,9 @@ void main() {
 
     test('should add pass from URL', () async {
       const testUrl = 'https://example.com/test.pkpass';
-      
+
       final result = await platform.addFromUrl(testUrl);
-      
+
       expect(result, isTrue);
       expect(methodCalls.length, equals(1));
       expect(methodCalls[0].method, equals('addWalletCardFromUrl'));
@@ -75,10 +75,10 @@ void main() {
       final tempDir = Directory.systemTemp.createTempSync('wallet_test');
       final testFile = File('${tempDir.path}/test.pkpass');
       await testFile.writeAsString('test pass content');
-      
+
       try {
         final result = await platform.validatePass(testFile);
-        
+
         expect(result['isValid'], isTrue);
         expect(result['serialNumber'], equals('TEST123'));
         expect(result['organizationName'], equals('Test Org'));
@@ -93,9 +93,9 @@ void main() {
 
     test('should get pass info', () async {
       const serialNumber = 'TEST123';
-      
+
       final result = await platform.getPassInfo(serialNumber);
-      
+
       expect(result['serialNumber'], equals('TEST123'));
       expect(result['organizationName'], equals('Test Org'));
       expect(result['isExpired'], isFalse);
@@ -107,7 +107,7 @@ void main() {
 
     test('should handle validation of non-existent file', () async {
       final nonExistentFile = File('/non/existent/path/test.pkpass');
-      
+
       expect(
         () => platform.validatePass(nonExistentFile),
         throwsA(isA<WalletException>()),
@@ -126,7 +126,7 @@ void main() {
           );
         },
       );
-      
+
       expect(
         () => platform.addFromUrl('https://example.com/test.pkpass'),
         throwsA(isA<WalletException>()),

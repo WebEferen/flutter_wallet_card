@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
     paths:
-      - 'docs/**'
+      - 'doc/**'
       - 'lib/**'
       - 'README.md'
       - 'CHANGELOG.md'
@@ -34,22 +34,22 @@ jobs:
     - name: Generate API documentation
       run: |
         # Generate Dart API documentation
-        dart doc --output docs/api
+        dart doc --output doc/api
         
-        # Copy important files to docs directory
-        cp README.md docs/
-        cp CHANGELOG.md docs/
+        # Copy important files to doc directory
+        cp README.md doc/
+        cp CHANGELOG.md doc/
 
     - name: Setup Ruby for Jekyll
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.1'
         bundler-cache: true
-        working-directory: docs
+        working-directory: doc
 
     - name: Create Gemfile for Jekyll
       run: |
-        cd docs
+        cd doc
         cat > Gemfile << EOF
         source "https://rubygems.org"
         
@@ -62,19 +62,20 @@ jobs:
 
     - name: Install Jekyll dependencies
       run: |
-        cd docs
+        cd doc
         bundle install
 
     - name: Build Jekyll site
       run: |
-        cd docs
+        cd doc
         bundle exec jekyll build --destination _site
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/_site
+        publish_dir: doc/_site
+        force_orphan: true
         enable_jekyll: false  # We're building Jekyll ourselves
         commit_message: 'docs: deploy documentation ${{ github.sha }}'
         user_name: 'github-actions[bot]'
@@ -157,7 +158,7 @@ jobs:
         fi
         
         # Check if documentation files have proper content
-        for file in docs/*.md; do
+        for file in doc/*.md; do
           if [ $(wc -l < "$file") -lt 10 ]; then
             echo "Documentation file $file seems too short (less than 10 lines)"
             exit 1
@@ -210,7 +211,7 @@ jobs:
 
     - name: Check links in documentation
       run: |
-        find docs -name "*.md" -exec markdown-link-check -c .github/workflows/markdown-link-check-config.json {} \;
+        find doc -name "*.md" -exec markdown-link-check -c .github/workflows/markdown-link-check-config.json {} \;
         markdown-link-check -c .github/workflows/markdown-link-check-config.json README.md
         markdown-link-check -c .github/workflows/markdown-link-check-config.json CHANGELOG.md
 
@@ -235,20 +236,20 @@ jobs:
 
     - name: Generate API documentation
       run: |
-        dart doc --output docs/api
-        cp README.md docs/
-        cp CHANGELOG.md docs/
+        dart doc --output doc/api
+        cp README.md doc/
+        cp CHANGELOG.md doc/
 
     - name: Setup Ruby for Jekyll
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.1'
         bundler-cache: true
-        working-directory: docs
+        working-directory: doc
 
     - name: Create Gemfile for Jekyll
       run: |
-        cd docs
+        cd doc
         cat > Gemfile << EOF
         source "https://rubygems.org"
         
@@ -261,19 +262,19 @@ jobs:
 
     - name: Install Jekyll dependencies
       run: |
-        cd docs
+        cd doc
         bundle install
 
     - name: Build Jekyll site for preview
       run: |
-        cd docs
+        cd doc
         bundle exec jekyll build --destination _site
 
     - name: Upload documentation preview
       uses: actions/upload-artifact@v4
       with:
         name: documentation-preview
-        path: docs/_site
+        path: doc/_site
         retention-days: 7
 
     - name: Comment PR with preview info

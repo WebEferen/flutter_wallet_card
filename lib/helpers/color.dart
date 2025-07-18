@@ -20,5 +20,5 @@ Color color({String? color, Color defaultColor = black}) {
 
 String fromColor(Color? color) {
   if (color == null) return 'rgb(0,0,0)';
-  return 'rgb(${color.red},${color.green},${color.blue})';
+  return 'rgb(${(color.r * 255.0).round() & 0xff},${(color.g * 255.0).round() & 0xff},${(color.b * 255.0).round() & 0xff})';
 }

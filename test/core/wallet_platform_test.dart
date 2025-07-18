@@ -16,8 +16,8 @@ void main() {
   group('WalletException', () {
     test('should create exception with message', () {
       const message = 'Test error';
-      final exception = WalletException(message);
-      
+      const exception = WalletException(message);
+
       expect(exception.message, message);
       expect(exception.toString(), 'WalletException: $message');
     });
@@ -25,8 +25,8 @@ void main() {
     test('should create exception with message and code', () {
       const message = 'Test error';
       const code = 'TEST_ERROR';
-      final exception = WalletException(message, code: code);
-      
+      const exception = WalletException(message, code: code);
+
       expect(exception.message, message);
       expect(exception.code, code);
       expect(exception.toString(), 'WalletException: $message (Code: $code)');
@@ -57,7 +57,8 @@ class TestWalletPlatform extends WalletPlatform {
   Future<bool> isCardAdded(String cardId) async => false;
 
   @override
-  Future<bool> addToWallet(File file, {Map<String, dynamic>? metadata}) async => true;
+  Future<bool> addToWallet(File file, {Map<String, dynamic>? metadata}) async =>
+      true;
 
   @override
   WalletPlatformType get platformType => WalletPlatformType.unsupported;
@@ -67,7 +68,7 @@ class TestWalletPlatform extends WalletPlatform {
 }
 
 WalletCard createTestCard() {
-  return WalletCard(
+  return const WalletCard(
     id: 'test-id',
     type: WalletCardType.generic,
     platformData: {},
@@ -78,8 +79,8 @@ WalletCard createTestCard() {
       serialNumber: '12345',
     ),
     visuals: WalletCardVisuals(
-      backgroundColor: const Color(0xFFFFFFFF),
-      foregroundColor: const Color(0xFF000000),
+      backgroundColor: Color(0xFFFFFFFF),
+      foregroundColor: Color(0xFF000000),
     ),
   );
 }

@@ -32,7 +32,7 @@ void main() {
     });
 
     test('should convert to JSON', () {
-      final metadata = WalletCardMetadata(
+      const metadata = WalletCardMetadata(
         title: 'Test Card',
         description: 'Test Description',
         organizationName: 'Test Org',
@@ -64,17 +64,17 @@ void main() {
     });
 
     test('should convert to JSON', () {
-      final visuals = WalletCardVisuals(
-        backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFF000000),
-        labelColor: const Color(0xFF666666),
+      const visuals = WalletCardVisuals(
+        backgroundColor: Color(0xFFFFFFFF),
+        foregroundColor: Color(0xFF000000),
+        labelColor: Color(0xFF666666),
       );
 
       final json = visuals.toJson();
 
       expect(json['backgroundColor'], '#FFFFFF');
-       expect(json['foregroundColor'], '#000000');
-       expect(json['labelColor'], '#666666');
+      expect(json['foregroundColor'], '#000000');
+      expect(json['labelColor'], '#666666');
     });
   });
 
@@ -96,7 +96,7 @@ void main() {
     });
 
     test('should convert to JSON', () {
-      final location = WalletCardLocation(
+      const location = WalletCardLocation(
         latitude: 37.7749,
         longitude: -122.4194,
         altitude: 100.0,
@@ -140,7 +140,7 @@ void main() {
     });
 
     test('should convert to JSON', () {
-      final card = WalletCard(
+      const card = WalletCard(
         id: 'test-id',
         type: WalletCardType.generic,
         platformData: {'key': 'value'},
@@ -151,8 +151,8 @@ void main() {
           serialNumber: '12345',
         ),
         visuals: WalletCardVisuals(
-          backgroundColor: const Color(0xFFFFFFFF),
-          foregroundColor: const Color(0xFF000000),
+          backgroundColor: Color(0xFFFFFFFF),
+          foregroundColor: Color(0xFF000000),
         ),
       );
 
@@ -170,16 +170,16 @@ void main() {
       final card = WalletCard(
         id: 'test-id',
         type: WalletCardType.generic,
-        platformData: {},
-        metadata: WalletCardMetadata(
+        platformData: const {},
+        metadata: const WalletCardMetadata(
           title: 'Test Card',
           description: 'Test Description',
           organizationName: 'Test Org',
           serialNumber: '12345',
         ),
-        visuals: WalletCardVisuals(
-          backgroundColor: const Color(0xFFFFFFFF),
-          foregroundColor: const Color(0xFF000000),
+        visuals: const WalletCardVisuals(
+          backgroundColor: Color(0xFFFFFFFF),
+          foregroundColor: Color(0xFF000000),
         ),
         file: file,
       );
@@ -189,12 +189,12 @@ void main() {
     });
 
     test('should handle locations', () {
-      final location = WalletCardLocation(
+      const location = WalletCardLocation(
         latitude: 37.7749,
         longitude: -122.4194,
       );
 
-      final card = WalletCard(
+      const card = WalletCard(
         id: 'test-id',
         type: WalletCardType.generic,
         platformData: {},
@@ -206,8 +206,8 @@ void main() {
           locations: [location],
         ),
         visuals: WalletCardVisuals(
-          backgroundColor: const Color(0xFFFFFFFF),
-          foregroundColor: const Color(0xFF000000),
+          backgroundColor: Color(0xFFFFFFFF),
+          foregroundColor: Color(0xFF000000),
         ),
       );
 
