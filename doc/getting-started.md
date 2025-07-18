@@ -283,4 +283,4 @@ class _WalletCardExampleState extends State<WalletCardExample> {
    - Verify internet permission is added
    - Check Google Wallet API configuration
 
-For more help, check our [GitHub Issues](https://github.com/WebEferen/flutter_wallet_card/issues).
+For more help, check our [GitHub Issues](https://github.com/webeferen/flutter_wallet_card/issues).
