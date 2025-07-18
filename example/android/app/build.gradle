@@ -25,6 +25,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -55,8 +57,6 @@ android {
         }
     }
 }
-
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 flutter {
     source '../..'
