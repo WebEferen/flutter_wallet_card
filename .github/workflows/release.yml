@@ -190,20 +190,7 @@ jobs:
         draft: ${{ github.event.inputs.draft }}
         prerelease: ${{ github.event.inputs.prerelease }}
 
-    - name: Trigger publish workflow
-      if: ${{ !github.event.inputs.draft && !github.event.inputs.prerelease }}
-      uses: actions/github-script@v6
-      with:
-        script: |
-          github.rest.actions.createWorkflowDispatch({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            workflow_id: 'publish.yml',
-            ref: '${{ steps.new_version.outputs.tag }}',
-            inputs: {
-              version: '${{ steps.new_version.outputs.new }}'
-            }
-          })
+
 
 
 
