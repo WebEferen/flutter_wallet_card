@@ -241,7 +241,7 @@ jobs:
         cd example
         flutter pub get
         flutter build apk --debug
-        flutter build ios --no-codesign
+        flutter build ios --debug
         
         echo "✅ Example app builds successfully"
 
