@@ -31,6 +31,9 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     name: Create Release
+    permissions:
+      contents: write
+      id-token: write
     
     steps:
     - name: Checkout repository
@@ -191,7 +194,9 @@ jobs:
     - name: Dry run publish
       run: dart pub publish --dry-run
 
-
+    - name: Publish to pub.dev
+      if: ${{ !github.event.inputs.draft && !github.event.inputs.prerelease }}
+      run: dart pub publish --force
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
