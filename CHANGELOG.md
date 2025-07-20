@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.1] - 2025-07-20
+
+### Added
+- Release version 5.0.1
+
+### Changed
+- Updated package version to 5.0.1
+
+### Fixed
+- Various bug fixes and improvements
+
+
 ## [5.0.0] - 2025-07-20
 
 ### Added
