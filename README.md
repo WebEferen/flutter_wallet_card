@@ -403,7 +403,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- 📧 Email: [support@example.com](mailto:support@example.com)
+- 📧 Email: [michal.makowski97@gmail.com](mailto:michal.makowski97@gmail.com)
 - 🐛 Issues: [GitHub Issues](https://github.com/WebEferen/flutter_wallet_card/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/WebEferen/flutter_wallet_card/discussions)
 
