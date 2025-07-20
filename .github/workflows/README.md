@@ -39,7 +39,7 @@ This directory contains GitHub Actions workflows for automating various aspects 
 
 **Jobs:**
 - **create-release**: Creates a new release with version bumping
-- **validate-release**: Validates the release package
+
 - **notify-release**: Sends notifications about release status
 - **cleanup-on-failure**: Cleans up on failure
 

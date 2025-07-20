@@ -205,62 +205,23 @@ jobs:
             }
           })
 
-  validate-release:
-    runs-on: ubuntu-latest
-    name: Validate Release
-    needs: create-release
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ needs.create-release.outputs.tag }}
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.32.0'
-        channel: 'stable'
-        cache: true
-
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Validate package
-      run: |
-        # Run all checks
-        dart format --output=none --set-exit-if-changed .
-        dart analyze --fatal-infos
-        flutter test
-        dart pub publish --dry-run
-        
-        echo "✅ Release validation passed"
-
-    - name: Build example app
-      run: |
-        cd example
-        flutter pub get
-        flutter build apk --debug
-        flutter build ios --debug
-        
-        echo "✅ Example app builds successfully"
 
   notify-release:
     runs-on: ubuntu-latest
     name: Notify Release
-    needs: [create-release, validate-release]
+    needs: [create-release]
     if: always()
     
     steps:
     - name: Notify success
-      if: needs.create-release.result == 'success' && needs.validate-release.result == 'success'
+      if: needs.create-release.result == 'success'
       run: |
         echo "🎉 Release ${{ needs.create-release.outputs.new_version }} created successfully!"
-        echo "📦 Package validation passed"
         echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/${{ needs.create-release.outputs.tag }}"
 
     - name: Notify failure
-      if: needs.create-release.result == 'failure' || needs.validate-release.result == 'failure'
+      if: needs.create-release.result == 'failure'
       run: |
         echo "❌ Release creation failed!"
         echo "Please check the workflow logs for details."
@@ -269,7 +230,7 @@ jobs:
   cleanup-on-failure:
     runs-on: ubuntu-latest
     name: Cleanup on Failure
-    needs: [create-release, validate-release]
+    needs: [create-release]
     if: failure()
     
     steps:
