@@ -1,20 +1,8 @@
 # Flutter Wallet Card Scripts
 
-This directory contains utility scripts for development, documentation, and publishing workflows for the Flutter Wallet Card project.
+This directory contains utility scripts for development and publishing workflows for the Flutter Wallet Card project.
 
 ## 📁 Scripts Overview
-
-### 🚀 `deploy-docs.sh`
-Documentation deployment and development script.
-
-**Purpose:** Automates documentation generation, building, and local development server setup.
-
-**Features:**
-- API documentation generation with `dart doc`
-- Jekyll site building and serving
-- Documentation validation and link checking
-- Local development server with live reload
-- Automated cleanup and setup
 
 ### 📦 `publish-package.sh`
 Package publishing and release management script.
@@ -34,87 +22,15 @@ Package publishing and release management script.
 - **Flutter SDK** (3.13.0 or later)
 - **Dart SDK** (included with Flutter)
 - **Git** (for version control)
-- **Ruby** (for Jekyll documentation, optional)
-- **Bundler** (for Jekyll dependencies, optional)
 
 ### Optional Tools
-- **markdown-link-check** (for link validation)
 - **OSV Scanner** (for security scanning)
 - **pana** (for package analysis)
 
 ### Installation Commands
 ```bash
-# Install Ruby (macOS)
-brew install ruby
-
-# Install Bundler
-gem install bundler
-
-# Install Node.js tools (optional)
-npm install -g markdown-link-check
-
 # Install Dart tools (optional)
 dart pub global activate pana
-```
-
-## 📖 Documentation Scripts
-
-### `deploy-docs.sh`
-
-#### Quick Start
-```bash
-# Start development server
-./scripts/deploy-docs.sh dev
-
-# Build documentation for deployment
-./scripts/deploy-docs.sh deploy
-
-# Clean build files
-./scripts/deploy-docs.sh clean
-```
-
-#### Available Commands
-
-| Command | Description | Use Case |
-|---------|-------------|----------|
-| `setup` | Install dependencies and setup Jekyll | Initial setup |
-| `generate` | Generate API documentation only | API docs update |
-| `build` | Build complete documentation site | Production build |
-| `serve` | Start local development server | Local development |
-| `validate` | Validate documentation completeness | Quality check |
-| `clean` | Remove build files | Cleanup |
-| `deploy` | Full deployment build | CI/CD pipeline |
-| `dev` | Development mode (build + serve) | Local development |
-
-#### Examples
-
-**Local Development:**
-```bash
-# Start development with live reload
-./scripts/deploy-docs.sh dev
-# Opens http://localhost:4000 automatically
-```
-
-**Production Build:**
-```bash
-# Build for GitHub Pages deployment
-./scripts/deploy-docs.sh deploy
-```
-
-**Validation Only:**
-```bash
-# Check documentation without building
-./scripts/deploy-docs.sh validate
-```
-
-#### Output Structure
-```
-docs/
-├── _site/              # Built Jekyll site
-├── api/                # Generated API docs
-├── README.md           # Copied from project root
-├── CHANGELOG.md        # Copied from project root
-└── *.md               # Documentation pages
 ```
 
 ## 📦 Publishing Scripts
@@ -219,20 +135,6 @@ git config --global user.email "your.email@example.com"
 
 ### Script Customization
 
-#### Documentation Script
-Edit `deploy-docs.sh` to customize:
-
-```bash
-# Change Jekyll theme
-echo 'theme: minima' >> docs/_config.yml
-
-# Add custom Jekyll plugins
-echo 'gem "jekyll-optional-plugin"' >> docs/Gemfile
-
-# Modify API doc generation
-dart doc --output docs/api --exclude-packages build_runner
-```
-
 #### Publishing Script
 Edit `publish-package.sh` to customize:
 
@@ -252,36 +154,6 @@ update_version() {
 ## 🚨 Troubleshooting
 
 ### Common Issues
-
-#### Documentation Issues
-
-**Jekyll not found:**
-```bash
-# Install Ruby and Jekyll
-brew install ruby
-gem install bundler jekyll
-```
-
-**API docs generation fails:**
-```bash
-# Check Dart installation
-dart --version
-
-# Ensure dependencies are installed
-flutter pub get
-
-# Run with verbose output
-dart doc --output docs/api --verbose
-```
-
-**Link validation fails:**
-```bash
-# Install markdown-link-check
-npm install -g markdown-link-check
-
-# Check specific file
-markdown-link-check doc/index.md
-```
 
 #### Publishing Issues
 
@@ -334,7 +206,7 @@ Run scripts with debug output:
 
 ```bash
 # Enable bash debug mode
-bash -x ./scripts/deploy-docs.sh dev
+bash -x ./scripts/publish-package.sh validate
 
 # Or add debug flag to script
 set -x  # Add this line to script for debugging
@@ -348,9 +220,6 @@ Scripts create temporary files during execution:
 # Check temporary files
 ls /tmp/flutter_wallet_card_*
 
-# Jekyll logs
-cat docs/_site/jekyll.log
-
 # Pub publish logs
 cat ~/.pub-cache/log/pub_log.txt
 ```
@@ -362,18 +231,14 @@ cat ~/.pub-cache/log/pub_log.txt
 These scripts are designed to work with the GitHub Actions workflows:
 
 - **`ci.yml`** - Uses validation logic from `publish-package.sh`
-- **`docs.yml`** - Uses documentation logic from `deploy-docs.sh`
 - **`publish.yml`** - Uses publishing logic from `publish-package.sh`
-- **`release.yml`** - Orchestrates both scripts for releases
+- **`release.yml`** - Uses publishing logic for releases
 
 ### Local Testing
 
 Test workflows locally before pushing:
 
 ```bash
-# Test documentation workflow
-./scripts/deploy-docs.sh deploy
-
 # Test publishing workflow
 ./scripts/publish-package.sh dry-run
 
@@ -391,20 +256,14 @@ Test workflows locally before pushing:
    ./scripts/publish-package.sh validate
    ```
 
-2. **During development:**
-   ```bash
-   ./scripts/deploy-docs.sh dev  # Keep docs server running
-   ```
-
-3. **Before committing:**
+2. **Before committing:**
    ```bash
    ./scripts/publish-package.sh test
    ```
 
-4. **Before releasing:**
+3. **Before releasing:**
    ```bash
    ./scripts/publish-package.sh dry-run
-   ./scripts/deploy-docs.sh validate
    ```
 
 ### Release Workflow
@@ -421,7 +280,6 @@ Test workflows locally before pushing:
 
 3. **Post-release:**
    - Verify package on pub.dev
-   - Check documentation deployment
    - Update GitHub release notes
 
 ### Security Considerations

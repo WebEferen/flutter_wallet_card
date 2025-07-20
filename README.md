@@ -339,30 +339,17 @@ final card = WalletCard(/* ... */);
 await FlutterWalletCard.addToWallet(card);
 ```
 
-## 📚 Documentation
 
-For detailed documentation, examples, and API reference, visit our [documentation site](https://webeferen.github.io/flutter_wallet_card/).
-
-### Quick Links
-- [Getting Started Guide](https://webeferen.github.io/flutter_wallet_card/getting-started) - Setup and basic integration
-- [API Reference](https://webeferen.github.io/flutter_wallet_card/api-reference) - Complete API documentation
-- [Platform Setup](https://webeferen.github.io/flutter_wallet_card/platform-setup) - iOS and Android configuration
-- [Examples](https://webeferen.github.io/flutter_wallet_card/examples) - Practical code examples
-- [Migration Guide](https://webeferen.github.io/flutter_wallet_card/migration) - Upgrading from v3.x to v4.0
 
 ### Development Resources
 - [GitHub Actions Workflows](.github/workflows/README.md) - CI/CD and automation
-- [Documentation Development](docs/README.md) - Contributing to docs
-- [Deployment Scripts](scripts/README.md) - Local development tools
+- [Publishing Scripts](scripts/README.md) - Package publishing tools
 
 ## 🚀 Development & Deployment
 
 ### Local Development
 
 ```bash
-# Setup documentation development
-./scripts/deploy-docs.sh dev
-
 # Validate package before publishing
 ./scripts/publish-package.sh validate
 
@@ -385,7 +372,7 @@ For detailed documentation, examples, and API reference, visit our [documentatio
 This project includes comprehensive GitHub Actions workflows:
 
 - **CI/CD Pipeline** - Automated testing, validation, and quality checks
-- **Documentation Deployment** - Automatic GitHub Pages updates
+
 - **Package Publishing** - Automated pub.dev releases
 - **Release Management** - Version bumping and changelog generation
 

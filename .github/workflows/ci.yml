@@ -16,7 +16,6 @@ on:
       - 'hotfix/**'
       - 'release/**'
       - 'chore/**'
-      - 'docs/**'
       - 'test/**'
       - 'ci/**'
   pull_request:
@@ -178,46 +177,7 @@ jobs:
           echo "OSV Scanner not available, skipping vulnerability check"
         fi
 
-  documentation:
-    runs-on: ubuntu-latest
-    name: Documentation Check
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.32.0'
-        channel: 'stable'
-        cache: true
-
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Generate documentation
-      run: dart doc --validate-links
-
-    - name: Check documentation completeness
-      run: |
-        # Check if all public APIs are documented
-        dart doc --output temp_docs
-        
-        # Verify README exists and is not empty
-        if [ ! -s "README.md" ]; then
-          echo "README.md is missing or empty"
-          exit 1
-        fi
-        
-        # Verify CHANGELOG exists and is not empty
-        if [ ! -s "CHANGELOG.md" ]; then
-          echo "CHANGELOG.md is missing or empty"
-          exit 1
-        fi
-        
-        # Clean up
-        rm -rf temp_docs
 
   example-app:
     runs-on: ubuntu-latest
