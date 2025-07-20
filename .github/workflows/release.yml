@@ -182,8 +182,6 @@ jobs:
         git tag ${{ steps.new_version.outputs.tag }}
         git push origin ${{ steps.new_version.outputs.tag }}
 
-<<<<<<< Updated upstream
-=======
     - name: Verify formatting
       run: dart format --output=none --set-exit-if-changed .
 
@@ -200,7 +198,6 @@ jobs:
       if: ${{ !github.event.inputs.draft && !github.event.inputs.prerelease }}
       run: dart pub publish --force
 
->>>>>>> Stashed changes
     - name: Create GitHub Release
       uses: actions/create-release@v1
       env:
