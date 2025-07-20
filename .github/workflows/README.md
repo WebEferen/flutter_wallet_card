@@ -28,30 +28,11 @@ This directory contains GitHub Actions workflows for automating various aspects 
 - Multi-platform testing (iOS, Android)
 - Package quality analysis with `pana`
 - Security vulnerability scanning
-- Documentation completeness checks
+- Basic file checks (README, CHANGELOG)
 - Example app building and artifact upload
 - Flutter version compatibility testing
 
-### 2. Documentation Workflow (`docs.yml`)
-
-**Triggers:**
-- Push to `master` branch (when docs, lib, README, or CHANGELOG change)
-- Manual dispatch
-
-**Jobs:**
-- **deploy-docs**: Generates and deploys documentation to GitHub Pages
-- **validate-docs**: Validates documentation completeness and links
-- **check-links**: Checks external links in documentation
-- **preview-docs**: Creates documentation preview for pull requests
-
-**Features:**
-- Automatic API documentation generation with `dart doc`
-- Jekyll-based GitHub Pages deployment
-- Markdown link validation
-- Documentation completeness checks
-- Pull request documentation previews
-
-### 3. Release Workflow (`release.yml`)
+### 2. Release Workflow (`release.yml`)
 
 **Triggers:**
 - Manual dispatch with version options
@@ -72,7 +53,7 @@ This directory contains GitHub Actions workflows for automating various aspects 
 - Automatic cleanup on failure
 - Integration with publish workflow
 
-### 4. Publish Workflow (`publish.yml`)
+### 3. Publish Workflow (`publish.yml`)
 
 **Triggers:**
 - Push to version tags (e.g., `v1.0.0`)
@@ -82,13 +63,11 @@ This directory contains GitHub Actions workflows for automating various aspects 
 - **test**: Runs comprehensive tests before publishing
 - **publish**: Publishes package to pub.dev
 - **create-release**: Creates GitHub release
-- **update-docs**: Updates documentation after publishing
 
 **Features:**
 - Pre-publish testing and validation
 - Automatic pub.dev publishing
 - GitHub release creation with changelog
-- Documentation updates
 - Artifact generation
 
 ## Setup Instructions
@@ -163,16 +142,6 @@ GITHUB_TOKEN  # Usually provided automatically
    - Enter version to publish
    - Click "Run workflow"
 
-### Updating Documentation
-
-1. **Automatic:**
-   - Documentation updates automatically when you push to `master`
-   - Changes to `docs/`, `lib/`, `README.md`, or `CHANGELOG.md` trigger updates
-
-2. **Manual:**
-   - Go to Actions → "Deploy Documentation"
-   - Click "Run workflow"
-
 ### Running CI Checks
 
 - **Automatic:** CI runs on every push and pull request
@@ -205,17 +174,6 @@ test-web:
     # ... setup steps ...
     - name: Run web tests
       run: flutter test --platform chrome
-```
-
-### Customizing Documentation
-
-Modify `docs.yml` to change documentation generation:
-
-```yaml
-- name: Generate API documentation
-  run: |
-    dart doc --output docs/api --exclude-packages build_runner
-    # Add custom documentation steps
 ```
 
 ### Adding Security Scans
@@ -284,12 +242,7 @@ Add security scanning tools to `ci.yml`:
    - Update CHANGELOG.md for each release
    - Test thoroughly before releasing
 
-2. **Documentation:**
-   - Keep documentation up to date
-   - Include code examples
-   - Validate links regularly
-
-3. **Testing:**
+2. **Testing:**
    - Maintain high test coverage
    - Test on multiple platforms
    - Include integration tests
