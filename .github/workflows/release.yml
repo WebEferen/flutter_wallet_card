@@ -178,13 +178,6 @@ jobs:
         git commit -m "chore: bump version to ${{ steps.new_version.outputs.new }}"
         git push
 
-    - name: Create and push tag
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
-      run: |
-        git tag ${{ steps.new_version.outputs.tag }}
-        git push origin ${{ steps.new_version.outputs.tag }}
-
     - name: Verify formatting
       run: dart format --output=none --set-exit-if-changed .
 
@@ -196,6 +189,13 @@ jobs:
 
     - name: Dry run publish
       run: dart pub publish --dry-run
+
+    - name: Create and push tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
+      run: |
+        git tag ${{ steps.new_version.outputs.tag }}
+        git push origin ${{ steps.new_version.outputs.tag }}
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
