@@ -14,12 +14,6 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+*'  # Matches v1.0.0, v1.0.0-beta, etc.
-  workflow_dispatch:  # Allows manual triggering
-    inputs:
-      version:
-        description: 'Version to publish (e.g., 1.0.0)'
-        required: true
-        type: string
 
 jobs:
   # Pre-publish validation
@@ -75,11 +69,7 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION=${GITHUB_REF#refs/tags/v}
-          fi
+          VERSION=${GITHUB_REF#refs/tags/v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=v$VERSION" >> $GITHUB_OUTPUT
 
