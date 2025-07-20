@@ -179,6 +179,20 @@ jobs:
         git tag ${{ steps.new_version.outputs.tag }}
         git push origin ${{ steps.new_version.outputs.tag }}
 
+    - name: Verify formatting
+      run: dart format --output=none --set-exit-if-changed .
+
+    - name: Analyze project source
+      run: dart analyze --fatal-infos
+
+    - name: Run tests
+      run: flutter test
+
+    - name: Dry run publish
+      run: dart pub publish --dry-run
+
+
+
     - name: Create GitHub Release
       uses: actions/create-release@v1
       env:
