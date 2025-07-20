@@ -33,14 +33,13 @@ jobs:
     name: Create Release
     permissions:
       contents: write
-      id-token: write
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN || github.token }}
 
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
@@ -170,6 +169,8 @@ jobs:
         echo "notes_file=release_notes.md" >> $GITHUB_OUTPUT
 
     - name: Commit version changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -178,6 +179,8 @@ jobs:
         git push
 
     - name: Create and push tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
       run: |
         git tag ${{ steps.new_version.outputs.tag }}
         git push origin ${{ steps.new_version.outputs.tag }}
@@ -193,9 +196,6 @@ jobs:
 
     - name: Dry run publish
       run: dart pub publish --dry-run
-
-    - name: Publish to pub.dev
-      run: dart pub publish --force
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
@@ -242,7 +242,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN || github.token }}
 
     - name: Delete tag on failure
       if: needs.create-release.outputs.tag
