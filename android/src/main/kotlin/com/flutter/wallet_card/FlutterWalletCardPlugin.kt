@@ -175,6 +175,7 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
             
         } catch (e: Exception) {
             result.error("SAVE_JWT_ERROR", "Failed to save pass with JWT: ${e.message}", null)
+            pendingResult = null
         }
     }
 
