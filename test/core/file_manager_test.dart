@@ -1,23 +1,28 @@
 import 'dart:io';
+
+import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_wallet_card/core/file_manager.dart';
 import 'package:path/path.dart' as path;
+
+import '../utils/memory_io_overrides.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group('FileManager', () {
     late FileManager fileManager;
-    late Directory tempDir;
+    late MemoryFileSystem fileSystem;
 
     setUp(() async {
       fileManager = FileManager();
-      tempDir = await Directory.systemTemp.createTemp('wallet_test_');
+      fileSystem = MemoryFileSystem();
+      IOOverrides.global = MemoryIOOverrides(
+        fs: fileSystem,
+      );
     });
 
-    tearDown(() async {
-      if (await tempDir.exists()) {
-        await tempDir.delete(recursive: true);
-      }
+    tearDown(() {
+      IOOverrides.global = null;
     });
 
     group('Directory Operations', () {
@@ -70,16 +75,16 @@ void main() {
     group('Archive Operations', () {
       test('should extract archive', () async {
         // Create a test zip file
-        final testFile = File(path.join(tempDir.path, 'test.txt'));
+        final testFile = File('test.txt');
         await testFile.writeAsString('test content');
 
-        final zipFile = File(path.join(tempDir.path, 'test.zip'));
+        final zipFile = File('test.zip');
 
         // Create a simple zip archive manually for testing
         // In a real scenario, you'd use the archive package
         await zipFile.writeAsBytes([]);
 
-        final extractDir = Directory(path.join(tempDir.path, 'extracted'));
+        final extractDir = Directory('extracted');
 
         try {
           await fileManager.extractArchive(zipFile,
@@ -92,13 +97,13 @@ void main() {
       });
 
       test('should create archive', () async {
-        final sourceDir = Directory(path.join(tempDir.path, 'source'));
+        final sourceDir = Directory('source');
         await sourceDir.create();
 
         final testFile = File(path.join(sourceDir.path, 'test.txt'));
         await testFile.writeAsString('test content');
 
-        final archiveFile = File(path.join(tempDir.path, 'archive.zip'));
+        final archiveFile = File(path.join('archive.zip'));
 
         await fileManager.createArchive(sourceDir, archiveFile);
 
@@ -110,7 +115,7 @@ void main() {
     group('Download Operations', () {
       test('should handle download from URL', () async {
         const url = 'https://httpbin.org/json';
-        final outputFile = File(path.join(tempDir.path, 'downloaded.json'));
+        final outputFile = File('downloaded.json');
 
         try {
           await fileManager.downloadFile(url, filename: outputFile.path);
@@ -123,7 +128,7 @@ void main() {
 
       test('should handle invalid URL', () async {
         const url = 'invalid-url';
-        final outputFile = File(path.join(tempDir.path, 'downloaded.json'));
+        final outputFile = File('downloaded.json');
 
         expect(
           () => fileManager.downloadFile(url, filename: outputFile.path),
@@ -134,42 +139,31 @@ void main() {
 
     group('Cleanup Operations', () {
       test('should clean up old files', () async {
-        final oldFile = File(path.join(tempDir.path, 'old.txt'));
+        final directory = fileSystem.directory('/');
+        final oldFile = File(path.join(directory.path, 'old.txt'));
         await oldFile.writeAsString('old content');
 
         // Modify the file's last modified time to make it "old"
         final oldTime = DateTime.now().subtract(const Duration(days: 2));
         await oldFile.setLastModified(oldTime);
 
-        final newFile = File(path.join(tempDir.path, 'new.txt'));
+        final newFile = File(path.join(directory.path, 'new.txt'));
         await newFile.writeAsString('new content');
 
         await fileManager.cleanupOldFiles(
-          tempDir,
+          directory,
           maxAge: const Duration(days: 1),
         );
 
         expect(await oldFile.exists(), isFalse);
         expect(await newFile.exists(), isTrue);
       });
-
-      test('should clean up directory', () async {
-        final testFile = File(path.join(tempDir.path, 'test.txt'));
-        await testFile.writeAsString('test content');
-
-        expect(await testFile.exists(), isTrue);
-
-        await tempDir.delete(recursive: true);
-
-        expect(await tempDir.exists(), isFalse);
-      });
     });
 
     group('Error Handling', () {
       test('should handle non-existent file operations', () async {
-        final nonExistentFile =
-            File(path.join(tempDir.path, 'nonexistent.txt'));
-        final outputDir = Directory(path.join(tempDir.path, 'output'));
+        final nonExistentFile = File('nonexistent.txt');
+        final outputDir = Directory('output');
 
         expect(
           () => fileManager.extractArchive(nonExistentFile,
@@ -180,7 +174,7 @@ void main() {
 
       test('should handle permission errors gracefully', () async {
         // This test might not work on all platforms due to permission handling
-        final restrictedDir = Directory(path.join(tempDir.path, 'restricted'));
+        final restrictedDir = Directory('restricted');
         await restrictedDir.create();
 
         try {

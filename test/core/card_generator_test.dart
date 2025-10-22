@@ -1,20 +1,28 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_wallet_card/core/card_generator.dart';
 import 'package:flutter_wallet_card/models/wallet_card.dart';
-import 'package:path/path.dart' as path;
+
+import '../utils/memory_io_overrides.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('CardGenerator', () {
-    late Directory tempDir;
     late WalletCard testCard;
 
     setUp(() async {
-      tempDir = await Directory.systemTemp.createTemp('card_generator_test_');
+      IOOverrides.global = MemoryIOOverrides();
+    });
+
+    tearDown(() {
+      IOOverrides.global = null;
+    });
+
+    setUp(() async {
       testCard = const WalletCard(
         id: 'test-card-123',
         type: WalletCardType.generic,
@@ -34,12 +42,6 @@ void main() {
           labelColor: Color(0xFF666666),
         ),
       );
-    });
-
-    tearDown(() async {
-      if (await tempDir.exists()) {
-        await tempDir.delete(recursive: true);
-      }
     });
 
     group('AppleWalletGenerator', () {
@@ -110,7 +112,7 @@ void main() {
       });
 
       test('should generate file successfully', () async {
-        final outputFile = File(path.join(tempDir.path, 'test.pkpass'));
+        final outputFile = File('test.pkpass');
 
         final result = await generator.generateFile(testCard, outputFile);
 
@@ -230,7 +232,7 @@ void main() {
           },
         );
 
-        final outputFile = File(path.join(tempDir.path, 'test.json'));
+        final outputFile = File('test.json');
 
         final result = await generator.generateFile(validCard, outputFile);
 
