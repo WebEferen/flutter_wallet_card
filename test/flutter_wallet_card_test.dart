@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_wallet_card/core/wallet_factory.dart';
+import 'package:flutter_wallet_card/core/wallet_platform.dart';
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 import 'package:flutter_wallet_card/models/wallet_card.dart';
-import 'package:flutter_wallet_card/core/wallet_platform.dart';
-import 'package:flutter_wallet_card/core/wallet_factory.dart';
-
 import 'package:mockito/annotations.dart';
 import 'package:path/path.dart' as path;
 
@@ -134,7 +134,7 @@ void main() {
         archive.addFile(
             ArchiveFile('pass.json', passJsonBytes.length, passJsonBytes));
         final zipData = ZipEncoder().encode(archive);
-        await pkpassFile.writeAsBytes(zipData!);
+        await pkpassFile.writeAsBytes(zipData);
 
         final card = await FlutterWalletCard.parseFromFile(pkpassFile);
 

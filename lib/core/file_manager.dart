@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:math';
+
+import 'package:archive/archive_io.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:archive/archive_io.dart';
+
 import 'wallet_platform.dart';
 
 /// File management utility for wallet card operations
@@ -111,7 +113,7 @@ class FileManager {
 
     try {
       final encoder = ZipFileEncoder();
-      encoder.zipDirectory(sourceDir, filename: outputFile.path);
+      await encoder.zipDirectory(sourceDir, filename: outputFile.path);
       return outputFile;
     } catch (e) {
       throw WalletException('Failed to create archive: $e');

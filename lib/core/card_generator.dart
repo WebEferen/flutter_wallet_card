@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
+
 import 'package:archive/archive_io.dart';
+import 'package:crypto/crypto.dart';
 import 'package:path/path.dart' as path;
+
 import '../models/wallet_card.dart';
-import 'wallet_platform.dart';
 import 'file_manager.dart';
+import 'wallet_platform.dart';
 
 /// Abstract base class for card generators
 abstract class CardGenerator {
@@ -284,7 +286,7 @@ class AppleWalletGenerator extends CardGenerator {
   Future<void> _createPkpassArchive(
       Directory sourceDir, File outputFile) async {
     final encoder = ZipFileEncoder();
-    encoder.zipDirectory(sourceDir, filename: outputFile.path);
+    return encoder.zipDirectory(sourceDir, filename: outputFile.path);
   }
 }
 
