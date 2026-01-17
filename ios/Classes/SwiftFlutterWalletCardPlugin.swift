@@ -13,11 +13,6 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
   private var initialPassCount: Int?
   private let passLibrary = PKPassLibrary()
     
-  init(controller: UIViewController) {
-    self.viewController = controller
-    super.init()
-  }
-    
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_wallet_card", binaryMessenger: registrar.messenger())
     let instance = SwiftFlutterWalletCardPlugin()
