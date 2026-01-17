@@ -3,7 +3,12 @@ import PassKit
 import UIKit
 
 public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
-  private let viewController: UIViewController
+  private var viewController: UIViewController {
+    guard let controller = UIApplication.shared.keyWindow?.rootViewController else {
+      fatalError("Unable to get root view controller")
+    }
+    return controller;
+  }
   private var addPassesFlutterResult: FlutterResult?
   private var initialPassCount: Int?
   private let passLibrary = PKPassLibrary()
@@ -14,11 +19,8 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
   }
     
   public static func register(with registrar: FlutterPluginRegistrar) {
-    guard let controller = UIApplication.shared.delegate?.window??.rootViewController else {
-      fatalError("Unable to get root view controller")
-    }
     let channel = FlutterMethodChannel(name: "flutter_wallet_card", binaryMessenger: registrar.messenger())
-    let instance = SwiftFlutterWalletCardPlugin(controller: controller)
+    let instance = SwiftFlutterWalletCardPlugin()
 
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
