@@ -111,7 +111,7 @@ class FileManager {
 
     try {
       final encoder = ZipFileEncoder();
-      encoder.zipDirectory(sourceDir, filename: outputFile.path);
+      await encoder.zipDirectory(sourceDir, filename: outputFile.path);
       return outputFile;
     } catch (e) {
       throw WalletException('Failed to create archive: $e');

@@ -5,10 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.NonNull
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.wallet.PaymentsClient
-import com.google.android.gms.wallet.Wallet
-import com.google.android.gms.wallet.WalletConstants
+import com.google.android.gms.pay.Pay
+import com.google.android.gms.pay.PayApiAvailabilityStatus
+import com.google.android.gms.pay.PayClient
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -24,9 +23,9 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
     private lateinit var channel: MethodChannel
     private var context: Context? = null
     private var activity: Activity? = null
-    private var paymentsClient: PaymentsClient? = null
+    private var payClient: PayClient? = null
     private var pendingResult: Result? = null
-    
+
     companion object {
         private const val SAVE_PASSES_REQUEST_CODE = 1001
         private const val CHANNEL_NAME = "flutter_wallet_card"
@@ -89,24 +88,21 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
         }
     }
 
+    private fun getPayClient(): PayClient {
+        if (payClient == null) {
+            payClient = Pay.getClient(activity!!)
+        }
+        return payClient!!
+    }
+
     private fun checkGoogleWalletAvailability(result: Result) {
         try {
-            val walletOptions = Wallet.WalletOptions.Builder()
-                .setEnvironment(WalletConstants.ENVIRONMENT_PRODUCTION) // Use ENVIRONMENT_TEST for testing
-                .build()
-            
-            paymentsClient = Wallet.getPaymentsClient(activity!!, walletOptions)
-            
-            // Check if Google Wallet is available
-            val isReadyToPayRequest = createIsReadyToPayRequest()
-            paymentsClient?.isReadyToPay(isReadyToPayRequest)
-                ?.addOnCompleteListener { task ->
-                    try {
-                        val isReady = task.getResult(ApiException::class.java) ?: false
-                        result.success(isReady)
-                    } catch (exception: ApiException) {
-                        result.success(false)
-                    }
+            getPayClient().getPayApiAvailabilityStatus(PayClient.RequestType.SAVE_PASSES)
+                .addOnSuccessListener { status ->
+                    result.success(status == PayApiAvailabilityStatus.AVAILABLE)
+                }
+                .addOnFailureListener {
+                    result.success(false)
                 }
         } catch (e: Exception) {
             result.success(false)
@@ -127,19 +123,15 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
                 return
             }
 
-            // Read the JSON content from the file
             val jsonContent = file.readText()
-            
-            // Create a Google Wallet save request from the JSON content
-            
+
             pendingResult = result
-            
-            // Create a generic pass save intent
-            val saveIntent = createSaveToWalletIntent(jsonContent)
-            activity?.startActivityForResult(saveIntent, SAVE_PASSES_REQUEST_CODE)
-            
+
+            getPayClient().savePasses(jsonContent, activity!!, SAVE_PASSES_REQUEST_CODE)
+
         } catch (e: Exception) {
             result.error("ADD_CARD_ERROR", "Failed to add card: ${e.message}", null)
+            pendingResult = null
         }
     }
 
@@ -149,7 +141,7 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://pay.google.com/gp/v/save/$objectId")
             }
-            
+
             if (intent.resolveActivity(activity!!.packageManager) != null) {
                 activity?.startActivity(intent)
                 result.success(true)
@@ -164,15 +156,9 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
     private fun savePassWithJwt(jwt: String, result: Result) {
         try {
             pendingResult = result
-            
-            // Create save to wallet intent with JWT
-            val saveIntent = Intent().apply {
-                action = "com.google.android.gms.wallet.SAVE_TO_WALLET"
-                putExtra("jwt", jwt)
-            }
-            
-            activity?.startActivityForResult(saveIntent, SAVE_PASSES_REQUEST_CODE)
-            
+
+            getPayClient().savePassesJwt(jwt, activity!!, SAVE_PASSES_REQUEST_CODE)
+
         } catch (e: Exception) {
             result.error("SAVE_JWT_ERROR", "Failed to save pass with JWT: ${e.message}", null)
             pendingResult = null
@@ -186,24 +172,10 @@ class FlutterWalletCardPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, 
             val baseUrl = "https://pay.google.com/gp/v/save/"
             val objectId = passData["objectId"] as? String ?: "unknown"
             val link = "$baseUrl$objectId"
-            
+
             result.success(link)
         } catch (e: Exception) {
             result.error("CREATE_LINK_ERROR", "Failed to create pass link: ${e.message}", null)
-        }
-    }
-
-    private fun createIsReadyToPayRequest(): com.google.android.gms.wallet.IsReadyToPayRequest {
-        return com.google.android.gms.wallet.IsReadyToPayRequest.newBuilder()
-            .addAllowedPaymentMethod(com.google.android.gms.wallet.WalletConstants.PAYMENT_METHOD_CARD)
-            .addAllowedPaymentMethod(com.google.android.gms.wallet.WalletConstants.PAYMENT_METHOD_TOKENIZED_CARD)
-            .build()
-    }
-
-    private fun createSaveToWalletIntent(jsonContent: String): Intent {
-        return Intent().apply {
-            action = "com.google.android.gms.wallet.SAVE_TO_WALLET"
-            putExtra("json", jsonContent)
         }
     }
 

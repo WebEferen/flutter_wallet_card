@@ -51,8 +51,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.android.gms:play-services-wallet:19.2.1'
-    implementation 'com.google.pay.button:compose-pay-button:0.1.0'
+    implementation 'com.google.android.gms:play-services-pay:16.5.0'
     implementation 'androidx.activity:activity-ktx:1.7.2'
     implementation 'androidx.fragment:fragment-ktx:1.6.1'
 }

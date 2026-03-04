@@ -4,10 +4,20 @@ import UIKit
 
 public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
   private var viewController: UIViewController {
-    guard let controller = UIApplication.shared.keyWindow?.rootViewController else {
-      fatalError("Unable to get root view controller")
+    if #available(iOS 15.0, *) {
+      guard let scene = UIApplication.shared.connectedScenes
+        .compactMap({ $0 as? UIWindowScene })
+        .first(where: { $0.activationState == .foregroundActive }),
+        let controller = scene.keyWindow?.rootViewController else {
+          fatalError("Unable to get root view controller")
+      }
+      return controller
+    } else {
+      guard let controller = UIApplication.shared.keyWindow?.rootViewController else {
+        fatalError("Unable to get root view controller")
+      }
+      return controller
     }
-    return controller;
   }
   private var addPassesFlutterResult: FlutterResult?
   private var initialPassCount: Int?

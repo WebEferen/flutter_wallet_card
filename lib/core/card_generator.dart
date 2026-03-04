@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 import 'package:crypto/crypto.dart';
 import 'package:archive/archive_io.dart';
 import 'package:path/path.dart' as path;
@@ -238,13 +239,10 @@ class AppleWalletGenerator extends CardGenerator {
 
   String _colorToRgbString(dynamic color) {
     if (color is String) return color;
-    // Assuming color is a Flutter Color object
-    if (color.runtimeType.toString().contains('Color')) {
-      // Extract RGB values from Color object
-      final colorValue = color.value as int;
-      final r = (colorValue >> 16) & 0xFF;
-      final g = (colorValue >> 8) & 0xFF;
-      final b = colorValue & 0xFF;
+    if (color is Color) {
+      final r = (color.r * 255.0).round() & 0xff;
+      final g = (color.g * 255.0).round() & 0xff;
+      final b = (color.b * 255.0).round() & 0xff;
       return 'rgb($r,$g,$b)';
     }
     return color.toString();
@@ -284,7 +282,7 @@ class AppleWalletGenerator extends CardGenerator {
   Future<void> _createPkpassArchive(
       Directory sourceDir, File outputFile) async {
     final encoder = ZipFileEncoder();
-    encoder.zipDirectory(sourceDir, filename: outputFile.path);
+    await encoder.zipDirectory(sourceDir, filename: outputFile.path);
   }
 }
 

@@ -134,7 +134,7 @@ void main() {
         archive.addFile(
             ArchiveFile('pass.json', passJsonBytes.length, passJsonBytes));
         final zipData = ZipEncoder().encode(archive);
-        await pkpassFile.writeAsBytes(zipData!);
+        await pkpassFile.writeAsBytes(zipData);
 
         final card = await FlutterWalletCard.parseFromFile(pkpassFile);
 
