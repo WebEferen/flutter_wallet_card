@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.5] - 2026-03-04
+
+### Added
+- Release version 4.0.5
+
+### Changed
+- Updated package version to 4.0.5
+
+### Fixed
+- Various bug fixes and improvements
+
+
 ## [4.0.4] - 2025-07-20
 
 ### Added
