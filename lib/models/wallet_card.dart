@@ -153,7 +153,8 @@ class WalletCardVisuals extends Equatable {
     final r = (color.r * 255.0).round() & 0xff;
     final g = (color.g * 255.0).round() & 0xff;
     final b = (color.b * 255.0).round() & 0xff;
-    return '#${r.toRadixString(16).padLeft(2, '0')}${g.toRadixString(16).padLeft(2, '0')}${b.toRadixString(16).padLeft(2, '0')}'.toUpperCase();
+    return '#${r.toRadixString(16).padLeft(2, '0')}${g.toRadixString(16).padLeft(2, '0')}${b.toRadixString(16).padLeft(2, '0')}'
+        .toUpperCase();
   }
 
   @override
