@@ -42,7 +42,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_wallet_card: ^4.0.0
+  flutter_wallet_card: ^5.0.0
 ```
 
 Then run:
@@ -70,7 +70,12 @@ flutter pub get
    - Enable Google Wallet API in Google Cloud Console
    - Configure OAuth 2.0 credentials
 
-2. **Update Android manifest** (automatically handled by plugin):
+2. **Ensure your app uses `play-services-pay`** (automatically included by the plugin):
+   ```gradle
+   implementation 'com.google.android.gms:play-services-pay:16.5.0'
+   ```
+
+3. **Update Android manifest** (automatically handled by plugin):
    ```xml
    <uses-permission android:name="android.permission.INTERNET" />
    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -81,11 +86,12 @@ flutter pub get
 ### Basic Example
 
 ```dart
+import 'package:flutter/material.dart';
 import 'package:flutter_wallet_card/flutter_wallet_card.dart';
 import 'package:flutter_wallet_card/models/wallet_card.dart';
 
 // Check if wallet is available
-bool isAvailable = await FlutterWalletCard.isWalletAvailable();
+bool isAvailable = await FlutterWalletCard.isWalletAvailable;
 
 if (isAvailable) {
   // Create a wallet card
@@ -107,15 +113,15 @@ if (isAvailable) {
       serialNumber: 'CARD123',
     ),
     visuals: WalletCardVisuals(
-      backgroundColor: '#1E88E5',
-      foregroundColor: '#FFFFFF',
-      labelColor: '#E3F2FD',
+      backgroundColor: Color(0xFF1E88E5),
+      foregroundColor: Color(0xFFFFFFFF),
+      labelColor: Color(0xFFE3F2FD),
     ),
   );
 
   // Add card to wallet
   bool success = await FlutterWalletCard.addToWallet(card);
-  
+
   if (success) {
     print('Card added successfully!');
   }
@@ -138,6 +144,7 @@ final cardWithLocation = WalletCard(
     title: 'Store Loyalty Card',
     description: 'Get rewards at our store',
     organizationName: 'Your Store',
+    serialNumber: 'STORE001',
     locations: [
       WalletCardLocation(
         latitude: 37.7749,
@@ -148,8 +155,8 @@ final cardWithLocation = WalletCard(
     ],
   ),
   visuals: WalletCardVisuals(
-    backgroundColor: '#4CAF50',
-    foregroundColor: '#FFFFFF',
+    backgroundColor: Color(0xFF4CAF50),
+    foregroundColor: Color(0xFFFFFFFF),
   ),
 );
 ```
@@ -158,31 +165,32 @@ final cardWithLocation = WalletCard(
 
 ```dart
 // Generate a card file for sharing or storage
-File cardFile = await FlutterWalletCard.generateCardFile(
-  card,
-  outputDirectory: await getApplicationDocumentsDirectory(),
-);
+File cardFile = await FlutterWalletCard.generateCardFile(card);
 
 print('Card file created at: ${cardFile.path}');
 ```
 
-#### Downloading Cards from URLs
+#### Adding Cards from URLs
 
 ```dart
 // Download and add a card from a URL
 try {
-  File downloadedCard = await FlutterWalletCard.downloadFromUrl(
+  bool success = await FlutterWalletCard.addFromUrl(
     'https://example.com/mycard.pkpass',
   );
-  
-  // Parse the downloaded card
-  WalletCard card = await FlutterWalletCard.parseFromFile(downloadedCard.path);
-  
-  // Add to wallet
-  await FlutterWalletCard.addToWallet(card);
+
+  print('Card added: $success');
 } catch (e) {
-  print('Failed to download card: $e');
+  print('Failed to add card from URL: $e');
 }
+```
+
+#### Parsing Existing Card Files
+
+```dart
+// Parse a wallet card from a local file
+WalletCard card = await FlutterWalletCard.parseFromFile(File('/path/to/card.pkpass'));
+print('Card title: ${card.metadata.title}');
 ```
 
 #### Platform-Specific Features
@@ -212,19 +220,25 @@ if (Platform.isAndroid) {
 
 | Method | Description | Returns |
 |--------|-------------|----------|
-| `isWalletAvailable()` | Check if wallet is available on device | `Future<bool>` |
-| `isCardAdded(String cardId)` | Check if specific card is added | `Future<bool>` |
+| `isWalletAvailable` | Check if wallet is available on device (getter) | `Future<bool>` |
+| `platformType` | Get the current platform type (getter) | `WalletPlatformType` |
+| `isCardAdded(String identifier)` | Check if specific card is added | `Future<bool>` |
 | `addToWallet(WalletCard card)` | Add card to wallet | `Future<bool>` |
-| `viewInWallet(String cardId)` | Open card in wallet app | `Future<bool>` |
+| `addFromFile(File file, {Map? metadata})` | Add card from existing file | `Future<bool>` |
+| `addFromUrl(String url, {Map? metadata})` | Download and add card from URL | `Future<bool>` |
+| `viewInWallet(String identifier)` | Open card in wallet app | `Future<bool>` |
 | `generateCardFile(WalletCard card)` | Generate card file | `Future<File>` |
-| `parseFromFile(String path)` | Parse card from file | `Future<WalletCard>` |
-| `downloadFromUrl(String url)` | Download card from URL | `Future<File>` |
+| `parseFromFile(File file)` | Parse card from file | `Future<WalletCard>` |
+| `cleanup({Duration? olderThan})` | Clean up temporary files | `Future<void>` |
 
 ### iOS-Specific Methods
 
 | Method | Description | Returns |
 |--------|-------------|----------|
 | `addMultipleToWallet(List<WalletCard> cards)` | Add multiple cards | `Future<bool>` |
+| `validatePass(File file)` | Validate a pass file | `Future<Map<String, dynamic>>` |
+| `getPassInfo(String identifier)` | Get detailed pass info | `Future<Map<String, dynamic>>` |
+| `isValidPass(File file)` | Check if a pass file is valid | `Future<bool>` |
 
 ### Android-Specific Methods
 
@@ -245,7 +259,7 @@ class WalletCard {
   final WalletCardType type;
   final Map<String, dynamic> platformData;
   final WalletCardMetadata metadata;
-  final WalletCardVisuals visuals;
+  final WalletCardVisuals? visuals;
   final File? file;
 }
 ```
@@ -257,26 +271,28 @@ Card information and content:
 ```dart
 class WalletCardMetadata {
   final String title;
-  final String description;
-  final String? organizationName;
-  final String? serialNumber;
+  final String? subtitle;
+  final String? description;
+  final String organizationName;
+  final String serialNumber;
   final DateTime? expirationDate;
   final DateTime? relevantDate;
   final List<WalletCardLocation>? locations;
-  final Map<String, dynamic>? additionalData;
+  final Map<String, String>? customFields;
 }
 ```
 
 ### WalletCardVisuals
 
-Card appearance and styling:
+Card appearance and styling. Colors are stored as `Color` objects and serialized as hex strings (e.g. `#FF0000`) in JSON:
 
 ```dart
 class WalletCardVisuals {
-  final String backgroundColor;
-  final String foregroundColor;
-  final String? labelColor;
-  final Map<String, dynamic>? additionalStyles;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final Color? labelColor;
+  final String? logoText;
+  final Map<String, String>? images;
 }
 ```
 
@@ -289,8 +305,8 @@ try {
   await FlutterWalletCard.addToWallet(card);
 } on WalletException catch (e) {
   print('Wallet error: ${e.message}');
-  if (e.details != null) {
-    print('Details: ${e.details}');
+  if (e.originalError != null) {
+    print('Original error: ${e.originalError}');
   }
 } catch (e) {
   print('General error: $e');
