@@ -12,7 +12,6 @@ environment:
 dependencies:
   archive: ^4.0.0
   crypto: ^3.0.3
-  dio: ^5.4.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter
