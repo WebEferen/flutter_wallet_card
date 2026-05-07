@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "flutter-wallet-card",
     platforms: [
-        .iOS("12.0")
+        .iOS("13.0")
     ],
     products: [
         .library(name: "flutter-wallet-card", targets: ["flutter-wallet-card"])
