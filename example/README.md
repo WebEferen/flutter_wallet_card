@@ -2,6 +2,9 @@
 
 Demonstrates how to use the flutter_wallet_card plugin.
 
+## Cocoapods issues
+If you trying to run this app using cocoapods, ensure that you remove the .template from the Podfile in the ios folder
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
