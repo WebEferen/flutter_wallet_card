@@ -8,6 +8,10 @@
 
 build/
 
+# Swift Package Manager
+.build/
+.swiftpm/
+
 # Generated files
 .flutter-plugins
 .flutter-plugins-dependencies
