@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -45,6 +45,8 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		784666492D4C4C64000A1A5F /* FlutterFramework */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterFramework; path = Flutter/ephemeral/Packages/.packages/FlutterFramework; sourceTree = "<group>"; };
+		78DABEA22ED26510000E7860 /* flutter_wallet_card */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = flutter_wallet_card; path = ../../ios/flutter_wallet_card; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,8 @@
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
+				78DABEA22ED26510000E7860 /* flutter_wallet_card */,
+				784666492D4C4C64000A1A5F /* FlutterFramework */,
 				228B905C2FAC523D00D1C7D8 /* flutter_wallet_card */,
 				78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */,
 				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
