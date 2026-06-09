@@ -8,11 +8,13 @@ A comprehensive Flutter plugin for creating and managing wallet cards on both iO
 ## Features
 
 ### Cross-Platform Support
+
 - **iOS**: Full Apple Wallet (Passkit) integration
 - **Android**: Google Wallet integration
 - **Unified API**: Single codebase for both platforms
 
 ### Card Operations
+
 - ✅ Check wallet availability
 - ✅ Add cards to wallet
 - ✅ Check if card is already added
@@ -22,6 +24,7 @@ A comprehensive Flutter plugin for creating and managing wallet cards on both iO
 - ✅ Download cards from URLs
 
 ### Card Types Supported
+
 - **Generic Cards**: General purpose cards
 - **Boarding Passes**: Flight tickets
 - **Coupons**: Discount and promotional cards
@@ -29,6 +32,7 @@ A comprehensive Flutter plugin for creating and managing wallet cards on both iO
 - **Store Cards**: Loyalty and membership cards
 
 ### Advanced Features
+
 - 🎨 Custom colors and styling
 - 📍 Location-based relevance
 - 📅 Date-based relevance
@@ -42,7 +46,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_wallet_card: ^5.0.0
+  flutter_wallet_card: ^5.1.0
 ```
 
 Then run:
@@ -71,6 +75,7 @@ flutter pub get
    - Configure OAuth 2.0 credentials
 
 2. **Ensure your app uses `play-services-pay`** (automatically included by the plugin):
+
    ```gradle
    implementation 'com.google.android.gms:play-services-pay:16.5.0'
    ```
@@ -206,7 +211,7 @@ if (Platform.isIOS) {
 if (Platform.isAndroid) {
   String jwt = 'your-google-wallet-jwt';
   bool success = await FlutterWalletCard.savePassWithJwt(jwt);
-  
+
   // Create a pass link
   String link = await FlutterWalletCard.createPassLink({
     'objectId': 'your-object-id',
@@ -218,34 +223,34 @@ if (Platform.isAndroid) {
 
 ### Core Methods
 
-| Method | Description | Returns |
-|--------|-------------|----------|
-| `isWalletAvailable` | Check if wallet is available on device (getter) | `Future<bool>` |
-| `platformType` | Get the current platform type (getter) | `WalletPlatformType` |
-| `isCardAdded(String identifier)` | Check if specific card is added | `Future<bool>` |
-| `addToWallet(WalletCard card)` | Add card to wallet | `Future<bool>` |
-| `addFromFile(File file, {Map? metadata})` | Add card from existing file | `Future<bool>` |
-| `addFromUrl(String url, {Map? metadata})` | Download and add card from URL | `Future<bool>` |
-| `viewInWallet(String identifier)` | Open card in wallet app | `Future<bool>` |
-| `generateCardFile(WalletCard card)` | Generate card file | `Future<File>` |
-| `parseFromFile(File file)` | Parse card from file | `Future<WalletCard>` |
-| `cleanup({Duration? olderThan})` | Clean up temporary files | `Future<void>` |
+| Method                                    | Description                                     | Returns              |
+| ----------------------------------------- | ----------------------------------------------- | -------------------- |
+| `isWalletAvailable`                       | Check if wallet is available on device (getter) | `Future<bool>`       |
+| `platformType`                            | Get the current platform type (getter)          | `WalletPlatformType` |
+| `isCardAdded(String identifier)`          | Check if specific card is added                 | `Future<bool>`       |
+| `addToWallet(WalletCard card)`            | Add card to wallet                              | `Future<bool>`       |
+| `addFromFile(File file, {Map? metadata})` | Add card from existing file                     | `Future<bool>`       |
+| `addFromUrl(String url, {Map? metadata})` | Download and add card from URL                  | `Future<bool>`       |
+| `viewInWallet(String identifier)`         | Open card in wallet app                         | `Future<bool>`       |
+| `generateCardFile(WalletCard card)`       | Generate card file                              | `Future<File>`       |
+| `parseFromFile(File file)`                | Parse card from file                            | `Future<WalletCard>` |
+| `cleanup({Duration? olderThan})`          | Clean up temporary files                        | `Future<void>`       |
 
 ### iOS-Specific Methods
 
-| Method | Description | Returns |
-|--------|-------------|----------|
-| `addMultipleToWallet(List<WalletCard> cards)` | Add multiple cards | `Future<bool>` |
-| `validatePass(File file)` | Validate a pass file | `Future<Map<String, dynamic>>` |
-| `getPassInfo(String identifier)` | Get detailed pass info | `Future<Map<String, dynamic>>` |
-| `isValidPass(File file)` | Check if a pass file is valid | `Future<bool>` |
+| Method                                        | Description                   | Returns                        |
+| --------------------------------------------- | ----------------------------- | ------------------------------ |
+| `addMultipleToWallet(List<WalletCard> cards)` | Add multiple cards            | `Future<bool>`                 |
+| `validatePass(File file)`                     | Validate a pass file          | `Future<Map<String, dynamic>>` |
+| `getPassInfo(String identifier)`              | Get detailed pass info        | `Future<Map<String, dynamic>>` |
+| `isValidPass(File file)`                      | Check if a pass file is valid | `Future<bool>`                 |
 
 ### Android-Specific Methods
 
-| Method | Description | Returns |
-|--------|-------------|----------|
-| `savePassWithJwt(String jwt)` | Save pass using JWT | `Future<bool>` |
-| `createPassLink(Map<String, dynamic> data)` | Create pass link | `Future<String>` |
+| Method                                      | Description         | Returns          |
+| ------------------------------------------- | ------------------- | ---------------- |
+| `savePassWithJwt(String jwt)`               | Save pass using JWT | `Future<bool>`   |
+| `createPassLink(Map<String, dynamic> data)` | Create pass link    | `Future<String>` |
 
 ## Models
 
@@ -340,6 +345,7 @@ If you're upgrading from version 3.x, here are the key changes:
 ### Migration Example
 
 **Old (v3.x):**
+
 ```dart
 // iOS
 await FlutterWalletCard.addPasskit(passData);
@@ -349,15 +355,15 @@ await FlutterWalletCard.addGoogleWallet(walletData);
 ```
 
 **New (v4.x):**
+
 ```dart
 // Unified
 final card = WalletCard(/* ... */);
 await FlutterWalletCard.addToWallet(card);
 ```
 
-
-
 ### Development Resources
+
 - [GitHub Actions Workflows](.github/workflows/README.md) - CI/CD and automation
 - [Publishing Scripts](scripts/README.md) - Package publishing tools
 
