@@ -2,7 +2,7 @@ import Flutter
 import PassKit
 import UIKit
 
-public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
+public class FlutterWalletCardPlugin: NSObject, FlutterPlugin {
   private var viewController: UIViewController {
     if #available(iOS 15.0, *) {
       guard let scene = UIApplication.shared.connectedScenes
@@ -25,7 +25,7 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
     
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_wallet_card", binaryMessenger: registrar.messenger())
-    let instance = SwiftFlutterWalletCardPlugin()
+    let instance = FlutterWalletCardPlugin()
 
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
@@ -305,7 +305,7 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
 }
 
 // MARK: - PKAddPassesViewControllerDelegate
-extension SwiftFlutterWalletCardPlugin: PKAddPassesViewControllerDelegate {
+extension FlutterWalletCardPlugin: PKAddPassesViewControllerDelegate {
   public func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
     controller.dismiss(animated: true) { [weak self] in
       guard let self = self,
