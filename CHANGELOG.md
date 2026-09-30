@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Minimum flutter dependency to flutter 3.44.0 and Dart 3.12
+- Minimum iOS version to 13.0
 
 ## [5.0.0] - 2026-03-04
 
