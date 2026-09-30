@@ -79,10 +79,23 @@ jobs:
       - name: Run iOS tests
         run: flutter test
 
-      - name: Build iOS example
+      - name: Build iOS example (Swift Package Manager)
         run: |
+          flutter config --enable-swift-package-manager
           cd example
           flutter build ios --no-codesign
+
+      - name: Build iOS app with CocoaPods
+        # The example is migrated to SPM and cannot be built with SPM disabled,
+        # so check the CocoaPods integration with a new app instead.
+        run: |
+          flutter config --no-enable-swift-package-manager
+          cd "$RUNNER_TEMP"
+          flutter create --platforms ios pods_check
+          cd pods_check
+          flutter pub add flutter_wallet_card --path "$GITHUB_WORKSPACE"
+          flutter build ios --no-codesign
+          grep -q "flutter_wallet_card" ios/Podfile.lock
 
   test-android:
     runs-on: ubuntu-latest
