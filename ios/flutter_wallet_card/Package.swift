@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "flutter-wallet-card",
+    name: "flutter_wallet_card",
     platforms: [
         .iOS("13.0")
     ],
     products: [
-        .library(name: "flutter-wallet-card", targets: ["flutter-wallet-card"])
+        .library(name: "flutter-wallet-card", targets: ["flutter_wallet_card"])
     ],
     dependencies: [
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
@@ -19,7 +19,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "flutter-wallet-card",
+            name: "flutter_wallet_card",
             dependencies: [
                 .product(name: "FlutterFramework", package: "FlutterFramework"),
                 .product(name: "OpenSSL", package: "OpenSSL-Package"),
