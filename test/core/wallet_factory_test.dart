@@ -18,12 +18,14 @@ void main() {
       expect(platform, isA<WalletPlatform>());
     });
 
-    test('should return UnsupportedWalletPlatform for unsupported platforms',
-        () {
-      // This test verifies the factory returns an appropriate platform
-      final platform = WalletFactory.instance;
-      expect(platform, isA<WalletPlatform>());
-    });
+    test(
+      'should return UnsupportedWalletPlatform for unsupported platforms',
+      () {
+        // This test verifies the factory returns an appropriate platform
+        final platform = WalletFactory.instance;
+        expect(platform, isA<WalletPlatform>());
+      },
+    );
 
     test('should return same instance on multiple calls', () {
       final platform1 = WalletFactory.instance;

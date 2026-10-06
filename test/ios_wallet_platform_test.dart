@@ -18,45 +18,45 @@ void main() {
       // Mock the method channel
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('flutter_wallet_card'),
-        (MethodCall methodCall) async {
-          methodCalls.add(methodCall);
+            const MethodChannel('flutter_wallet_card'),
+            (MethodCall methodCall) async {
+              methodCalls.add(methodCall);
 
-          switch (methodCall.method) {
-            case 'addWalletCardFromUrl':
-              return true;
-            case 'validatePass':
-              return {
-                'isValid': true,
-                'serialNumber': 'TEST123',
-                'organizationName': 'Test Org',
-                'description': 'Test Pass',
-                'passTypeIdentifier': 'pass.com.test.example'
-              };
-            case 'getPassInfo':
-              return {
-                'serialNumber': 'TEST123',
-                'organizationName': 'Test Org',
-                'description': 'Test Pass',
-                'passTypeIdentifier': 'pass.com.test.example',
-                'relevantDate': null,
-                'expirationDate': null,
-                'isExpired': false,
-                'passURL': 'shoebox://pass/TEST123'
-              };
-            default:
-              return null;
-          }
-        },
-      );
+              switch (methodCall.method) {
+                case 'addWalletCardFromUrl':
+                  return true;
+                case 'validatePass':
+                  return {
+                    'isValid': true,
+                    'serialNumber': 'TEST123',
+                    'organizationName': 'Test Org',
+                    'description': 'Test Pass',
+                    'passTypeIdentifier': 'pass.com.test.example',
+                  };
+                case 'getPassInfo':
+                  return {
+                    'serialNumber': 'TEST123',
+                    'organizationName': 'Test Org',
+                    'description': 'Test Pass',
+                    'passTypeIdentifier': 'pass.com.test.example',
+                    'relevantDate': null,
+                    'expirationDate': null,
+                    'isExpired': false,
+                    'passURL': 'shoebox://pass/TEST123',
+                  };
+                default:
+                  return null;
+              }
+            },
+          );
     });
 
     tearDown(() {
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('flutter_wallet_card'),
-        null,
-      );
+            const MethodChannel('flutter_wallet_card'),
+            null,
+          );
     });
 
     test('should add pass from URL', () async {
@@ -118,14 +118,14 @@ void main() {
       // Mock a platform exception
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('flutter_wallet_card'),
-        (MethodCall methodCall) async {
-          throw PlatformException(
-            code: 'TEST_ERROR',
-            message: 'Test error message',
+            const MethodChannel('flutter_wallet_card'),
+            (MethodCall methodCall) async {
+              throw PlatformException(
+                code: 'TEST_ERROR',
+                message: 'Test error message',
+              );
+            },
           );
-        },
-      );
 
       expect(
         () => platform.addFromUrl('https://example.com/test.pkpass'),

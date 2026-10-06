@@ -32,28 +32,28 @@ class MockWalletPlatform extends _i1.Mock implements _i2.WalletPlatform {
   }
 
   @override
-  _i2.WalletPlatformType get platformType => (super.noSuchMethod(
-        Invocation.getter(#platformType),
-        returnValue: _i2.WalletPlatformType.ios,
-      ) as _i2.WalletPlatformType);
+  _i2.WalletPlatformType get platformType =>
+      (super.noSuchMethod(
+            Invocation.getter(#platformType),
+            returnValue: _i2.WalletPlatformType.ios,
+          )
+          as _i2.WalletPlatformType);
 
   @override
-  _i3.Future<bool> isWalletAvailable() => (super.noSuchMethod(
-        Invocation.method(
-          #isWalletAvailable,
-          [],
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+  _i3.Future<bool> isWalletAvailable() =>
+      (super.noSuchMethod(
+            Invocation.method(#isWalletAvailable, []),
+            returnValue: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> isCardAdded(String? identifier) => (super.noSuchMethod(
-        Invocation.method(
-          #isCardAdded,
-          [identifier],
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+  _i3.Future<bool> isCardAdded(String? identifier) =>
+      (super.noSuchMethod(
+            Invocation.method(#isCardAdded, [identifier]),
+            returnValue: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 
   @override
   _i3.Future<bool> addToWallet(
@@ -61,20 +61,16 @@ class MockWalletPlatform extends _i1.Mock implements _i2.WalletPlatform {
     Map<String, dynamic>? metadata,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addToWallet,
-          [file],
-          {#metadata: metadata},
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+            Invocation.method(#addToWallet, [file], {#metadata: metadata}),
+            returnValue: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> viewInWallet(String? identifier) => (super.noSuchMethod(
-        Invocation.method(
-          #viewInWallet,
-          [identifier],
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+  _i3.Future<bool> viewInWallet(String? identifier) =>
+      (super.noSuchMethod(
+            Invocation.method(#viewInWallet, [identifier]),
+            returnValue: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 }

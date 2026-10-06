@@ -12,8 +12,9 @@ class AndroidWalletPlatform implements WalletPlatform {
   @override
   Future<bool> isWalletAvailable() async {
     try {
-      final result =
-          await _channel.invokeMethod<bool>('isGoogleWalletAvailable');
+      final result = await _channel.invokeMethod<bool>(
+        'isGoogleWalletAvailable',
+      );
       return result ?? false;
     } on PlatformException catch (e) {
       throw WalletException(
@@ -48,10 +49,7 @@ class AndroidWalletPlatform implements WalletPlatform {
     }
 
     try {
-      final args = {
-        'path': file.path,
-        if (metadata != null) ...metadata,
-      };
+      final args = {'path': file.path, if (metadata != null) ...metadata};
 
       final result = await _channel.invokeMethod<bool>(
         'addGoogleWalletCard',
@@ -70,10 +68,9 @@ class AndroidWalletPlatform implements WalletPlatform {
   @override
   Future<bool> viewInWallet(String identifier) async {
     try {
-      final result = await _channel.invokeMethod<bool>(
-        'viewGoogleWalletCard',
-        {'objectId': identifier},
-      );
+      final result = await _channel.invokeMethod<bool>('viewGoogleWalletCard', {
+        'objectId': identifier,
+      });
       return result ?? false;
     } on PlatformException catch (e) {
       throw WalletException(

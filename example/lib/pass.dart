@@ -40,8 +40,10 @@ void validatePassFile() async {
   try {
     final result = await FlutterWalletCard.validatePass(file);
     print('Pass validation result: $result');
-    _showDialog('Pass Validation',
-        'Valid: ${result['isValid']}\nSerial: ${result['serialNumber']}\nOrg: ${result['organizationName']}');
+    _showDialog(
+      'Pass Validation',
+      'Valid: ${result['isValid']}\nSerial: ${result['serialNumber']}\nOrg: ${result['organizationName']}',
+    );
   } catch (e) {
     print('Failed to validate pass: $e');
     _showDialog('Validation Error', e.toString());
@@ -55,8 +57,10 @@ void getPassInformation() async {
     // First check if wallet is available
     final isAvailable = await FlutterWalletCard.isWalletAvailable;
     if (!isAvailable) {
-      _showDialog('Wallet Not Available',
-          'Apple Wallet is not available on this device');
+      _showDialog(
+        'Wallet Not Available',
+        'Apple Wallet is not available on this device',
+      );
       return;
     }
 
@@ -72,14 +76,18 @@ void getPassInformation() async {
     // Now try to get info for the pass using its actual serial number
     final result = await FlutterWalletCard.getPassInfo(serialNumber);
     print('Pass info: $result');
-    _showDialog('Pass Information',
-        'Serial: ${result['serialNumber']}\nOrg: ${result['organizationName']}\nExpired: ${result['isExpired']}');
+    _showDialog(
+      'Pass Information',
+      'Serial: ${result['serialNumber']}\nOrg: ${result['organizationName']}\nExpired: ${result['isExpired']}',
+    );
 
     await file.delete();
   } catch (e) {
     print('Failed to get pass info: $e');
-    _showDialog('Pass Info Error',
-        'No passes found in wallet. Please add a pass first using the "Add apple pass" buttons above, then try again.\n\nError: ${e.toString()}');
+    _showDialog(
+      'Pass Info Error',
+      'No passes found in wallet. Please add a pass first using the "Add apple pass" buttons above, then try again.\n\nError: ${e.toString()}',
+    );
   }
 }
 
@@ -94,7 +102,9 @@ void checkPassValidity() async {
     final isValid = await FlutterWalletCard.isValidPass(file);
     print('Pass is valid: $isValid');
     _showDialog(
-        'Pass Validity Check', 'Pass is ${isValid ? 'valid' : 'invalid'}');
+      'Pass Validity Check',
+      'Pass is ${isValid ? 'valid' : 'invalid'}',
+    );
   } catch (e) {
     print('Failed to check pass validity: $e');
     _showDialog('Validity Check Error', e.toString());
