@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN || github.token }}
@@ -110,6 +110,12 @@ jobs:
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.new }}"
           DATE=$(date +"%Y-%m-%d")
+
+          if grep -q "^## \[$NEW_VERSION\]" CHANGELOG.md; then
+            sed -i "s/^## \[$NEW_VERSION\][[:space:]]*$/## [$NEW_VERSION] - $DATE/" CHANGELOG.md
+            echo "Dated existing CHANGELOG.md entry for $NEW_VERSION"
+            exit 0
+          fi
 
           # Create temporary file with new changelog entry
           cat > temp_changelog.md << 'EOF'
@@ -198,15 +204,14 @@ jobs:
           git push origin ${{ steps.new_version.outputs.tag }}
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.new_version.outputs.tag }}
-          release_name: Release ${{ steps.new_version.outputs.new }}
-          body_path: ${{ steps.release_notes.outputs.notes_file }}
-          draft: ${{ github.event.inputs.draft }}
-          prerelease: ${{ github.event.inputs.prerelease }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.new_version.outputs.tag }}" \
+            --title "Release ${{ steps.new_version.outputs.new }}" \
+            --notes-file "${{ steps.release_notes.outputs.notes_file }}" \
+            --draft=${{ github.event.inputs.draft }} \
+            --prerelease=${{ github.event.inputs.prerelease }}
 
   notify-release:
     runs-on: ubuntu-latest
@@ -236,7 +241,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.PAT_TOKEN || github.token }}
 
@@ -249,7 +254,7 @@ jobs:
 
       - name: Delete release on failure
         if: needs.create-release.outputs.tag
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         with:
           script: |
             try {
