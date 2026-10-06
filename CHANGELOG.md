@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.0]
+
+### Changed
+
+- Migrated the Android plugin to built-in Kotlin, so Flutter no longer warns that it applies the Kotlin Gradle Plugin (#62)
+
 ## [5.1.0] - 2026-10-06
 
 ### Added
