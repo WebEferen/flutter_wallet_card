@@ -46,7 +46,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_wallet_card: ^5.1.0
+  flutter_wallet_card: ^5.2.0
 ```
 
 Then run:

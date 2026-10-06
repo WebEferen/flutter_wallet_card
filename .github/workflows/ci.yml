@@ -129,6 +129,42 @@ jobs:
           cd example
           flutter build apk --android-skip-build-dependency-validation
 
+  built-in-kotlin:
+    runs-on: ubuntu-latest
+    name: Android Built-in Kotlin (latest stable)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Build app with built-in Kotlin enabled
+        # New apps still default to android.builtInKotlin=false, so turn it on
+        # and fail if Flutter reports this plugin as applying KGP.
+        run: |
+          cd "$RUNNER_TEMP"
+          flutter create --platforms android kotlin_check
+          cd kotlin_check
+          flutter pub add flutter_wallet_card --path "$GITHUB_WORKSPACE"
+          sed -i 's/^android.builtInKotlin=false$/android.builtInKotlin=true/' android/gradle.properties
+          grep -qx 'android.builtInKotlin=true' android/gradle.properties
+          flutter build apk --debug 2>&1 | tee build.log
+          if grep -q "apply Kotlin Gradle Plugin" build.log; then
+            echo "::error::flutter_wallet_card is still reported as applying KGP"
+            exit 1
+          fi
+
   package-analysis:
     runs-on: ubuntu-latest
     name: Package Analysis
