@@ -79,8 +79,10 @@ class FlutterWalletCard {
   ///
   /// [url] - The URL to download the wallet card from
   /// [metadata] - Optional metadata for the card
-  static Future<bool> addFromUrl(String url,
-      {Map<String, dynamic>? metadata}) async {
+  static Future<bool> addFromUrl(
+    String url, {
+    Map<String, dynamic>? metadata,
+  }) async {
     try {
       // Use native iOS implementation if available
       if (_platform.platformType == WalletPlatformType.ios) {
@@ -148,7 +150,8 @@ class FlutterWalletCard {
   static Future<bool> addMultipleToWallet(List<WalletCard> cards) async {
     if (_platform.platformType != WalletPlatformType.ios) {
       throw const WalletException(
-          'Multiple card addition is only supported on iOS');
+        'Multiple card addition is only supported on iOS',
+      );
     }
 
     try {
@@ -178,7 +181,8 @@ class FlutterWalletCard {
   static Future<bool> savePassWithJwt(String jwt) async {
     if (_platform.platformType != WalletPlatformType.android) {
       throw const WalletException(
-          'JWT pass saving is only supported on Android');
+        'JWT pass saving is only supported on Android',
+      );
     }
 
     try {
@@ -199,7 +203,8 @@ class FlutterWalletCard {
   static Future<String> createPassLink(Map<String, dynamic> passData) async {
     if (_platform.platformType != WalletPlatformType.android) {
       throw const WalletException(
-          'Pass link creation is only supported on Android');
+        'Pass link creation is only supported on Android',
+      );
     }
 
     try {
@@ -240,7 +245,8 @@ class FlutterWalletCard {
   static Future<Map<String, dynamic>> getPassInfo(String identifier) async {
     if (_platform.platformType != WalletPlatformType.ios) {
       throw const WalletException(
-          'Pass info retrieval is only supported on iOS');
+        'Pass info retrieval is only supported on iOS',
+      );
     }
 
     try {
@@ -282,7 +288,8 @@ class FlutterWalletCard {
         return GoogleWalletGenerator(fileManager: _fileManager);
       case WalletPlatformType.unsupported:
         throw const WalletException(
-            'Wallet operations are not supported on this platform');
+          'Wallet operations are not supported on this platform',
+        );
     }
   }
 
@@ -298,8 +305,9 @@ class FlutterWalletCard {
       }
 
       final passJsonContent = await passJsonFile.readAsString();
-      final passJson =
-          Map<String, dynamic>.from(await compute(_parseJson, passJsonContent));
+      final passJson = Map<String, dynamic>.from(
+        await compute(_parseJson, passJsonContent),
+      );
 
       // Convert to WalletCard
       return _convertApplePassToWalletCard(passJson, file);
@@ -311,8 +319,9 @@ class FlutterWalletCard {
 
   static Future<WalletCard> _parseGoogleWalletCard(File file) async {
     final jsonContent = await file.readAsString();
-    final cardJson =
-        Map<String, dynamic>.from(await compute(_parseJson, jsonContent));
+    final cardJson = Map<String, dynamic>.from(
+      await compute(_parseJson, jsonContent),
+    );
 
     return _convertGoogleCardToWalletCard(cardJson, file);
   }
@@ -322,7 +331,9 @@ class FlutterWalletCard {
   }
 
   static WalletCard _convertApplePassToWalletCard(
-      Map<String, dynamic> passJson, File file) {
+    Map<String, dynamic> passJson,
+    File file,
+  ) {
     // Convert Apple Wallet pass JSON to WalletCard
     // This is a simplified implementation
     return WalletCard(
@@ -339,7 +350,9 @@ class FlutterWalletCard {
   }
 
   static WalletCard _convertGoogleCardToWalletCard(
-      Map<String, dynamic> cardJson, File file) {
+    Map<String, dynamic> cardJson,
+    File file,
+  ) {
     // Convert Google Wallet card JSON to WalletCard
     // Extract title and description from textModulesData
     String title = '';
@@ -373,7 +386,8 @@ class FlutterWalletCard {
   }
 
   static WalletCardType _getCardTypeFromApplePass(
-      Map<String, dynamic> passJson) {
+    Map<String, dynamic> passJson,
+  ) {
     if (passJson.containsKey('storeCard')) return WalletCardType.storeCard;
     if (passJson.containsKey('eventTicket')) return WalletCardType.eventTicket;
     if (passJson.containsKey('boardingPass')) {

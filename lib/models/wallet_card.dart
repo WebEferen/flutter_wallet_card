@@ -41,8 +41,14 @@ class WalletCard extends Equatable {
   Map<String, dynamic> toJson() => _$WalletCardToJson(this);
 
   @override
-  List<Object?> get props =>
-      [id, type, platformData, metadata, visuals, file?.path];
+  List<Object?> get props => [
+    id,
+    type,
+    platformData,
+    metadata,
+    visuals,
+    file?.path,
+  ];
 }
 
 /// Card types supported by both platforms
@@ -94,16 +100,16 @@ class WalletCardMetadata extends Equatable {
 
   @override
   List<Object?> get props => [
-        title,
-        subtitle,
-        description,
-        organizationName,
-        serialNumber,
-        expirationDate,
-        relevantDate,
-        locations,
-        customFields
-      ];
+    title,
+    subtitle,
+    description,
+    organizationName,
+    serialNumber,
+    expirationDate,
+    relevantDate,
+    locations,
+    customFields,
+  ];
 }
 
 /// Visual elements for the card
@@ -136,8 +142,9 @@ class WalletCardVisuals extends Equatable {
       return Color(int.parse(colorString.substring(1), radix: 16) + 0xFF000000);
     }
     if (colorString.startsWith('rgb(')) {
-      final values =
-          colorString.substring(4, colorString.length - 1).split(',');
+      final values = colorString
+          .substring(4, colorString.length - 1)
+          .split(',');
       return Color.fromRGBO(
         int.parse(values[0].trim()),
         int.parse(values[1].trim()),
@@ -158,8 +165,13 @@ class WalletCardVisuals extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [backgroundColor, foregroundColor, labelColor, logoText, images];
+  List<Object?> get props => [
+    backgroundColor,
+    foregroundColor,
+    labelColor,
+    logoText,
+    images,
+  ];
 }
 
 /// Location information for the card

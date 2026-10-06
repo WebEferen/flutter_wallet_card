@@ -13,7 +13,7 @@ abstract class CardGenerator {
   final FileManager fileManager;
 
   CardGenerator({FileManager? fileManager})
-      : fileManager = fileManager ?? FileManager();
+    : fileManager = fileManager ?? FileManager();
 
   /// Generate a wallet card file
   Future<File> generateCard(WalletCard card);
@@ -41,8 +41,9 @@ class AppleWalletGenerator extends CardGenerator {
 
     try {
       // Create temporary directory for pass contents
-      final tempDir =
-          await fileManager.createTempDirectory('apple_pass_${card.id}');
+      final tempDir = await fileManager.createTempDirectory(
+        'apple_pass_${card.id}',
+      );
 
       // Generate pass.json
       final passJson = _generatePassJson(card);
@@ -60,8 +61,9 @@ class AppleWalletGenerator extends CardGenerator {
       await signatureFile.writeAsString('');
 
       // Create .pkpass file
-      final outputFile =
-          await fileManager.createOutputFile('${card.id}$fileExtension');
+      final outputFile = await fileManager.createOutputFile(
+        '${card.id}$fileExtension',
+      );
       await _createPkpassArchive(tempDir, outputFile);
 
       // Cleanup temp directory
@@ -79,8 +81,9 @@ class AppleWalletGenerator extends CardGenerator {
 
     try {
       // Create temporary directory for pass contents
-      final tempDir =
-          await Directory.systemTemp.createTemp('apple_pass_${card.id}');
+      final tempDir = await Directory.systemTemp.createTemp(
+        'apple_pass_${card.id}',
+      );
 
       // Generate pass.json
       final passJson = _generatePassJson(card);
@@ -122,14 +125,16 @@ class AppleWalletGenerator extends CardGenerator {
 
     if (card.metadata.organizationName.isEmpty) {
       throw ArgumentError(
-          'Organization name is required for Apple Wallet passes');
+        'Organization name is required for Apple Wallet passes',
+      );
     }
 
     // Check for required platform-specific data
     final platformData = card.platformData;
     if (!platformData.containsKey('passTypeIdentifier')) {
       throw ArgumentError(
-          'passTypeIdentifier is required for Apple Wallet passes');
+        'passTypeIdentifier is required for Apple Wallet passes',
+      );
     }
 
     if (!platformData.containsKey('teamIdentifier')) {
@@ -180,12 +185,14 @@ class AppleWalletGenerator extends CardGenerator {
     if (card.metadata.locations != null &&
         card.metadata.locations!.isNotEmpty) {
       json['locations'] = card.metadata.locations!
-          .map((loc) => {
-                'latitude': loc.latitude,
-                'longitude': loc.longitude,
-                if (loc.altitude != null) 'altitude': loc.altitude,
-                if (loc.relevantText != null) 'relevantText': loc.relevantText,
-              })
+          .map(
+            (loc) => {
+              'latitude': loc.latitude,
+              'longitude': loc.longitude,
+              if (loc.altitude != null) 'altitude': loc.altitude,
+              if (loc.relevantText != null) 'relevantText': loc.relevantText,
+            },
+          )
           .toList();
     }
 
@@ -201,11 +208,7 @@ class AppleWalletGenerator extends CardGenerator {
     // Add primary fields
     if (card.metadata.title.isNotEmpty) {
       structure['primaryFields'] = [
-        {
-          'key': 'title',
-          'label': 'Title',
-          'value': card.metadata.title,
-        }
+        {'key': 'title', 'label': 'Title', 'value': card.metadata.title},
       ];
     }
 
@@ -280,7 +283,9 @@ class AppleWalletGenerator extends CardGenerator {
   }
 
   Future<void> _createPkpassArchive(
-      Directory sourceDir, File outputFile) async {
+    Directory sourceDir,
+    File outputFile,
+  ) async {
     final encoder = ZipFileEncoder();
     await encoder.zipDirectory(sourceDir, filename: outputFile.path);
   }
@@ -302,8 +307,9 @@ class GoogleWalletGenerator extends CardGenerator {
 
     try {
       final cardJson = _generateGoogleWalletJson(card);
-      final outputFile =
-          await fileManager.createOutputFile('${card.id}$fileExtension');
+      final outputFile = await fileManager.createOutputFile(
+        '${card.id}$fileExtension',
+      );
       await outputFile.writeAsString(jsonEncode(cardJson));
       return outputFile;
     } catch (e) {
@@ -358,12 +364,12 @@ class GoogleWalletGenerator extends CardGenerator {
       case WalletCardType.loyalty:
         json['loyaltyPoints'] = {
           'label': 'Points',
-          'balance': {'string': card.platformData['points']?.toString() ?? '0'}
+          'balance': {'string': card.platformData['points']?.toString() ?? '0'},
         };
         break;
       case WalletCardType.generic:
         json['cardTitle'] = {
-          'defaultValue': {'language': 'en-US', 'value': card.metadata.title}
+          'defaultValue': {'language': 'en-US', 'value': card.metadata.title},
         };
         break;
       default:
@@ -375,10 +381,7 @@ class GoogleWalletGenerator extends CardGenerator {
     final textModules = <Map<String, dynamic>>[];
 
     if (card.metadata.subtitle != null) {
-      textModules.add({
-        'header': 'Subtitle',
-        'body': card.metadata.subtitle,
-      });
+      textModules.add({'header': 'Subtitle', 'body': card.metadata.subtitle});
     }
 
     if (card.metadata.description != null) {
@@ -401,11 +404,13 @@ class GoogleWalletGenerator extends CardGenerator {
     if (card.metadata.locations != null &&
         card.metadata.locations!.isNotEmpty) {
       json['locations'] = card.metadata.locations!
-          .map((location) => {
-                'latitude': location.latitude,
-                'longitude': location.longitude,
-                'relevantText': location.relevantText,
-              })
+          .map(
+            (location) => {
+              'latitude': location.latitude,
+              'longitude': location.longitude,
+              'relevantText': location.relevantText,
+            },
+          )
           .toList();
     }
 

@@ -19,11 +19,7 @@ abstract class WalletPlatform {
 }
 
 /// Supported wallet platform types
-enum WalletPlatformType {
-  ios,
-  android,
-  unsupported,
-}
+enum WalletPlatformType { ios, android, unsupported }
 
 /// Exception thrown when wallet operations fail
 class WalletException implements Exception {

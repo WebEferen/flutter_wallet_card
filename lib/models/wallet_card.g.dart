@@ -7,15 +7,16 @@ part of 'wallet_card.dart';
 // **************************************************************************
 
 WalletCard _$WalletCardFromJson(Map<String, dynamic> json) => WalletCard(
-      id: json['id'] as String,
-      type: $enumDecode(_$WalletCardTypeEnumMap, json['type']),
-      platformData: json['platformData'] as Map<String, dynamic>,
-      metadata:
-          WalletCardMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      visuals: json['visuals'] == null
-          ? null
-          : WalletCardVisuals.fromJson(json['visuals'] as Map<String, dynamic>),
-    );
+  id: json['id'] as String,
+  type: $enumDecode(_$WalletCardTypeEnumMap, json['type']),
+  platformData: json['platformData'] as Map<String, dynamic>,
+  metadata: WalletCardMetadata.fromJson(
+    json['metadata'] as Map<String, dynamic>,
+  ),
+  visuals: json['visuals'] == null
+      ? null
+      : WalletCardVisuals.fromJson(json['visuals'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$WalletCardToJson(WalletCard instance) =>
     <String, dynamic>{
@@ -72,28 +73,30 @@ Map<String, dynamic> _$WalletCardMetadataToJson(WalletCardMetadata instance) =>
 
 WalletCardVisuals _$WalletCardVisualsFromJson(Map<String, dynamic> json) =>
     WalletCardVisuals(
-      backgroundColor:
-          WalletCardVisuals._colorFromJson(json['backgroundColor'] as String?),
-      foregroundColor:
-          WalletCardVisuals._colorFromJson(json['foregroundColor'] as String?),
-      labelColor:
-          WalletCardVisuals._colorFromJson(json['labelColor'] as String?),
+      backgroundColor: WalletCardVisuals._colorFromJson(
+        json['backgroundColor'] as String?,
+      ),
+      foregroundColor: WalletCardVisuals._colorFromJson(
+        json['foregroundColor'] as String?,
+      ),
+      labelColor: WalletCardVisuals._colorFromJson(
+        json['labelColor'] as String?,
+      ),
       logoText: json['logoText'] as String?,
       images: (json['images'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
     );
 
-Map<String, dynamic> _$WalletCardVisualsToJson(WalletCardVisuals instance) =>
-    <String, dynamic>{
-      'backgroundColor':
-          WalletCardVisuals._colorToJson(instance.backgroundColor),
-      'foregroundColor':
-          WalletCardVisuals._colorToJson(instance.foregroundColor),
-      'labelColor': WalletCardVisuals._colorToJson(instance.labelColor),
-      'logoText': instance.logoText,
-      'images': instance.images,
-    };
+Map<String, dynamic> _$WalletCardVisualsToJson(
+  WalletCardVisuals instance,
+) => <String, dynamic>{
+  'backgroundColor': WalletCardVisuals._colorToJson(instance.backgroundColor),
+  'foregroundColor': WalletCardVisuals._colorToJson(instance.foregroundColor),
+  'labelColor': WalletCardVisuals._colorToJson(instance.labelColor),
+  'logoText': instance.logoText,
+  'images': instance.images,
+};
 
 WalletCardLocation _$WalletCardLocationFromJson(Map<String, dynamic> json) =>
     WalletCardLocation(

@@ -7,11 +7,13 @@ This directory contains GitHub Actions workflows for automating various aspects 
 ### 1. CI Workflow (`ci.yml`)
 
 **Triggers:**
+
 - Push to `master` or `develop` branches
 - Pull requests to `master` or `develop` branches
 - Manual dispatch
 
 **Jobs:**
+
 - **test**: Runs tests on Ubuntu with coverage reporting
 - **test-ios**: Tests on macOS for iOS compatibility
 - **test-android**: Tests on Ubuntu for Android compatibility
@@ -22,6 +24,7 @@ This directory contains GitHub Actions workflows for automating various aspects 
 - **compatibility-check**: Tests against multiple Flutter versions
 
 **Features:**
+
 - Code formatting validation
 - Static analysis with `dart analyze`
 - Test coverage reporting to Codecov
@@ -35,15 +38,18 @@ This directory contains GitHub Actions workflows for automating various aspects 
 ### 2. Release Workflow (`release.yml`)
 
 **Triggers:**
+
 - Manual dispatch with version options
 
 **Jobs:**
+
 - **create-release**: Creates a new release with version bumping
 
 - **notify-release**: Sends notifications about release status
 - **cleanup-on-failure**: Cleans up on failure
 
 **Features:**
+
 - Automatic version bumping (patch, minor, major)
 - Custom version support
 - Automatic CHANGELOG.md updates
@@ -56,15 +62,18 @@ This directory contains GitHub Actions workflows for automating various aspects 
 ### 3. Publish Workflow (`publish.yml`)
 
 **Triggers:**
+
 - Push to version tags (e.g., `v1.0.0`)
 - Manual dispatch
 
 **Jobs:**
+
 - **test**: Runs comprehensive tests before publishing
 - **publish**: Publishes package to pub.dev
 - **create-release**: Creates GitHub release
 
 **Features:**
+
 - Pre-publish testing and validation
 - Automatic pub.dev publishing
 - GitHub release creation with changelog
@@ -77,6 +86,7 @@ This directory contains GitHub Actions workflows for automating various aspects 
 Add these secrets to your GitHub repository:
 
 #### For Package Publishing:
+
 ```
 PUB_DEV_PUBLISH_ACCESS_TOKEN
 PUB_DEV_PUBLISH_REFRESH_TOKEN
@@ -85,12 +95,14 @@ PUB_DEV_PUBLISH_EXPIRATION
 ```
 
 **How to get pub.dev credentials:**
+
 1. Run `dart pub token add https://pub.dev` locally
 2. Follow the authentication flow
 3. Extract credentials from `~/.pub-cache/credentials.json`
 4. Add each field as a GitHub secret
 
 #### For GitHub Operations:
+
 ```
 GITHUB_TOKEN  # Usually provided automatically
 ```
@@ -98,11 +110,13 @@ GITHUB_TOKEN  # Usually provided automatically
 ### 2. Repository Settings
 
 #### Enable GitHub Pages:
+
 1. Go to repository Settings → Pages
 2. Set source to "GitHub Actions"
 3. The documentation will be available at `https://username.github.io/repository-name`
 
 #### Branch Protection (Recommended):
+
 1. Go to repository Settings → Branches
 2. Add protection rules for `master` branch:
    - Require status checks to pass
@@ -157,8 +171,8 @@ Update the Flutter version in all workflows:
 - name: Setup Flutter
   uses: subosito/flutter-action@v2
   with:
-    flutter-version: '3.32.0'  # Change this version
-    channel: 'stable'
+    flutter-version: "3.44.0" # Change this version
+    channel: "stable"
     cache: true
 ```
 
@@ -220,6 +234,7 @@ Add security scanning tools to `ci.yml`:
    - Review step-by-step logs
 
 2. **Test Locally:**
+
    ```bash
    # Run the same commands locally
    flutter pub get
@@ -247,12 +262,12 @@ Add security scanning tools to `ci.yml`:
    - Test on multiple platforms
    - Include integration tests
 
-4. **Security:**
+3. **Security:**
    - Regularly update dependencies
    - Scan for vulnerabilities
    - Use minimal required permissions
 
-5. **Workflow Maintenance:**
+4. **Workflow Maintenance:**
    - Keep actions up to date
    - Monitor workflow performance
    - Review and optimize regularly

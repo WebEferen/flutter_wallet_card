@@ -92,8 +92,9 @@ void main() {
       });
 
       test('should generate different pass types', () {
-        final boardingPassCard =
-            testCard.copyWith(type: WalletCardType.boardingPass);
+        final boardingPassCard = testCard.copyWith(
+          type: WalletCardType.boardingPass,
+        );
         final couponCard = testCard.copyWith(type: WalletCardType.coupon);
         final eventCard = testCard.copyWith(type: WalletCardType.eventTicket);
         final storeCard = testCard.copyWith(type: WalletCardType.storeCard);

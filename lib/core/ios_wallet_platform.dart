@@ -26,10 +26,9 @@ class IOSWalletPlatform implements WalletPlatform {
   @override
   Future<bool> isCardAdded(String identifier) async {
     try {
-      final result = await _channel.invokeMethod<bool>(
-        'isWalletCardAdded',
-        {'serialNumber': identifier},
-      );
+      final result = await _channel.invokeMethod<bool>('isWalletCardAdded', {
+        'serialNumber': identifier,
+      });
       return result ?? false;
     } on PlatformException catch (e) {
       throw WalletException(
@@ -47,10 +46,9 @@ class IOSWalletPlatform implements WalletPlatform {
     }
 
     try {
-      final result = await _channel.invokeMethod<bool>(
-        'addWalletCard',
-        {'path': file.path},
-      );
+      final result = await _channel.invokeMethod<bool>('addWalletCard', {
+        'path': file.path,
+      });
       return result ?? false;
     } on PlatformException catch (e) {
       throw WalletException(
@@ -106,10 +104,9 @@ class IOSWalletPlatform implements WalletPlatform {
   /// Add a pass from URL (iOS-specific feature)
   Future<bool> addFromUrl(String url) async {
     try {
-      final result = await _channel.invokeMethod<bool>(
-        'addWalletCardFromUrl',
-        {'url': url},
-      );
+      final result = await _channel.invokeMethod<bool>('addWalletCardFromUrl', {
+        'url': url,
+      });
       return result ?? false;
     } on PlatformException catch (e) {
       throw WalletException(

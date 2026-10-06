@@ -124,10 +124,7 @@ void main() {
           'organizationName': 'Test Org',
           'serialNumber': '12345',
         },
-        'visuals': {
-          'backgroundColor': '#FFFFFF',
-          'foregroundColor': '#000000',
-        },
+        'visuals': {'backgroundColor': '#FFFFFF', 'foregroundColor': '#000000'},
       };
 
       final card = WalletCard.fromJson(json);

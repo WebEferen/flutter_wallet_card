@@ -18,8 +18,9 @@ class FileManager {
       // Fallback for test environment
       tempDir = Directory.systemTemp;
     }
-    final cardTempDir =
-        Directory(path.join(tempDir.path, _defaultDirectoryName, name));
+    final cardTempDir = Directory(
+      path.join(tempDir.path, _defaultDirectoryName, name),
+    );
 
     if (cardTempDir.existsSync()) {
       await cardTempDir.delete(recursive: true);
@@ -69,8 +70,10 @@ class FileManager {
   }
 
   /// Extract archive to a directory
-  Future<Directory> extractArchive(File archiveFile,
-      {String? targetDirName}) async {
+  Future<Directory> extractArchive(
+    File archiveFile, {
+    String? targetDirName,
+  }) async {
     if (!archiveFile.existsSync()) {
       throw WalletException('Archive file does not exist: ${archiveFile.path}');
     }
@@ -106,7 +109,8 @@ class FileManager {
   Future<File> createArchive(Directory sourceDir, File outputFile) async {
     if (!sourceDir.existsSync()) {
       throw WalletException(
-          'Source directory does not exist: ${sourceDir.path}');
+        'Source directory does not exist: ${sourceDir.path}',
+      );
     }
 
     try {
@@ -128,7 +132,8 @@ class FileManager {
 
       if (response.statusCode != 200) {
         throw WalletException(
-            'Failed to download file: HTTP ${response.statusCode}');
+          'Failed to download file: HTTP ${response.statusCode}',
+        );
       }
 
       final downloadFilename = filename ?? _generateFilenameFromUrl(url);
@@ -152,8 +157,9 @@ class FileManager {
 
     try {
       final tempDir = await getTemporaryDirectory();
-      final walletTempDir =
-          Directory(path.join(tempDir.path, _defaultDirectoryName));
+      final walletTempDir = Directory(
+        path.join(tempDir.path, _defaultDirectoryName),
+      );
 
       if (walletTempDir.existsSync()) {
         await for (final entity in walletTempDir.list()) {
@@ -219,8 +225,10 @@ class FileManager {
   }
 
   /// Clean up old files in a directory
-  Future<void> cleanupOldFiles(Directory directory,
-      {required Duration maxAge}) async {
+  Future<void> cleanupOldFiles(
+    Directory directory, {
+    required Duration maxAge,
+  }) async {
     if (!directory.existsSync()) return;
 
     final cutoffTime = DateTime.now().subtract(maxAge);

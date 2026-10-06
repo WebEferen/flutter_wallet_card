@@ -82,8 +82,10 @@ void main() {
         final extractDir = Directory(path.join(tempDir.path, 'extracted'));
 
         try {
-          await fileManager.extractArchive(zipFile,
-              targetDirName: extractDir.path);
+          await fileManager.extractArchive(
+            zipFile,
+            targetDirName: extractDir.path,
+          );
           // This might fail due to invalid zip, but we're testing the method exists
         } catch (e) {
           // Expected for invalid zip file
@@ -167,13 +169,16 @@ void main() {
 
     group('Error Handling', () {
       test('should handle non-existent file operations', () async {
-        final nonExistentFile =
-            File(path.join(tempDir.path, 'nonexistent.txt'));
+        final nonExistentFile = File(
+          path.join(tempDir.path, 'nonexistent.txt'),
+        );
         final outputDir = Directory(path.join(tempDir.path, 'output'));
 
         expect(
-          () => fileManager.extractArchive(nonExistentFile,
-              targetDirName: outputDir.path),
+          () => fileManager.extractArchive(
+            nonExistentFile,
+            targetDirName: outputDir.path,
+          ),
           throwsA(isA<Exception>()),
         );
       });
@@ -186,8 +191,10 @@ void main() {
         try {
           // Try to create a file in a potentially restricted location
           final restrictedFile = File(path.join('/root', 'test.txt'));
-          await fileManager.downloadFile('https://httpbin.org/json',
-              filename: restrictedFile.path);
+          await fileManager.downloadFile(
+            'https://httpbin.org/json',
+            filename: restrictedFile.path,
+          );
         } catch (e) {
           expect(e, isA<Exception>());
         }

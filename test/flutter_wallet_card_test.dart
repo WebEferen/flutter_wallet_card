@@ -28,11 +28,11 @@ void main() {
       // Mock the method channel
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('flutter_wallet_card'),
-        (MethodCall methodCall) async {
-          return null;
-        },
-      );
+            const MethodChannel('flutter_wallet_card'),
+            (MethodCall methodCall) async {
+              return null;
+            },
+          );
     });
 
     tearDown(() async {
@@ -43,11 +43,14 @@ void main() {
     });
 
     group('Wallet Availability', () {
-      testWidgets('should check if wallet is available',
-          (WidgetTester tester) async {
+      testWidgets('should check if wallet is available', (
+        WidgetTester tester,
+      ) async {
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.isWalletAvailable,
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.isWalletAvailable,
+          throwsA(isA<WalletException>()),
+        );
       });
     });
 
@@ -56,24 +59,30 @@ void main() {
         const cardId = 'test-card-123';
 
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.isCardAdded(cardId),
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.isCardAdded(cardId),
+          throwsA(isA<WalletException>()),
+        );
       });
 
       testWidgets('should add card to wallet', (WidgetTester tester) async {
         final card = createTestCard();
 
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.addToWallet(card),
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.addToWallet(card),
+          throwsA(isA<WalletException>()),
+        );
       });
 
       testWidgets('should view card in wallet', (WidgetTester tester) async {
         const cardId = 'test-card-123';
 
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.viewInWallet(cardId),
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.viewInWallet(cardId),
+          throwsA(isA<WalletException>()),
+        );
       });
     });
 
@@ -82,24 +91,30 @@ void main() {
         final card = createTestCard();
 
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.generateCardFile(card),
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.generateCardFile(card),
+          throwsA(isA<WalletException>()),
+        );
       });
 
       test('should generate Apple Wallet file', () async {
         final card = createAppleWalletCard();
 
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.generateCardFile(card),
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.generateCardFile(card),
+          throwsA(isA<WalletException>()),
+        );
       });
 
       test('should generate Google Wallet file', () async {
         final card = createGoogleWalletCard();
 
         // On unsupported platforms, should throw WalletException
-        await expectLater(FlutterWalletCard.generateCardFile(card),
-            throwsA(isA<WalletException>()));
+        await expectLater(
+          FlutterWalletCard.generateCardFile(card),
+          throwsA(isA<WalletException>()),
+        );
       });
     });
 
@@ -132,7 +147,8 @@ void main() {
         final archive = Archive();
         final passJsonBytes = await passFile.readAsBytes();
         archive.addFile(
-            ArchiveFile('pass.json', passJsonBytes.length, passJsonBytes));
+          ArchiveFile('pass.json', passJsonBytes.length, passJsonBytes),
+        );
         final zipData = ZipEncoder().encode(archive);
         await pkpassFile.writeAsBytes(zipData);
 
@@ -150,14 +166,8 @@ void main() {
           'classId': 'test-class-id',
           'state': 'ACTIVE',
           'textModulesData': [
-            {
-              'header': 'Title',
-              'body': 'Google Wallet Card',
-            },
-            {
-              'header': 'Description',
-              'body': 'Test Google Wallet Card',
-            },
+            {'header': 'Title', 'body': 'Google Wallet Card'},
+            {'header': 'Description', 'body': 'Test Google Wallet Card'},
           ],
         };
 
@@ -230,7 +240,8 @@ void main() {
       test('should handle invalid directory paths', () async {
         expect(
           () => FlutterWalletCard.parseFromFile(
-              File('/nonexistent/directory/file.json')),
+            File('/nonexistent/directory/file.json'),
+          ),
           throwsA(isA<Exception>()),
         );
       });
@@ -288,10 +299,7 @@ WalletCard createGoogleWalletCard() {
   return const WalletCard(
     id: 'google-card-123',
     type: WalletCardType.generic,
-    platformData: {
-      'issuerId': 'test-issuer-id',
-      'classId': 'test-class-id',
-    },
+    platformData: {'issuerId': 'test-issuer-id', 'classId': 'test-class-id'},
     metadata: WalletCardMetadata(
       title: 'Google Wallet Card',
       description: 'Test Google Wallet Card',

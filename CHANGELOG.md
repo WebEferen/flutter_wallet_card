@@ -2,83 +2,107 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.0]
+
+### Added
+
+- Support for Swift Package Manager
+
+### Changed
+
+- Minimum flutter dependency to flutter 3.44.0 and Dart 3.12
+- Minimum iOS version to 13.0
+
 ## [5.0.0] - 2026-03-04
 
 ### Added
+
 - Release version 5.0.0
 
 ### Changed
+
 - Updated package version to 5.0.0
 
 ### Fixed
-- Various bug fixes and improvements
 
+- Various bug fixes and improvements
 
 ## [4.0.5] - 2026-03-04
 
 ### Added
+
 - Release version 4.0.5
 
 ### Changed
+
 - Updated package version to 4.0.5
 
 ### Fixed
-- Various bug fixes and improvements
 
+- Various bug fixes and improvements
 
 ## [4.0.4] - 2025-07-20
 
 ### Added
+
 - Release version 4.0.4
 
 ### Changed
+
 - Updated package version to 4.0.4
 
 ### Fixed
-- Various bug fixes and improvements
 
+- Various bug fixes and improvements
 
 ## [4.0.3] - 2025-07-20
 
 ### Added
+
 - Release version 4.0.3
 
 ### Changed
+
 - Updated package version to 4.0.3
 
 ### Fixed
-- Various bug fixes and improvements
 
+- Various bug fixes and improvements
 
 ## [4.0.2] - 2025-07-20
 
 ### Added
+
 - Release version 4.0.2
 
 ### Changed
+
 - Updated package version to 4.0.2
 
 ### Fixed
-- Various bug fixes and improvements
 
+- Various bug fixes and improvements
 
 ## [4.0.1] - 2025-07-20
 
 ### Added
+
 - Release version 4.0.1
 
 ### Changed
+
 - Updated package version to 4.0.1
 
 ### Fixed
-- Various bug fixes and improvements
 
+- Various bug fixes and improvements
 
 ## [4.0.0] - 2024-01-XX
 
 ### 🚀 Major Refactoring & New Features
 
 #### Added
+
 - **Cross-platform support**: Full Android Google Wallet integration alongside existing iOS Apple Wallet support
 - **Unified API**: Single codebase for both iOS and Android platforms
 - **New WalletCard model**: Comprehensive data structure supporting both platforms
@@ -94,6 +118,7 @@ All notable changes to this project will be documented in this file.
 - **JSON serialization**: Automatic JSON serialization/deserialization for all models
 
 #### Changed
+
 - **BREAKING**: Complete API redesign for better consistency and platform unification
 - **BREAKING**: New model structure with `WalletCard`, `WalletCardMetadata`, and `WalletCardVisuals`
 - **BREAKING**: Method names updated for clarity and consistency
@@ -103,12 +128,14 @@ All notable changes to this project will be documented in this file.
 - **Modernized codebase**: Updated to latest Flutter and Dart standards
 
 #### Fixed
+
 - **OpenSSL compatibility**: Fixed legacy cipher support for older certificate formats
 - **Memory management**: Improved file cleanup and memory usage
 - **Platform detection**: More reliable platform-specific feature detection
 - **Error propagation**: Better error handling and user feedback
 
 #### Removed
+
 - **BREAKING**: Removed deprecated methods from v3.x
 - **BREAKING**: Removed platform-specific APIs in favor of unified interface
 - **Dependency cleanup**: Removed unused dependencies
@@ -116,18 +143,21 @@ All notable changes to this project will be documented in this file.
 ### 🔧 Technical Improvements
 
 #### Architecture
+
 - Implemented clean architecture with separation of concerns
 - Added abstract platform interfaces for better testability
 - Introduced factory pattern for platform-specific implementations
 - Enhanced error handling with custom exception types
 
 #### Code Quality
+
 - Added comprehensive linting rules
 - Implemented automated code generation for JSON serialization
 - Added mock generation for testing
 - Improved code documentation and inline comments
 
 #### Testing
+
 - Added unit tests for all core functionality
 - Added integration tests for platform-specific features
 - Added mock testing for network operations
@@ -136,12 +166,14 @@ All notable changes to this project will be documented in this file.
 ### 📱 Platform-Specific Features
 
 #### iOS (Apple Wallet)
+
 - Enhanced Passkit integration
 - Support for multiple card addition
 - Improved certificate handling
 - Better error messages for iOS-specific issues
 
 #### Android (Google Wallet)
+
 - **NEW**: Full Google Wallet API integration
 - **NEW**: JWT-based pass saving
 - **NEW**: Pass link generation
@@ -152,6 +184,7 @@ All notable changes to this project will be documented in this file.
 #### From v3.x to v4.0
 
 **Old API:**
+
 ```dart
 // iOS specific
 await FlutterWalletCard.addPasskit(passData);
@@ -163,6 +196,7 @@ if (Platform.isIOS) {
 ```
 
 **New API:**
+
 ```dart
 // Unified API
 final card = WalletCard(/* ... */);
@@ -173,6 +207,7 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ```
 
 #### Key Changes
+
 1. Replace `PasskitFile` with `WalletCard`
 2. Use unified methods instead of platform-specific ones
 3. Update model structure to new format
@@ -181,18 +216,21 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ### 📦 Dependencies
 
 #### Updated
+
 - `archive`: ^3.4.10 (was ^3.3.0)
 - `dio`: ^5.4.0 (was ^4.0.6)
 - `path_provider`: ^2.1.2 (was ^2.0.11)
 - `uuid`: ^4.3.3 (was ^3.0.6)
 
 #### Added
+
 - `json_annotation`: ^4.9.0
 - `build_runner`: ^2.4.7
 - `json_serializable`: ^6.7.1
 - `mockito`: ^5.4.4
 
 ### 🐛 Bug Fixes
+
 - Fixed OpenSSL legacy cipher compatibility issues
 - Fixed memory leaks in file operations
 - Fixed platform detection edge cases
@@ -200,6 +238,7 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 - Fixed certificate parsing on newer OpenSSL versions
 
 ### 🔒 Security
+
 - Enhanced certificate validation
 - Improved error message sanitization
 - Better handling of sensitive data
@@ -210,11 +249,13 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ## [3.1.0] - 2023-06-15
 
 ### Added
+
 - Support for Flutter 3.0
 - Improved error handling
 - Better documentation
 
 ### Fixed
+
 - iOS compatibility issues
 - Memory management improvements
 
@@ -223,15 +264,18 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ## [3.0.0] - 2023-03-20
 
 ### Added
+
 - Null safety support
 - Flutter 2.0 compatibility
 - Enhanced Passkit generation
 
 ### Changed
+
 - **BREAKING**: Migrated to null safety
 - Updated minimum Dart SDK to 2.12.0
 
 ### Fixed
+
 - Various stability improvements
 
 ---
@@ -239,11 +283,13 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ## [2.1.0] - 2022-08-10
 
 ### Added
+
 - Support for custom pass fields
 - Enhanced image handling
 - Better error messages
 
 ### Fixed
+
 - iOS 15 compatibility
 - Certificate handling improvements
 
@@ -252,11 +298,13 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ## [2.0.0] - 2022-02-15
 
 ### Added
+
 - Complete rewrite of the plugin
 - Support for all Passkit features
 - Enhanced documentation
 
 ### Changed
+
 - **BREAKING**: New API structure
 - Improved performance
 
@@ -265,6 +313,7 @@ bool available = await FlutterWalletCard.isWalletAvailable();
 ## [1.0.0] - 2021-09-01
 
 ### Added
+
 - Initial release
 - Basic Passkit support for iOS
 - File-based pass generation
